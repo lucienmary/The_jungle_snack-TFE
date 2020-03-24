@@ -21,4 +21,5 @@ server.use('/api/', apiRouter);
 // Launch server.
 server.listen(8080, function(){
     console.log('Serveur en écoute 🔥');
+    console.log('fr');
 })
