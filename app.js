@@ -42,8 +42,22 @@ server.get('/', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.status(200).sendFile(path.join(__dirname + '/public/login.html'));
 })
-
-
+.get('/profile', function(req, res) {
+    res.setHeader('Content-Type', 'text/html');
+    res.status(200).sendFile(path.join(__dirname + '/public/login.html'));
+})
+.get('/jeu/salon', function(req, res) {
+    res.setHeader('Content-Type', 'text/html');
+    res.status(200).sendFile(path.join(__dirname + '/public/salon.html'));
+})
+.get('/jeu/profil', function(req, res) {
+    res.setHeader('Content-Type', 'text/html');
+    res.status(200).sendFile(path.join(__dirname + '/public/profil.html'));
+})
+.get('/jeu/partie', function(req, res) {
+    res.setHeader('Content-Type', 'text/html');
+    res.status(200).sendFile(path.join(__dirname + '/public/partie.html'));
+})
 
 server.use('/api/', apiRouter);
 

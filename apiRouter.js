@@ -10,6 +10,10 @@ exports.router = (function() {
     apiRouter.route('/users/register/').post(usersCtrl.register);
     apiRouter.route('/users/login/').post(usersCtrl.login);
     apiRouter.route('/users/me/').get(usersCtrl.getUserProfile);
+    apiRouter.route('/users/me/').put(usersCtrl.updateUserProfile);
+
+    // Jeu routes.
+    apiRouter.route('/jeu/salon/').put(usersCtrl.updateUserProfile);
 
     return apiRouter;
 })();
