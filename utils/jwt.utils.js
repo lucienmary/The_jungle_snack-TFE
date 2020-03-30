@@ -10,11 +10,14 @@ module.exports = {
         return jwt.sign({
             userId: userData.id
         },
-        JWT_SIGN_SECRET
-        )
+        JWT_SIGN_SECRET,
+        {
+            expiresIn: '4h'
+        })
     },
     parseAuthorization: function(authorization){
         return  (authorization != null) ? authorization.replace('Bearer ', '') : null;
+        console.log(authorization);
     },
     getUserId: function(authorization){
         var userId = -1;

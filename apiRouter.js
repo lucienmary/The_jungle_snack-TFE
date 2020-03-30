@@ -1,6 +1,7 @@
 // Imports.
 var express = require('express');
 var usersCtrl = require('./routes/usersCtrl');
+var gameCtrl = require('./routes/gameCtrl');
 
 // Router.
 exports.router = (function() {
@@ -13,7 +14,7 @@ exports.router = (function() {
     apiRouter.route('/users/me/').put(usersCtrl.updateUserProfile);
 
     // Jeu routes.
-    apiRouter.route('/jeu/salon/').put(usersCtrl.updateUserProfile);
+    // apiRouter.route('/jeu/salon').get(gameCtrl.playerProfile);
 
     return apiRouter;
 })();

@@ -6,5 +6,20 @@
     </head>
     <body>
         <h1>Salon 📺🛋</h1>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+
+        fetch('../api/users/me', {
+            method: 'GET',
+            headers: {
+                'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTU4NTUwMTg0MiwiZXhwIjoxNTg1NTE2MjQyfQ.5l2Ni4UET11Oxrm6ZSbxWVY6isI7q8AmguoBq2SVQC0'
+            }
+        })
+        .then(res => res.json())
+        .then(data => { console.log(data) })
+        .catch(err => { console.log(err) })
+
+        </script>
     </body>
 </html>

@@ -3,6 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var apiRouter = require('./apiRouter').router;
+var gameCtrl = require('./routes/gameCtrl');
 
 // Instantiate server
 var server = express();
@@ -46,10 +47,13 @@ server.get('/', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.status(200).sendFile(path.join(__dirname + '/public/login.html'));
 })
+
+// .get('/jeu/salon', gameCtrl.playerProfile)
 .get('/jeu/salon', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.status(200).sendFile(path.join(__dirname + '/public/salon.html'));
 })
+
 .get('/jeu/profil', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.status(200).sendFile(path.join(__dirname + '/public/profil.html'));
