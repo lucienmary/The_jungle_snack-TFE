@@ -53,7 +53,10 @@ server.get('/', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.status(200).sendFile(path.join(__dirname + '/public/salon.html'));
 })
-
+.get('/jeu/settings', function(req, res) {
+    res.setHeader('Content-Type', 'text/html');
+    res.status(200).sendFile(path.join(__dirname + '/public/settings.html'));
+})
 .get('/jeu/profil', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.status(200).sendFile(path.join(__dirname + '/public/profil.html'));

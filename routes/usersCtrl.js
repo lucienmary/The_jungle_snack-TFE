@@ -6,6 +6,7 @@ var models = require('../models');
 var path = require('path');
 var asyncLib = require('async');
 var Cookies = require('cookies');
+var cookiesAuth;
 
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const PASSWORD_REGEX = /^(?=.*\d).{4,8}$/;
@@ -131,22 +132,15 @@ module.exports = {
                 var tok = jwtUtils.generateTokenForUser(userFound)
                 // res.header('Authorization', 'Bearer ' + tok);
 
-                var cookies = new Cookies(req, res, { keys: 'bla' })
+                var cookies = new Cookies(req, res)
 
                 // Get a cookie
-                var lastVisit = cookies.get('Authorization', { secure: false })
+                cookiesAuth = cookies.get('Authorization', { secure: false })
 
                 // Set the cookie to a value
-                cookies.set('Authorization', 'Bearer ' + tok)
+                cookies.set('Authorization', 'Bearer '+tok, { secure: false })
 
-                // var cookies = new Cookies( 'Authorization', 'Bearer ' + tok, {secure: false, httpOnly: false});
-
-                res.send('test');
-                // res.status(201).json({
-                //     'userId': userFound.id,
-                //     'token': jwtUtils.generateTokenForUser(userFound)
-                // });
-                // console.log('Connecté!');
+                res.redirect('/jeu/salon');
             } else {
                 return res.status(500).json({ 'error': 'cannot log on user' });
             }
@@ -154,11 +148,12 @@ module.exports = {
     },
     getUserProfile: function(req, res) {
         // Getting auth header
-        var headerAuth  = req.headers['authorization'];
-        var userId      = jwtUtils.getUserId(headerAuth);
 
-        if (userId < 0)
-            return res.status(400).json({ 'error': 'wrong token' });
+        var userId = jwtUtils.getUserId(cookiesAuth);
+
+        if (userId < 0){
+            return res.status(400).json({ 'error': 'wrong token, please try to log in again' });
+        }
 
         models.User.findOne({
             attributes: [ 'id', 'email', 'username', 'score', 'img' ],

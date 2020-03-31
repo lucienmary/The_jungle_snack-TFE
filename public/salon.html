@@ -3,23 +3,31 @@
     <head>
         <meta charset="utf-8">
         <title>Salon | The Jungle snack! | Jeu en ligne</title>
+        <link href="https://fonts.googleapis.com/css?family=Baloo+2:400,700|Lato:900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../assets/styles/salon-temp.css">
     </head>
     <body>
-        <h1>Salon 📺🛋</h1>
+        <header class="">
+            <a href="/">Accueil</a>
+            <h1>Salon 📺🛋</h1>
+            <a class="settings" href="settings">⚙️</a>
 
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script type="text/javascript">
+            <div class="infos-player">
+                <img src="../assets/images/empty-profile.png" alt="Photo player">
+                <div id="player" class="player">
+                    <p>Pseudo</p>
+                    <p>Score</p>
+                </div>
+            </div>
+        </header>
 
-        fetch('../api/users/me', {
-            method: 'GET',
-            headers: {
-                'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTU4NTUwMTg0MiwiZXhwIjoxNTg1NTE2MjQyfQ.5l2Ni4UET11Oxrm6ZSbxWVY6isI7q8AmguoBq2SVQC0'
-            }
-        })
-        .then(res => res.json())
-        .then(data => { console.log(data) })
-        .catch(err => { console.log(err) })
-
-        </script>
+        <section>
+            <p>Joueur(s) prêt: 0</p>
+            <button type="button" name="button">Jouer</button>
+        </section>
     </body>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="../assets/script/salon.js"></script>
+
 </html>
