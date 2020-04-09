@@ -7,7 +7,6 @@ var path = require('path');
 var asyncLib = require('async');
 var Cookies = require('cookies');
 var cookies;
-var cookiesAuth;
 var flag = false;
 
 var tok;
@@ -25,7 +24,7 @@ module.exports = {
         var username = req.body.username;
         var password = req.body.password;
         var score = 0;
-        var img = '/';
+        var img = req.body.img;
 
         if (email == null || username == null || password == null) {
             return res.status(400).json({ 'error': 'missing parameters' });
@@ -71,7 +70,7 @@ module.exports = {
                     username: username,
                     password: bcryptedPassword,
                     score: 0,
-                    img: "/"
+                    img: img
                 })
                 .then(function(newUser) {
                     done(newUser);
@@ -86,7 +85,7 @@ module.exports = {
                 //     'userId': newUser.id
                 // });
 
-                return res.status(201).redirect('/jeu/salon');
+                return res.status(201).redirect('/login');
 
             } else {
                 return res.status(500).json({ 'error': 'cannot add user' });
@@ -142,9 +141,9 @@ module.exports = {
                 // Get a cookie
 
                 // Set the cookie to a value
-                cookies.set('Authorization', 'Bearer '+tok, { secure: false })
+                cookies.set('Authorization', 'Bearer '+tok, { secure: false})
 
-                cookiesAuth = cookies.get('Authorization', { secure: false })
+                cookies.set('clientAuth', true, { secure: false, httpOnly: false})
 
                 // console.log('cookie = '+cookiesAuth);
                 flag = true;
@@ -236,5 +235,19 @@ module.exports = {
                 return res.status(500).json({ 'error': 'cannot update user profile' });
             }
         });
+    },
+    disconnect: function(req, res) {
+        cookies = new Cookies(req, res);
+        cookies.set('Authorization', '', { secure: false });
+
+        var flag = false;
+        var tok = null;
+
+        console.log(tok);
+
+        cookies.set('clientAuth', false, { secure: false, httpOnly: false})
+
+        res.json('Disconnected successfully');
+        // res.status(403).redirect('/login');
     }
 }
