@@ -6,7 +6,11 @@ var models = require('../models');
 var path = require('path');
 var asyncLib = require('async');
 var Cookies = require('cookies');
+var cookies;
 var cookiesAuth;
+var flag = false;
+
+var tok;
 
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const PASSWORD_REGEX = /^(?=.*\d).{4,8}$/;
@@ -113,6 +117,7 @@ module.exports = {
             },
             function(userFound, done) {
                 if (userFound) {
+                    // console.log(userFound);
                     bcrypt.compare(password, userFound.password, function(errBycrypt, resBycrypt) {
                         done(null, userFound, resBycrypt);
                     });
@@ -129,16 +134,20 @@ module.exports = {
             }
         ], function(userFound) {
             if (userFound) {
-                var tok = jwtUtils.generateTokenForUser(userFound)
+                tok = jwtUtils.generateTokenForUser(userFound)
                 // res.header('Authorization', 'Bearer ' + tok);
 
-                var cookies = new Cookies(req, res)
+                cookies = new Cookies(req, res)
 
                 // Get a cookie
-                cookiesAuth = cookies.get('Authorization', { secure: false })
 
                 // Set the cookie to a value
                 cookies.set('Authorization', 'Bearer '+tok, { secure: false })
+
+                cookiesAuth = cookies.get('Authorization', { secure: false })
+
+                // console.log('cookie = '+cookiesAuth);
+                flag = true;
 
                 res.redirect('/jeu/salon');
             } else {
@@ -147,12 +156,30 @@ module.exports = {
         });
     },
     getUserProfile: function(req, res) {
+
+        cookies = new Cookies(req, res)
+
+        console.log(flag);
+        if (flag === true) {
+            var userId = jwtUtils.getUserId('Bearer '+tok);
+
+            flag = false;
+            tok = null;
+            console.log('T 1');
+        }else {
+            var headerAuth  = cookies.get('Authorization');
+            console.log('Auth: '+ headerAuth);
+            var userId      = jwtUtils.getUserId(headerAuth);
+            console.log('T 2');
+        }
+
         // Getting auth header
 
-        var userId = jwtUtils.getUserId(cookiesAuth);
+        console.log(userId);
 
         if (userId < 0){
-            return res.status(400).json({ 'error': 'wrong token, please try to log in again' });
+            // res.redirect("/login");
+            res.status(400).json({ 'error': 'wrong token, please try to log in again' });
         }
 
         models.User.findOne({
@@ -160,12 +187,13 @@ module.exports = {
             where: { id: userId }
         }).then(function(user) {
             if (user) {
-                res.status(201).json(user);
+                // res.sendFile(path.join(__dirname + '/public/salon.html'));
+                return res.json(user);
             } else {
                 res.status(404).json({ 'error': 'user not found' });
             }
         }).catch(function(err) {
-            res.status(500).json({ 'error': 'cannot fetch user' });
+            res.json({ 'error': 'cannot fetch user' });
         });
     },
     updateUserProfile: function(req, res) {

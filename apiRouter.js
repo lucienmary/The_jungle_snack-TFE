@@ -14,7 +14,7 @@ exports.router = (function() {
     apiRouter.route('/users/me/').put(usersCtrl.updateUserProfile);
 
     // Jeu routes.
-    // apiRouter.route('/jeu/salon').get(gameCtrl.playerProfile);
+    // apiRouter.route('/salon').get(usersCtrl.getUserProfile);
 
     return apiRouter;
 })();
