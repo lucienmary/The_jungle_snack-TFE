@@ -17,9 +17,12 @@ module.exports = {
     },
     parseAuthorization: function(authorization){
         return  (authorization != null) ? authorization.replace('Bearer ', '') : null;
-        console.log(authorization);
+        // console.log('PARSE'+authorization);
     },
     getUserId: function(authorization){
+
+        console.log('GET '+authorization);
+
         var userId = -1;
         var token = module.exports.parseAuthorization(authorization);
         if (token != null) {

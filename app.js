@@ -16,8 +16,6 @@ server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
 
 
-
-
 // Configuration des routes.
 server.get('/', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
@@ -50,8 +48,8 @@ server.get('/', function(req, res) {
 
 // .get('/jeu/salon', gameCtrl.playerProfile)
 .get('/jeu/salon', function(req, res) {
-    res.setHeader('Content-Type', 'text/html');
-    res.status(200).sendFile(path.join(__dirname + '/public/salon.html'));
+    // res.setHeader('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname + '/public/salon.html'));
 })
 .get('/jeu/settings', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
@@ -65,6 +63,11 @@ server.get('/', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.status(200).sendFile(path.join(__dirname + '/public/partie.html'));
 })
+
+// // Redirection homepage.
+// .get('/projets/tfe/mvp', function(req, res) {
+//     res.status(200).redirect("/");
+// })
 
 server.use('/api/', apiRouter);
 
