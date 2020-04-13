@@ -1,10 +1,22 @@
+body{
+    background-color: #D6D1A4;
+}
+
+nav{
+    float: right;
+}
 .infos-player{
-    background-color: lightgrey;
+    background-color: #B08963;
+    /* border: 10px solid #FFD658; */
     display: inline-block;
 }
 img{
     width: 100px;
     float: left;
+}
+h1{
+    display: inline-block;
+    margin: 0;
 }
 .player{
     display: inline-block;
@@ -21,4 +33,38 @@ img{
     position: absolute;
     top: 10px;
     right: 10px;
+}
+.list-player{
+    background-color: grey;
+    display: block;
+    float: right;
+    padding: 20px;
+    margin-right: 50px;
+    margin-top: -0px;
+    /* height: 450px; */
+    max-width: 450px;
+}
+.list-player__el{
+    background-color: lightgrey;
+    width: 450px;
+    margin-bottom: 15px;
+}
+.list-player__el--me{
+    background-color: lightgreen;
+}
+.ready{
+    float: right;
+    text-align: center;
+    width: 450px;
+    margin-right: 50px;
+}
+
+.clear{
+    clear: both;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
 }

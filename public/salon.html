@@ -8,9 +8,6 @@
     </head>
     <body>
         <header class="">
-            <a href="/">Accueil</a>
-            <h1>Salon 📺🛋</h1>
-            <a class="settings" href="settings">⚙️</a>
 
             <div class="infos-player">
                 <img id="imgPlayer" src="../assets/images/empty-profile.png" alt="Photo player">
@@ -20,16 +17,66 @@
                 </div>
             </div>
 
-            <button id="disconnect">Déconnexion</button>
+            <h1>The jungle snack</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="/">🏠</a></li>
+                    <li><a id="disconnect" href="#">🔓</a></li>
+                </ul>
+            </nav>
         </header>
 
         <section>
-            <p>Joueur(s) prêt: 0</p>
-            <!-- <button type="button" name="button">Jouer</button> -->
-            <a href="/jeu/partie">Rejoindre partie</a>
+            <div class="">
+                <ul>
+                    <li><a href="#">Jouer avec des amis (Coming soon)</a></li>
+                    <li><a href="profil">Modifier le profil</a></li>
+                    <li><a href="settings">Paramètres</a></li>
+                </ul>
+            </div>
+
+            <div class="clear">
+                <ul class="list-player">
+                    <li class="clearfix list-player__el list-player__el--me infos-player">
+                        <img id="img-me" src="../assets/images/empty-profile.png" alt="Photo player">
+                        <div class="player">
+                            <p id="pseudo-me" class="player-pseudo">Pseudo</p>
+                            <p id="score-me">Score</p>
+                        </div>
+                    </li>
+
+                    <li class="clearfix list-player__el infos-player">
+                        <img id="img-01" src="../assets/images/empty-profile.png" alt="Photo player">
+                        <div class="player">
+                            <p id="pseudo-01" class="player-pseudo">Pseudo</p>
+                            <p id="score-01">Score</p>
+                        </div>
+                    </li>
+
+                    <li class="clearfix list-player__el infos-player">
+                        <img id="img-02" src="../assets/images/empty-profile.png" alt="Photo player">
+                        <div class="player">
+                            <p id="pseudo-02" class="player-pseudo">Pseudo</p>
+                            <p id="score-02">Score</p>
+                        </div>
+                    </li>
+
+                    <li class="clearfix list-player__el infos-player">
+                        <img id="img-03" src="../assets/images/empty-profile.png" alt="Photo player">
+                        <div class="player">
+                            <p id="pseudo-03" class="player-pseudo">Pseudo</p>
+                            <p id="score-03">Score</p>
+                        </div>
+                    </li>
+                </ul>
+                <p class="clear ready"><a id="join" href="#">Entrer</a> | <a href="#">Prêt!</a></p>
+                <p>60s</p>
+            </div>
         </section>
     </body>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha256-1A78rJEdiWTzco6qdn3igTBv9VupN3Q1ozZNTR4WE/Y=" crossorigin="anonymous"></script>
     <script src="../assets/script/salon.js"></script>

@@ -41,10 +41,7 @@ server.get('/', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
     res.status(200).sendFile(path.join(__dirname + '/public/login.html'));
 })
-.get('/profile', function(req, res) {
-    res.setHeader('Content-Type', 'text/html');
-    res.status(200).sendFile(path.join(__dirname + '/public/login.html'));
-})
+
 
 // .get('/jeu/salon', gameCtrl.playerProfile)
 .get('/jeu/salon', function(req, res) {
@@ -71,7 +68,28 @@ server.get('/', function(req, res) {
 
 server.use('/api/', apiRouter);
 
+
+
 // Launch server.
-server.listen(8080, function(){
+listen = server.listen(8080, function(){
     console.log('Serveur en écoute 🔥');
+})
+
+// Socket.io
+// ---------
+
+const io = require('socket.io')(listen);
+var userCount = 0;
+
+io.on('connect', (socket) => {
+
+
+    // Liste joueur pour partie.
+    socket.on('me', (data) => {
+        socket.newUser = {id: data.id, username: data.username, score: data.score, img: data.img };
+        userCount++;
+        console.log(socket.newUser);
+        console.log(userCount);
+        io.sockets.emit('userJoin', socket.newUser);
+    })
 })

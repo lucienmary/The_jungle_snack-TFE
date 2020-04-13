@@ -116,7 +116,6 @@ module.exports = {
             },
             function(userFound, done) {
                 if (userFound) {
-                    // console.log(userFound);
                     bcrypt.compare(password, userFound.password, function(errBycrypt, resBycrypt) {
                         done(null, userFound, resBycrypt);
                     });
@@ -145,7 +144,6 @@ module.exports = {
 
                 cookies.set('clientAuth', true, { secure: false, httpOnly: false})
 
-                // console.log('cookie = '+cookiesAuth);
                 flag = true;
 
                 res.redirect('/jeu/salon');
@@ -158,7 +156,6 @@ module.exports = {
 
         cookies = new Cookies(req, res)
 
-        console.log(flag);
         if (flag === true) {
             var userId = jwtUtils.getUserId('Bearer '+tok);
 
@@ -167,14 +164,11 @@ module.exports = {
             console.log('T 1');
         }else {
             var headerAuth  = cookies.get('Authorization');
-            console.log('Auth: '+ headerAuth);
             var userId      = jwtUtils.getUserId(headerAuth);
             console.log('T 2');
         }
 
         // Getting auth header
-
-        console.log(userId);
 
         if (userId < 0){
             // res.redirect("/login");
@@ -242,8 +236,6 @@ module.exports = {
 
         var flag = false;
         var tok = null;
-
-        console.log(tok);
 
         cookies.set('clientAuth', false, { secure: false, httpOnly: false})
 
