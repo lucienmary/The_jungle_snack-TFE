@@ -77,19 +77,26 @@ listen = server.listen(8080, function(){
 
 // Socket.io
 // ---------
+var playerList = [];
 
 const io = require('socket.io')(listen);
-var userCount = 0;
 
 io.on('connect', (socket) => {
 
-
-    // Liste joueur pour partie.
-    socket.on('me', (data) => {
+    socket.on('enterPlayerList', (data) => {
         socket.newUser = {id: data.id, username: data.username, score: data.score, img: data.img };
-        userCount++;
-        console.log(socket.newUser);
-        console.log(userCount);
-        io.sockets.emit('userJoin', socket.newUser);
+
+        if (playerList.find(double => double.id === socket.newUser.id)) {
+            socket.emit('errorSocketIo', 401);
+
+        }else{
+            playerList.push(socket.newUser);
+            io.sockets.emit('displayPlayers', {playerList: playerList});
+
+        }
+    })
+
+    socket.on('exitPlayerList', (data) => {
+        // delete playerList["id-"+data.id];
     })
 })

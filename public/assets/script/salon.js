@@ -12,7 +12,6 @@ var profileLocal;
     .then(res => res.json())
     .then(function(profile){
         profileLocal = profile;
-        console.log(profile);
 
         if (profile["error"]) { // Si l'utilisateur tape l'URL du salon sans s'être co. (alors, json ne retourne rien)
             alert('Connecte-toi pour accéder au salon!');
@@ -36,7 +35,7 @@ var profileLocal;
 // Déconnexion du joueur.
 // ----------------------
 
-    $('#disconnect').click(function(){
+    var disco = function disco(){
         console.log('Disconnect');
         profileLocal = null;
 
@@ -50,7 +49,9 @@ var profileLocal;
         })
         .catch(err => { console.log(err) });
 
-    });
+    }
+
+    $('#disconnect').click(disco);
 
 
 // Connexion socket.io
@@ -64,15 +65,36 @@ var profileLocal;
 
         // Quand clic pr commencer une partie.
         join.click(() => {
-            socket.emit('me', {id: profileLocal["id"], username: profileLocal["username"], score: profileLocal["score"], img: profileLocal["img"]});
+            if (join.text() == 'Entrer') { // Entrer.
+                join.text('Sortir');
+                socket.emit('enterPlayerList', {id: profileLocal["id"], username: profileLocal["username"], score: profileLocal["score"], img: profileLocal["img"]});
+
+            }else{ // Sortir.
+                join.text('Entrer');
+                socket.emit('exitPlayerList', {id: profileLocal["id"]});
+            }
         })
 
-        socket.on('userJoin', (data) => {
-            console.log(data);
+        // Afficher les autres joueurs dans la playerlist.
+        socket.on('displayPlayers', (data) => {
+            console.log(data.playerList);
+        })
 
-            if (data['id'] !== profileLocal['id']) {
-                $('#pseudo-01').text(data['username']);
-                $('#score-01').text('Partie(s) gagnée(s): '+data['score']);
+
+
+
+        // Gestion des erreurs.
+        socket.on('errorSocketIo', (data) => {
+            switch (data) {
+                case 500:
+                    console.error('(500): Erreur serveur.');
+                    break;
+                case 401:
+                    console.error('(403): Une authentification est nécéssaire (ou ce compte est déjà utilisé).');
+                    setTimeout( disco,1000);
+                    break;
+                default:
+                    console.error('(?): Erreur non-identifiée.');
             }
         })
 
