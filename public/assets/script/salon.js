@@ -17,13 +17,13 @@ var profileLocal;
             alert('Connecte-toi pour accéder au salon!');
             window.location.replace("/login");
         }else { // Affichage dans la page.
-            $('#player').replaceWith('<div id="player" class="player"><p class="player-pseudo">'+ profile["username"] +'</p><p class="player-score">Partie(s) gagnée(s): '+ profile["score"]+'</p></div>');
-            $('#imgPlayer').attr("src", "../assets/images/_"+profile["img"]+".png");
-
-            // liste joueur.
-            $('#img-me').attr("src", "../assets/images/_"+profile["img"]+".png");
-            $('#pseudo-me').text(profile["username"]);
-            $('#score-me').text('Partie(s) gagnée(s): '+profile["score"]);
+            // $('#player').replaceWith('<div id="player" class="player"><p class="player-pseudo">'+ profile["username"] +'</p><p class="player-score">Partie(s) gagnée(s): '+ profile["score"]+'</p></div>');
+            // $('#imgPlayer').attr("src", "../assets/images/_"+profile["img"]+".png");
+            //
+            // // liste joueur.
+            // $('#img-me').attr("src", "../assets/images/_"+profile["img"]+".png");
+            // $('#pseudo-me').text(profile["username"]);
+            // $('#score-me').text('Partie(s) gagnée(s): '+profile["score"]);
 
             document.cookie = 'myId='+profileLocal['id']+'; path=/'; // cookie pour identifier joueur si quitte sans déco.
 
@@ -45,7 +45,6 @@ var profileLocal;
         })
         .then(res => res.json())
         .then(function(data){
-            console.log(data);
             window.location.replace("/login");
         })
         .catch(err => { console.log(err) });
@@ -78,10 +77,29 @@ var profileLocal;
 
         // Afficher les autres joueurs dans la playerlist.
         socket.on('displayPlayers', (data) => {
-            console.log(data.playerList);
+            var playerList = data.playerList;
+
+            $('#playerList').empty();
+
+            for (var i = 0; i < playerList.length; i++) {
+
+                var classMyPosition = '';
+
+                if (playerList[i].id === profileLocal["id"]) {
+                    classMyPosition = 'itsme';
+                }
+
+                $('#playerList').append(`
+                    <li class="clearfix list-player__el infos-player `+ classMyPosition +`">
+                        <img src="../assets/images/_`+ playerList[i].img +`.png" alt="Photo player">
+                        <div class="player">
+                            <p class="player-pseudo">`+ playerList[i].username +`</p>
+                            <p>`+ playerList[i].score +`</p>
+                        </div>
+                    </li>
+                `);
+            }
         })
-
-
 
 
         // Gestion des erreurs.
@@ -100,9 +118,32 @@ var profileLocal;
         })
 
 
-        // socket.emit('disconnect', {id: profileLocal["id"]});
+        // Timer.
+        var secondInterval;
+        socket.on('timerForStart', (data, SECOND_TO_START) => {
+
+            if (data === true) {
+                var time = SECOND_TO_START;
+                secondInterval = setInterval(function(){
+                    time--;
+                    $('#timerForStart').text(time);
+
+                    if (time === 0) {
+                        clearInterval(secondInterval);
+                    }
+                }, 1000);
+            }else{
+                clearInterval(secondInterval);
+                $('#timerForStart').text(SECOND_TO_START);
+            }
+        })
 
 
+        // Start game.
+
+        socket.on('start', () => {
+            console.info('🏁 START! 🏁');
+        })
 
     } // Fin ioConnect();
 }); // Fin doc.

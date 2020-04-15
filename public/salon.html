@@ -37,41 +37,17 @@
             </div>
 
             <div class="clear">
-                <ul class="list-player">
-                    <li class="clearfix list-player__el list-player__el--me infos-player">
-                        <img id="img-me" src="../assets/images/empty-profile.png" alt="Photo player">
-                        <div class="player">
-                            <p id="pseudo-me" class="player-pseudo">Pseudo</p>
-                            <p id="score-me">Score</p>
-                        </div>
-                    </li>
-
-                    <li class="clearfix list-player__el infos-player">
-                        <img id="img-01" src="../assets/images/empty-profile.png" alt="Photo player">
-                        <div class="player">
-                            <p id="pseudo-01" class="player-pseudo">Pseudo</p>
-                            <p id="score-01">Score</p>
-                        </div>
-                    </li>
-
-                    <li class="clearfix list-player__el infos-player">
-                        <img id="img-02" src="../assets/images/empty-profile.png" alt="Photo player">
-                        <div class="player">
-                            <p id="pseudo-02" class="player-pseudo">Pseudo</p>
-                            <p id="score-02">Score</p>
-                        </div>
-                    </li>
-
-                    <li class="clearfix list-player__el infos-player">
+                <ul id="playerList" class="list-player">
+                    <!-- <li class="clearfix list-player__el infos-player">
                         <img id="img-03" src="../assets/images/empty-profile.png" alt="Photo player">
                         <div class="player">
                             <p id="pseudo-03" class="player-pseudo">Pseudo</p>
                             <p id="score-03">Score</p>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
                 <p class="clear ready"><a id="join" href="#">Entrer</a> | <a href="#">Prêt!</a></p>
-                <p>60s</p>
+                <p><span id="timerForStart">20</span>s</p>
             </div>
         </section>
     </body>
@@ -80,7 +56,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha256-1A78rJEdiWTzco6qdn3igTBv9VupN3Q1ozZNTR4WE/Y=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-        
+
     </script>
     <script src="../assets/script/salon.js"></script>
 

@@ -82,6 +82,7 @@ var playerList = [];
 const io = require('socket.io')(listen);
 
 io.on('connect', (socket) => {
+    io.sockets.emit('displayPlayers', {playerList: playerList});
 
     socket.on('enterPlayerList', (data) => {
         socket.newUser = {id: data.id, username: data.username, score: data.score, img: data.img };
@@ -94,10 +95,14 @@ io.on('connect', (socket) => {
             io.sockets.emit('displayPlayers', {playerList: playerList});
 
         }
+
+        if (playerList.length === 2) {
+            console.log('---> Start');
+            startTimer(true);
+        }
     })
 
     socket.on('exitPlayerList', (data) => {
-        console.log(data.id);
         if (playerList.find(forDelete => forDelete.id === data.id)) {
             for (var i = 0; i < playerList.length; i++) {
                 if (playerList[i].id === data.id) {
@@ -108,13 +113,16 @@ io.on('connect', (socket) => {
         }else{
             socket.emit('errorSocketIo', 500);
         }
+
+        if (playerList.length < 2) {
+            console.log('*--> Stop');
+        }
     })
 
     socket.on('disconnect', (data) => {
         var cookieId = socket.request.headers.cookie.split('myId=');
         var myId = cookieId[1].slice(0,2);
 
-        console.log(myId);
         if (playerList.find(forDelete => forDelete.id == myId)) {
             for (var i = 0; i < playerList.length; i++) {
                 if (playerList[i].id == myId) {
@@ -126,5 +134,33 @@ io.on('connect', (socket) => {
             socket.emit('errorSocketIo', 500);
         }
     });
+
+
+
+
+    // Timer.
+
+    // TODO: Modif stopTimer(); (Si pas dernier joueur à rejoindre se déco. timer ne se stop pas.)
+
+    var secondInterval;
+    const SECOND_TO_START = 5;
+
+    function startTimer(boo){
+        if (boo === true) {
+            var time = SECOND_TO_START;
+            secondInterval = setInterval(function(){
+                time--;
+
+                if (time === 0) {
+                    // clearInterval(secondInterval);
+                    io.sockets.emit('start');
+                }
+            }, 1000);
+        }
+    }
+    function stopTimer() {
+        clearInterval(secondInterval);
+        console.log('stop');
+    }
 
 })
