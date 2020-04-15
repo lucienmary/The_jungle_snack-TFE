@@ -238,6 +238,7 @@ module.exports = {
         var tok = null;
 
         cookies.set('clientAuth', false, { secure: false, httpOnly: false})
+        cookies.set('myId', '', { secure: false, httpOnly: false})
 
         res.json('Disconnected successfully');
         // res.status(403).redirect('/login');

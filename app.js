@@ -97,6 +97,34 @@ io.on('connect', (socket) => {
     })
 
     socket.on('exitPlayerList', (data) => {
-        // delete playerList["id-"+data.id];
+        console.log(data.id);
+        if (playerList.find(forDelete => forDelete.id === data.id)) {
+            for (var i = 0; i < playerList.length; i++) {
+                if (playerList[i].id === data.id) {
+                    playerList = playerList.filter(item => item !== playerList[i]);
+                    io.sockets.emit('displayPlayers', {playerList: playerList});
+                }
+            }
+        }else{
+            socket.emit('errorSocketIo', 500);
+        }
     })
+
+    socket.on('disconnect', (data) => {
+        var cookieId = socket.request.headers.cookie.split('myId=');
+        var myId = cookieId[1].slice(0,2);
+
+        console.log(myId);
+        if (playerList.find(forDelete => forDelete.id == myId)) {
+            for (var i = 0; i < playerList.length; i++) {
+                if (playerList[i].id == myId) {
+                    playerList = playerList.filter(item => item !== playerList[i]);
+                    io.sockets.emit('displayPlayers', {playerList: playerList});
+                }
+            }
+        }else{
+            socket.emit('errorSocketIo', 500);
+        }
+    });
+
 })

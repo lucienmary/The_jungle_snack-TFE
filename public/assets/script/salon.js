@@ -25,6 +25,8 @@ var profileLocal;
             $('#pseudo-me').text(profile["username"]);
             $('#score-me').text('Partie(s) gagnée(s): '+profile["score"]);
 
+            document.cookie = 'myId='+profileLocal['id']+'; path=/'; // cookie pour identifier joueur si quitte sans déco.
+
             ioConnect();
         }
 
@@ -36,7 +38,6 @@ var profileLocal;
 // ----------------------
 
     var disco = function disco(){
-        console.log('Disconnect');
         profileLocal = null;
 
         fetch('../api/users/disconnect/', {
@@ -59,7 +60,7 @@ var profileLocal;
 
     // se connecte qd profil récup. par fetch (/api/users/me/).
     function ioConnect(){
-        var socket = io.connect('http://localhost:8080')
+        var socket = io.connect('http://localhost:8080', console.info('Successfully connected with socket'));
 
         var join = $('#join');
 
@@ -98,5 +99,10 @@ var profileLocal;
             }
         })
 
-    }
-});
+
+        // socket.emit('disconnect', {id: profileLocal["id"]});
+
+
+
+    } // Fin ioConnect();
+}); // Fin doc.
