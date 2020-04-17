@@ -12,13 +12,13 @@
             <h1>Partie 🕹🧿💈</h1>
 
             <div class="infos-player">
-                <img src="../assets/images/empty-profile.png" alt="Photo player">
+                <img id="imgPlayer" src="../assets/images/empty-profile.png" alt="Photo player">
                 <div class="player">
                     <p id="player">Pseudo</p>
                     <p><span>0</span> Coins</p>
                 </div>
             </div>
-            <button type="button" name="button">Lancer les dés:</button>
+            <button id="lancerDe" type="button" name="button">Lancer les dés:</button>
         </header>
 
         <section>
@@ -29,6 +29,7 @@
         </section>
     </body>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha256-1A78rJEdiWTzco6qdn3igTBv9VupN3Q1ozZNTR4WE/Y=" crossorigin="anonymous"></script>
     <script src="../assets/script/game/player_game.js"></script>

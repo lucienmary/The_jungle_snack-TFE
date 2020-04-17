@@ -161,11 +161,9 @@ module.exports = {
 
             flag = false;
             tok = null;
-            console.log('T 1');
         }else {
             var headerAuth  = cookies.get('Authorization');
             var userId      = jwtUtils.getUserId(headerAuth);
-            console.log('T 2');
         }
 
         // Getting auth header

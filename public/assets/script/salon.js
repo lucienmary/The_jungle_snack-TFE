@@ -16,14 +16,13 @@ var profileLocal;
         if (profile["error"]) { // Si l'utilisateur tape l'URL du salon sans s'être co. (alors, json ne retourne rien)
             alert('Connecte-toi pour accéder au salon!');
             window.location.replace("/login");
+            document.cookie = "Authorization=; path=/";
+            document.cookie = "clientAuth=false; path=/";
+            document.cookie = "myId=; path=/";
+
         }else { // Affichage dans la page.
-            // $('#player').replaceWith('<div id="player" class="player"><p class="player-pseudo">'+ profile["username"] +'</p><p class="player-score">Partie(s) gagnée(s): '+ profile["score"]+'</p></div>');
-            // $('#imgPlayer').attr("src", "../assets/images/_"+profile["img"]+".png");
-            //
-            // // liste joueur.
-            // $('#img-me').attr("src", "../assets/images/_"+profile["img"]+".png");
-            // $('#pseudo-me').text(profile["username"]);
-            // $('#score-me').text('Partie(s) gagnée(s): '+profile["score"]);
+            $('#player').replaceWith('<div id="player" class="player"><p class="player-pseudo">'+ profile["username"] +'</p><p class="player-score">Partie(s) gagnée(s): '+ profile["score"]+'</p></div>');
+            $('#imgPlayer').attr("src", "../assets/images/_"+profile["img"]+".png");
 
             document.cookie = 'myId='+profileLocal['id']+'; path=/'; // cookie pour identifier joueur si quitte sans déco.
 
@@ -31,7 +30,9 @@ var profileLocal;
         }
 
     })
-    .catch(err => { console.log(err) });
+    .catch(err => {
+        console.log(err)
+    });
 
 
 // Déconnexion du joueur.
@@ -135,14 +136,15 @@ var profileLocal;
             }else{
                 clearInterval(secondInterval);
                 $('#timerForStart').text(SECOND_TO_START);
+                socket.emit('stopTime'); // Envoyé par client pour demander à tous de stopper (Stoppé par premier client entré).
             }
         })
 
 
         // Start game.
-
-        socket.on('start', () => {
+        socket.on('start', (destination) => {
             console.info('🏁 START! 🏁');
+            window.location.href = destination;
         })
 
     } // Fin ioConnect();
