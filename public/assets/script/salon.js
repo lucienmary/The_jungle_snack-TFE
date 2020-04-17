@@ -60,7 +60,7 @@ var profileLocal;
 
     // se connecte qd profil récup. par fetch (/api/users/me/).
     function ioConnect(){
-        var socket = io.connect('http://localhost:8080', console.info('Successfully connected with socket'));
+        var socket = io.connect('http://localhost:8080', console.info('%cSuccessfully connected with socket 👍', 'color: green'));
 
         var join = $('#join');
 

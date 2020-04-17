@@ -9,23 +9,16 @@
     <body>
         <header>
             <a href="/">Accueil</a>
-            <h1>Partie 🕹🧿💈</h1>
-
-            <div class="infos-player">
-                <img id="imgPlayer" src="../assets/images/empty-profile.png" alt="Photo player">
-                <div class="player">
-                    <p id="player">Pseudo</p>
-                    <p><span>0</span> Coins</p>
-                </div>
-            </div>
-            <button id="lancerDe" type="button" name="button">Lancer les dés:</button>
+            <h1 class="hidden">Partie 🕹🧿💈</h1>
         </header>
 
         <section>
-            <p>Joueur 02</p>
-            <p>Joueur 03</p>
-            <p>Joueur 04</p>
-            <img class="" style="width: 100vw; position: absolute; top: 0; left: 0; z-index: -1;" src="../assets/images/img01.png" alt="Future vidéo du jeu The Jungle Snack">
+            <div class="clear">
+                <ul id="playerList" class="list-player"></ul>
+
+                <button id="thimble" type="button" name="button">Lancer le dé</button>
+            </div>
+            <img class="" style="width: 50vw; position: absolute; top: 0; left: 0; z-index: -1;" src="../assets/images/img01.png" alt="Future vidéo du jeu The Jungle Snack">
         </section>
     </body>
 

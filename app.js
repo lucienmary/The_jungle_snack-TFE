@@ -153,7 +153,7 @@ io.on('connect', (socket) => {
     // TODO: Modif stopTimer(); (Si pas dernier joueur à rejoindre se déco. timer ne se stop pas.)
 
     var secondInterval;
-    const SECOND_TO_START = 5;
+    const SECOND_TO_START = 2;
 
     function startTimer(boo){
 

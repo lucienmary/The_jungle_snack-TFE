@@ -7,12 +7,55 @@ $( document ).ready(function() {
     var socket = io.connect('/A'+idGame[1]);
 
     socket.emit('fine', function (result) {
-        console.log(result.msg);
+        console.info("%c"+result.msg+" 👍", "color: lightgreen");
     });
 
-    socket.on('player', (playerList) => {
-        console.log(playerList);
+    socket.on('player', (player) => {
+
+        var myId = $.cookie("myId");
+
+        for (var i = 0; i < player.length; i++) {
+
+            var classMyPosition = '';
+
+            if (player[i].id == myId) {
+                classMyPosition = 'itsme';
+            }
+
+            $('#playerList').append(`
+                <li class="clearfix list-player__el infos-player `+ classMyPosition +`">
+                    <img src="../assets/images/_`+ player[i].img +`.png" alt="Photo player">
+                    <div class="player">
+                        <p class="player-pseudo player-`+player[i].color+`">`+ player[i].username +`</p>
+                        <p><span id="coins_`+player[i].id+`">`+player[i].coins+`</span> 💰</p>
+                        <p><span id="bank_`+player[i].id+`">`+player[i].bank+`</span> 🏦</p>
+                        <p id="position_`+player[i].id+`">Position: `+player[i].position+`</p>
+                        <p id="chance_`+player[i].id+`">`+player[i].chance+`</p>
+
+                        <ul class="resources">
+                            <li>Bread: `+player[i].cards.bread+`</li>
+                            <li>Meat: `+player[i].cards.meat+`</li>
+                            <li>Salad: `+player[i].cards.salad+`</li>
+                            <li>Sauce: `+player[i].cards.sauce+`</li>
+                        </ul>
+                    </div>
+                </li>
+            `);
+        }
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

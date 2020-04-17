@@ -68,3 +68,35 @@ h1{
 .itsme{
     background-color: lightgreen;
 }
+.hidden{
+    display: none;
+}
+
+#thimble{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    padding: 20px;
+}
+.resources{
+    background-color: lightcoral;
+    padding: 15px;
+    margin: 15px;
+    border: 1px solid black;
+}
+.player-blue{
+    color: lightgrey;
+    background-color: blue;
+}
+.player-yellow{
+    color: grey;
+    background-color: yellow;
+}
+.player-red{
+    color: lightgrey;
+    background-color: red;
+}
+.player-green{
+    color: lightgrey;
+    background-color: green;
+}
