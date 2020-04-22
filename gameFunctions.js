@@ -18,7 +18,7 @@ module.exports = {
         const BOXES = {chance: [5, 10, 15, 20], money: [3, 8, 13, 18], resources: [1, 6, 11, 16], attack: [9, 19], bank: [7, 17], benefit: [2, 12]};
 
         var player = [];
-        var first = true;
+        var nextPlayer;
         var cptPlayer = 0;
 
 
@@ -64,7 +64,8 @@ module.exports = {
                         if (cptPlayer === player.length) {
                             var num = Math.floor(Math.random() * Math.floor(player.length));
 
-                            io.of('/A'+idGame).to(player[num].socketId).emit('play', num);
+                            nextPlayer = num;
+                            io.of('/A'+idGame).to(player[num].socketId).emit('play');
                         }
                     }
                 })
@@ -84,8 +85,8 @@ module.exports = {
                 }
             }
 
-            socket.on('goTurn', (num) => {
-                play(num);
+            socket.on('goTurn', () => {
+                play(nextPlayer);
             })
 
             function play(num) {
@@ -141,7 +142,8 @@ module.exports = {
 
                     io.of('/A'+idGame).emit('player', player);
 
-                    io.of('/A'+idGame).to(player[num].socketId).emit('play', num);
+                    nextPlayer = num;
+                    io.of('/A'+idGame).to(player[num].socketId).emit('play');
                 })
 
             }

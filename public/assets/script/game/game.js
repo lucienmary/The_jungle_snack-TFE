@@ -1,6 +1,6 @@
 // JS link partie.html
 $( document ).ready(function() {
-
+    
     var location = window.location;
     var idGame = location.href.split('id=A');
 
@@ -15,7 +15,6 @@ $( document ).ready(function() {
 
     socket.on('recupId', (player) => {
         socket.emit('idSocket', myId, socket.id);
-        console.log(socket.id);
     })
 
     socket.on('player', (player) => {
@@ -53,31 +52,38 @@ $( document ).ready(function() {
 
 
 
+
+
     // Fonctions de jeu.
     // ----------------
+    // ---------------
 
-    socket.on('play', (num) => {
-        socket.emit('goTurn', num);
-        // socket.removeAllListeners("play");
+    // Appelée qd mon tour de jouer.
+    socket.on('play', () => {
+        socket.emit('goTurn');
     })
 
+    // Appelée qd fin de mon tour pour reload client (éviter de relancer play plusieurs fois).
     socket.on('down', () => {
         socket.close()
         socket.open()
+        // socket.reload()
     })
 
+
+
     // Dé.
+    // --
     socket.on('yourTurn', (pop) => {
-        // console.log('my turn ' + pop);
         $('#thimble').prop('disabled', false);
     })
+
     $('#thimble').click( function() {
         socket.emit('thimble', true);
         $('#thimble').prop('disabled', true);
-
-        // socket.close()
-        // socket.open()
     })
+
+    // Afficher dé de tout les joueurs.
     socket.on('responseThimble', (responseThimble) => {
         console.log(responseThimble);
     })
