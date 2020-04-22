@@ -15,10 +15,12 @@ var profileLocal;
 
         if (profile["error"]) { // Si l'utilisateur tape l'URL du salon sans s'être co. (alors, json ne retourne rien)
             alert('Connecte-toi pour accéder au salon!');
+            $.removeCookie("myId", {path: '/'});
+            $.removeCookie("clientAuth", {path: '/'});
+            $.removeCookie("Authorization", {path: '/'});
+
+            // window.location.reload();
             window.location.replace("/login");
-            document.cookie = "Authorization=; path=/";
-            document.cookie = "clientAuth=false; path=/";
-            document.cookie = "myId=; path=/";
 
         }else { // Affichage dans la page.
             $('#player').replaceWith('<div id="player" class="player"><p class="player-pseudo">'+ profile["username"] +'</p><p class="player-score">Partie(s) gagnée(s): '+ profile["score"]+'</p></div>');

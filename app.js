@@ -181,6 +181,7 @@ io.on('connect', (socket) => {
     function startTJS(){
         gameFunctions.gameSettings(playerList, idGame, io, socket);
         for (var i = 0; i < playerList.length; i++) {
+            // console.log(playerList[i].socketId);
             io.to(playerList[i].socketId).emit('start', '/jeu/partie?id=A'+idGame);
 
         }

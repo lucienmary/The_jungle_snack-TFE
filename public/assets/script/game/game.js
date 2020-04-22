@@ -6,16 +6,23 @@ $( document ).ready(function() {
 
     var socket = io.connect('/A'+idGame[1]);
 
+    var myId = $.cookie("myId");
+
     socket.emit('fine', function (result) {
         console.info("%c"+result.msg+" 👍", "color: lightgreen");
     });
 
+
+    socket.on('recupId', (player) => {
+        socket.emit('idSocket', myId, socket.id);
+        console.log(socket.id);
+    })
+
     socket.on('player', (player) => {
 
-        var myId = $.cookie("myId");
+        $('#playerList').empty();
 
         for (var i = 0; i < player.length; i++) {
-
             var classMyPosition = '';
 
             if (player[i].id == myId) {
@@ -46,15 +53,34 @@ $( document ).ready(function() {
 
 
 
+    // Fonctions de jeu.
+    // ----------------
 
+    socket.on('play', (num) => {
+        socket.emit('goTurn', num);
+        // socket.removeAllListeners("play");
+    })
 
+    socket.on('down', () => {
+        socket.close()
+        socket.open()
+    })
 
+    // Dé.
+    socket.on('yourTurn', (pop) => {
+        // console.log('my turn ' + pop);
+        $('#thimble').prop('disabled', false);
+    })
+    $('#thimble').click( function() {
+        socket.emit('thimble', true);
+        $('#thimble').prop('disabled', true);
 
-
-
-
-
-
+        // socket.close()
+        // socket.open()
+    })
+    socket.on('responseThimble', (responseThimble) => {
+        console.log(responseThimble);
+    })
 
 
 
