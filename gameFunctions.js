@@ -16,6 +16,8 @@ module.exports = {
         const BANKGOALS = 100;
         const BOARD = 20;
         const BOXES = {chance: [5, 10, 15, 20], money: [3, 8, 13, 18], resources: [1, 6, 11, 16], attack: [9, 19], bank: [7, 17], benefit: [2, 12]};
+        const RESOURCES = {bread: 1, meat: 6, salad: 11, sauce: 16};
+        const RESOURCES_PRICE = 50;
 
         var player = [];
         var nextPlayer;
@@ -115,7 +117,35 @@ module.exports = {
                     }else if (player[num].position === BOXES.money[0] || player[num].position === BOXES.money[1] || player[num].position === BOXES.money[2] || player[num].position === BOXES.money[3]) {
                         console.log('Money');
                     }else if (player[num].position === BOXES.resources[0] || player[num].position === BOXES.resources[1] || player[num].position === BOXES.resources[2] || player[num].position === BOXES.resources[3]) {
-                        console.log('Resources');
+                        switch (player[num].position) {
+                            case RESOURCES.bread:
+                                if (player[num].cards.bread === false && player[num].coins >= RESOURCES_PRICE) {
+                                    player[num].cards.bread = true;
+                                    player[num].coins = player[num].coins - RESOURCES_PRICE;
+                                }
+                            break;
+
+                            case RESOURCES.meat:
+                                if (player[num].cards.meat === false && player[num].coins >= RESOURCES_PRICE) {
+                                    player[num].cards.meat = true;
+                                    player[num].coins = player[num].coins - RESOURCES_PRICE;
+                                }
+                            break;
+
+                            case RESOURCES.salad:
+                                if (player[num].cards.salad === false && player[num].coins >= RESOURCES_PRICE) {
+                                    player[num].cards.salad = true;
+                                    player[num].coins = player[num].coins - RESOURCES_PRICE;
+                                }
+                            break;
+
+                            case RESOURCES.sauce:
+                                if (player[num].cards.sauce === false && player[num].coins >= RESOURCES_PRICE) {
+                                    player[num].cards.sauce = true;
+                                    player[num].coins = player[num].coins - RESOURCES_PRICE;
+                                }
+                            break;
+                        }
                     }else if (player[num].position === BOXES.attack[0] || player[num].position === BOXES.attack[1]) {
                         console.log('Attack');
                     }else if (player[num].position === BOXES.bank[0] || player[num].position === BOXES.bank[1]) {

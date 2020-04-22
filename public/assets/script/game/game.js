@@ -1,6 +1,6 @@
 // JS link partie.html
 $( document ).ready(function() {
-    
+
     var location = window.location;
     var idGame = location.href.split('id=A');
 
@@ -75,7 +75,9 @@ $( document ).ready(function() {
     // Dé.
     // --
     socket.on('yourTurn', (pop) => {
-        $('#thimble').prop('disabled', false);
+        setTimeout(function(){ // Pour éviter adversaire déco.
+            $('#thimble').prop('disabled', false);
+        }, 1000);
     })
 
     $('#thimble').click( function() {
