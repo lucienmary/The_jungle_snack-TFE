@@ -15,9 +15,11 @@ module.exports = {
         const GAME_CONFIG = {coins: 50, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
         const BANKGOALS = 100;
         const BOARD = 20;
-        const BOXES = {chance: [5, 10, 15, 20], money: [3, 8, 13, 18], resources: [1, 6, 11, 16], attack: [9, 19], bank: [7, 17], benefit: [2, 12]};
+        const BOXES = {chance: [5, 10, 15, 20], money: [3, 8, 13, 18], resources: [1, 6, 11, 16], attack: [9, 19], bank: [7, 17], benefit: [2, 12], empty: [4, 14]};
         const RESOURCES = {bread: 1, meat: 6, salad: 11, sauce: 16};
         const RESOURCES_PRICE = 50;
+        const MONEY = [50, 25, 15, 0, 100, 75, 50];
+        const BENEFIT = 10; // En pourcent.
 
         var player = [];
         var nextPlayer;
@@ -79,8 +81,23 @@ module.exports = {
                 console.log('Dé: ' +nb);
                 return nb;
             }
+            async function bank() {
+                var goBank;
+                var nextStep = false;
+                socket.on('addToBank', (addToBank) => {
+                    goBank = addToBank;
+
+                    console.log('///1');
+                    nextStep = true;
+                })
+                if (nextStep === true) {
+                    console.log('///2');
+                    nextStep = false
+                    return goBank;
+                }
+            }
             function win(num) {
-                if (player[num].cards.bread === true && player[num].cards.meat === true && player[num].cards.salad === true && player[num].cards.sauce === true && player[num].bank === BANKGOALS) {
+                if (player[num].cards.bread === true && player[num].cards.meat === true && player[num].cards.salad === true && player[num].cards.sauce === true && player[num].bank >= BANKGOALS) {
                     return true;
                 }else{
                     return false;
@@ -92,6 +109,7 @@ module.exports = {
             })
 
             function play(num) {
+                var endOfTurn;
                 // console.log(player.length);
                 console.log(player[num].id +' | '+num);
 
@@ -114,9 +132,25 @@ module.exports = {
                     // Savoir sur quelle case on est.
                     if (player[num].position === BOXES.chance[0] || player[num].position === BOXES.chance[1] || player[num].position === BOXES.chance[2] || player[num].position === BOXES.chance[3]) {
                         console.log('Chance');
+                        endOfTurn();
+
                     }else if (player[num].position === BOXES.money[0] || player[num].position === BOXES.money[1] || player[num].position === BOXES.money[2] || player[num].position === BOXES.money[3]) {
                         console.log('Money');
+                        var randomPosition = (Math.floor(Math.random() * MONEY.length));
+
+                        console.log(randomPosition);
+                        if (randomPosition === null) {
+                            randomPosition = 25;
+                            console.log('bug money');
+                        }
+                        player[num].coins = player[num].coins + MONEY[randomPosition];
+
+                        io.of('/A'+idGame).emit('anim_money', player[num].username, MONEY[randomPosition]);
+                        endOfTurn();
+
                     }else if (player[num].position === BOXES.resources[0] || player[num].position === BOXES.resources[1] || player[num].position === BOXES.resources[2] || player[num].position === BOXES.resources[3]) {
+                        console.log('Resources');
+
                         switch (player[num].position) {
                             case RESOURCES.bread:
                                 if (player[num].cards.bread === false && player[num].coins >= RESOURCES_PRICE) {
@@ -146,34 +180,64 @@ module.exports = {
                                 }
                             break;
                         }
+                        endOfTurn();
+
                     }else if (player[num].position === BOXES.attack[0] || player[num].position === BOXES.attack[1]) {
                         console.log('Attack');
+                        endOfTurn();
+
                     }else if (player[num].position === BOXES.bank[0] || player[num].position === BOXES.bank[1]) {
                         console.log('bank');
+                        io.of('/A'+idGame).to(player[num].socketId).emit('bank', {coins: player[num].coins});
+
+                        socket.on('addToBank', (addToBank) => {
+                            console.log(addToBank + ' Coins');
+                            var nb = player[num].bank;
+                            player[num].bank = parseInt(addToBank) + nb;
+                            console.log('Bank: '+ player[num].bank);
+                            player[num].coins = player[num].coins - addToBank;
+                        })
+
+                        setTimeout(function(){
+
+                            endOfTurn();
+                        }, 8000);
+
                     }else if (player[num].position === BOXES.benefit[0] || player[num].position === BOXES.benefit[1]) {
                         console.log('benefit');
+
+                        player[num].coins = Math.floor(player[num].coins + (player[num].coins/100)*BENEFIT);
+
+                        endOfTurn();
+                    }
+                    else if (player[num].position === BOXES.empty[0] || player[num].position === BOXES.empty[1]) {
+                        console.log('Nothing');
+                        endOfTurn();
                     }
 
-                    player[num].win = win(num);
-                    if (player[num].win === true) {
-                        console.log('The winner is: '+player[num].username);
+                    function endOfTurn() {
+                        player[num].win = win(num);
+                        if (player[num].win === true) {
+                            console.log('The winner is: '+player[num].username);
+                        }
+
+                        io.of('/A'+idGame).to(player[num].socketId).emit('down');
+
+                        if (num+1 == player.length) {
+                            num = 0;
+
+                        }else {
+                            num++;
+                        }
+
+                        console.log('---------');
+
+                        io.of('/A'+idGame).emit('player', player);
+
+                        nextPlayer = num;
+                        io.of('/A'+idGame).to(player[num].socketId).emit('play');
                     }
 
-                    io.of('/A'+idGame).to(player[num].socketId).emit('down');
-
-                    if (num+1 == player.length) {
-                        num = 0;
-
-                    }else {
-                        num++;
-                    }
-
-                    console.log('---------');
-
-                    io.of('/A'+idGame).emit('player', player);
-
-                    nextPlayer = num;
-                    io.of('/A'+idGame).to(player[num].socketId).emit('play');
                 })
 
             }

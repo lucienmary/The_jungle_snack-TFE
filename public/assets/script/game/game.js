@@ -7,6 +7,7 @@ $( document ).ready(function() {
     var socket = io.connect('/A'+idGame[1]);
 
     var myId = $.cookie("myId");
+    var me;
 
     socket.emit('fine', function (result) {
         console.info("%c"+result.msg+" 👍", "color: lightgreen");
@@ -26,6 +27,7 @@ $( document ).ready(function() {
 
             if (player[i].id == myId) {
                 classMyPosition = 'itsme';
+                me = player[i];
             }
 
             $('#playerList').append(`
@@ -49,7 +51,6 @@ $( document ).ready(function() {
             `);
         }
     });
-
 
 
 
@@ -91,8 +92,34 @@ $( document ).ready(function() {
     })
 
 
+    // Bank.
+    // ----
+    socket.on('bank', (data) => {
+        console.log('Go bank');
+        console.log(me.coins);
+
+        $('#modal_bank').removeClass('hidden');
+        $('#input_bank').attr('max', me.coins);
+
+        setTimeout(function(){
+            $('#modal_bank').addClass('hidden');
+        }, 8000);
+    })
+
+    $('#submit_bank').click( function() {
+        var added = $('#input_bank').val();
+        console.log(added);
+        socket.emit('addToBank', added);
+
+        $('#modal_bank').addClass('hidden');
+    })
 
 
+    // Anim.
+    // ----
+    socket.on('anim_money', (playerName, card) => {
+        console.log(playerName +' a gagné: '+ card +' Coins');
+    })
 
 
 

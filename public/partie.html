@@ -11,8 +11,17 @@
             <a href="/">Accueil</a>
             <h1 class="hidden">Partie 🕹🧿💈</h1>
         </header>
-
         <section>
+
+
+            <div id="modal_bank" class="modal modal--bank hidden">
+                <h2>Banque</h2>
+
+                <label for="quantity">Combien voulez-vous déposer à la banque?</label>
+                <input type="number" id="input_bank" name="quantity" min="0" max="" value="0" step="5">
+                <input id="submit_bank" type="submit" value="Placer">
+            </div>
+
             <div class="clear">
                 <ul id="playerList" class="list-player"></ul>
 
