@@ -92,6 +92,135 @@ $( document ).ready(function() {
     })
 
 
+    // Chance.
+    // ------
+    socket.on('modal_chance', (data) => {
+        var i = 0;
+        data.forEach(element => {
+            if (element.id != myId) {
+                $('#modal_chance_ul').append(`
+                    <li>
+                        <img src="../assets/images/_`+element.img+`.png">
+                        <button id="num-`+i+`">`+element.username+`</button>
+                    </li>
+                `)
+            }
+            i++;
+        })
+
+        $('#num-0').click( function() {
+            socket.emit('choice_chance', 0);
+            restartChance();
+        })
+        $('#num-1').click( function() {
+            socket.emit('choice_chance', 1);
+            restartChance();
+        })
+        $('#num-2').click( function() {
+            socket.emit('choice_chance', 2);
+            restartChance();
+        })
+        $('#num-3').click( function() {
+            socket.emit('choice_chance', 3);
+            restartChance();
+        })
+
+        $('#modal_chance').removeClass('hidden');
+    })
+
+
+    socket.on('makeLoseOrWin', (data) => {
+        $('#modal_makeLoseOrWin').removeClass('hidden');
+    })
+    $('#lose').click( function() {
+        socket.emit('lose-win', 'lose');
+        $('#modal_makeLoseOrWin').addClass('hidden');
+    })
+    $('#win').click( function() {
+        socket.emit('lose-win', 'win');
+        $('#modal_makeLoseOrWin').addClass('hidden');
+    })
+
+    // Destroy.
+    socket.on('destroy', (data) => {
+        data.forEach(element => {
+            if (element.id != myId) {
+                // if (element.cards.bread === true || element.cards.meat === true || element.cards.salad === true || element.cards.sauce === true) {
+                //
+                // }
+                $('#modal_chanceDestroy_ul').append(`
+                    <li id="modal_chanceDestroy_li-`+ element.id +`">
+                        <div>
+                            <img src="../assets/images/_`+element.img+`.png">
+                            <p>`+element.username+`</p>
+                        </div>
+                        <div>
+                            <button id="bread-`+element.id+`" class="button-destroy">🍞</button>
+                            <button id="meat-`+element.id+`" class="button-destroy">🥩</button>
+                            <button id="salad-`+element.id+`" class="button-destroy">🥗</button>
+                            <button id="sauce-`+element.id+`" class="button-destroy">🥫</button>
+                        </div>
+                    </li>
+                `);
+
+                if (element.cards.bread === false) {
+                    $('#bread-'+element.id).prop('disabled', true);
+                };
+                if (element.cards.meat === false) {
+                    $('#meat-'+element.id).prop('disabled', true);
+                };
+                if (element.cards.salad === false) {
+                    $('#salad-'+element.id).prop('disabled', true);
+                };
+                if (element.cards.sauce === false) {
+                    $('#sauce-'+element.id).prop('disabled', true);
+                };
+            }
+        })
+
+        $('#modal_chanceDestroy').append(`<button id="iAmPacifist" type="button" name="button">Ne rien détruire</button>`);
+        $('#modal_chanceDestroy').removeClass('hidden');
+
+        $('.button-destroy').click(function(e) {
+            console.log( this.id);
+            socket.emit('destroyed', this.id);
+            $('#modal_chanceDestroy').addClass('hidden');
+            $('#modal_chanceDestroy_ul').empty();
+            $('#iAmPacifist').remove();
+        });
+        $('#iAmPacifist').click(function(e) {
+            console.log('I am pacifist');
+            socket.emit('destroyed', false);
+            $('#modal_chanceDestroy').addClass('hidden');
+            $('#modal_chanceDestroy_ul').empty();
+            $('#iAmPacifist').remove();
+        });
+
+    })
+
+    socket.on('chance_giveForEveryone', (data) => {
+        console.log('Give for everyone: '+ data);
+    })
+
+    socket.on('chance_getFromEveryone', (data) => {
+        console.log('Get from everyone: '+ data);
+    })
+
+    socket.on('chance_giveForOne', (p, p2, responseRandom) => {
+        console.log(p.username +' gives '+ responseRandom + ' for ' +p2.username);
+    })
+
+    socket.on('chance_getFromOne', (p, p2, responseRandom) => {
+        console.log(p.username +' take in '+ responseRandom + ' from ' +p2.username);
+    })
+
+    function restartChance() {
+        $('#modal_chance').addClass('hidden');
+        $('#modal_chance_ul').empty();
+    }
+
+
+
     // Bank.
     // ----
     socket.on('bank', (data) => {
