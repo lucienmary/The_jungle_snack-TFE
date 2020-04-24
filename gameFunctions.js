@@ -21,6 +21,8 @@ module.exports = {
         const MONEY = [50, 25, 15, 0, 100, 75, 50];
         const BENEFIT = 10; // En pourcent.
 
+        const CHANCE = { giveForEveryone: [5, 15, 25], giveForOne: [30, 40, 50], getFromEveryone: [5, 15, 25], getFromOne: [30, 40, 50], makeLoseOrWin: [60, 40, 30]};
+
         var player = [];
         var nextPlayer;
         var cptPlayer = 0;
@@ -132,6 +134,35 @@ module.exports = {
                     // Savoir sur quelle case on est.
                     if (player[num].position === BOXES.chance[0] || player[num].position === BOXES.chance[1] || player[num].position === BOXES.chance[2] || player[num].position === BOXES.chance[3]) {
                         console.log('Chance');
+
+                        var randomChance = Math.floor(Math.random() * Math.floor(5));
+                        var responseRandom;
+
+                        switch (randomChance) {
+                            case 0:
+                                responseRandom = CHANCE.giveForEveryone[Math.floor(Math.random() * Math.floor(2))];
+                            break;
+                            case 1:
+                                responseRandom = CHANCE.giveForOne[Math.floor(Math.random() * Math.floor(2))];
+                            break;
+                            case 2:
+                                responseRandom = CHANCE.getFromEveryone[Math.floor(Math.random() * Math.floor(2))];
+                            break;
+                            case 3:
+                                responseRandom = CHANCE.getFromOne[Math.floor(Math.random() * Math.floor(2))];
+                            break;
+                            case 4:
+                                responseRandom = CHANCE.makeLoseOrWin[Math.floor(Math.random() * Math.floor(2))];
+                            break;
+                            case 5:
+                                console.log('Destroy!');
+                            break;
+                            default:
+                                console.log('Erreur chance');
+                        }
+
+                        console.log(responseRandom);
+
                         endOfTurn();
 
                     }else if (player[num].position === BOXES.money[0] || player[num].position === BOXES.money[1] || player[num].position === BOXES.money[2] || player[num].position === BOXES.money[3]) {
@@ -188,20 +219,23 @@ module.exports = {
 
                     }else if (player[num].position === BOXES.bank[0] || player[num].position === BOXES.bank[1]) {
                         console.log('bank');
-                        io.of('/A'+idGame).to(player[num].socketId).emit('bank', {coins: player[num].coins});
 
-                        socket.on('addToBank', (addToBank) => {
-                            console.log(addToBank + ' Coins');
-                            var nb = player[num].bank;
-                            player[num].bank = parseInt(addToBank) + nb;
-                            console.log('Bank: '+ player[num].bank);
-                            player[num].coins = player[num].coins - addToBank;
-                        })
+                        if (player[num].coins > 0) {
+                            io.of('/A'+idGame).to(player[num].socketId).emit('bank', {coins: player[num].coins});
 
-                        setTimeout(function(){
-
+                            socket.on('addToBank', (addToBank) => {
+                                console.log('add: '+addToBank + ' Coins');
+                                var nb = player[num].bank;
+                                player[num].bank = parseInt(addToBank) + nb;
+                                console.log('Bank: '+ player[num].bank);
+                                player[num].coins = player[num].coins - addToBank;
+                                endOfTurn();
+                            })
+                            
+                        }else{
+                            io.of('/A'+idGame).to(player[num].socketId).emit('noBank');
                             endOfTurn();
-                        }, 8000);
+                        }
 
                     }else if (player[num].position === BOXES.benefit[0] || player[num].position === BOXES.benefit[1]) {
                         console.log('benefit');

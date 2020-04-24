@@ -100,10 +100,6 @@ $( document ).ready(function() {
 
         $('#modal_bank').removeClass('hidden');
         $('#input_bank').attr('max', me.coins);
-
-        setTimeout(function(){
-            $('#modal_bank').addClass('hidden');
-        }, 8000);
     })
 
     $('#submit_bank').click( function() {
@@ -113,7 +109,9 @@ $( document ).ready(function() {
 
         $('#modal_bank').addClass('hidden');
     })
-
+    socket.on('noBank', (data) => { // Si compte à sec.
+        console.log("Tu ne peux pas placer d'argent en banque. T'as R...");
+    });
 
     // Anim.
     // ----
