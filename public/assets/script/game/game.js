@@ -259,7 +259,7 @@ $( document ).ready(function() {
         }
 
         $('#modal_noMoney').removeClass('hidden');
-        
+
         setTimeout( function() {
             $('#modal_noMoney').addClass('hidden');
         },3000);
@@ -274,6 +274,14 @@ $( document ).ready(function() {
         console.log(playerName +' a gagné: '+ card +' Coins');
     })
 
+
+
+    // End / Winner.
+    socket.on('endScreen', (winner) => {
+        $('#gameView').addClass('hidden');
+        $('#endView').removeClass('hidden');
+        $('#winner').text('Le gagnant est '+winner.username);
+    })
 
 
     // Gestion des erreurs.

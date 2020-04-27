@@ -133,11 +133,9 @@ module.exports = {
         ], function(userFound) {
             if (userFound) {
                 tok = jwtUtils.generateTokenForUser(userFound)
-                // res.header('Authorization', 'Bearer ' + tok);
 
                 cookies = new Cookies(req, res)
 
-                // Get a cookie
 
                 // Set the cookie to a value
                 cookies.set('Authorization', 'Bearer '+tok, { secure: false})
@@ -239,6 +237,42 @@ module.exports = {
         cookies.set('myId', '', { secure: false, httpOnly: false})
 
         res.json('Disconnected successfully');
-        // res.status(403).redirect('/login');
+    },
+
+    score: function (winner) {
+
+        asyncLib.waterfall([
+            function(done) {
+                models.User.findOne({
+                    attributes: ['id', 'score'],
+                    where: { id: winner.id }
+                }).then(function (userFound) {
+                    done(null, userFound);
+                })
+                .catch(function(err) {
+                    console.log('(500): unable to verify user');
+                });
+            },
+            function(userFound, done) {
+                if(userFound) {
+                    console.log(userFound);
+                    userFound.update({
+                        score: userFound.score+1
+                    }).then(function() {
+                        done(userFound);
+                    }).catch(function(err) {
+                        console.log('(500): impossible to increase the winner\'s score');
+                    });
+                } else {
+                    console.log('(404): user not found');
+                }
+            },
+        ], function(userFound) {
+            if (userFound) {
+                console.log('(201): Winner score++ 😍');
+            } else {
+                console.log('(500): cannot update user profile');
+            }
+        });
     }
 }

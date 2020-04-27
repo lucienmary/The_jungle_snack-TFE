@@ -5,6 +5,8 @@
     // Déroulement partie,
     // Fin de partie et retour salon.
 
+    var usersCtrl = require('./routes/usersCtrl');
+
 
 // Require.
 
@@ -12,8 +14,8 @@ module.exports = {
     gameSettings: (playerList, idGame, io, socket) => {
         var io = io;
 
-        const GAME_CONFIG = {coins: 50, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
-        const BANKGOALS = 100;
+        const GAME_CONFIG = {coins: 350, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
+        const BANKGOALS = 50;
         const BOARD = 20;
         const BOXES = {chance: [5, 10, 15, 20], money: [3, 8, 13, 18], resources: [1, 6, 11, 16], attack: [9, 19], bank: [7, 17], benefit: [2, 12], empty: [4, 14]};
         const RESOURCES = {bread: 1, meat: 6, salad: 11, sauce: 16};
@@ -34,7 +36,7 @@ module.exports = {
             element.color = GAME_CONFIG.color[j];
             element.bank = GAME_CONFIG.bank;
             element.position = GAME_CONFIG.position[j];
-            element.cards = {bread: false, meat: true, salad: false, sauce: true};
+            element.cards = {bread: true, meat: true, salad: true, sauce: true};
             element.chance = '';
             element.win = false;
             j++;
@@ -83,13 +85,22 @@ module.exports = {
                 return nb;
             }
             function win(num) {
-                if (player[num].cards.bread === true && player[num].cards.meat === true && player[num].cards.salad === true && player[num].cards.sauce === true && player[num].bank >= BANKGOALS) {
-                    console.log('win: true');
-                    return true;
+                if (player[num].cards.bread === true && player[num].cards.meat === true && player[num].cards.salad === true && player[num].cards.sauce === true) {
+                    if (player[num].bank >= BANKGOALS) {
+                        console.log('win: true');
+                        return true;
+                    }else {
+                        console.log('win: middle false');
+                        return false;
+                    }
                 }else{
                     console.log('win: false');
                     return false;
                 }
+            }
+            function endScreen(winner) {
+                io.of('/A'+idGame).emit('endScreen', winner);
+                usersCtrl.score(winner);
             }
 
             socket.on('goTurn', () => {
@@ -416,6 +427,8 @@ module.exports = {
                         player[num].win = win(num);
                         if (player[num].win === true) {
                             console.log('The winner is: '+player[num].username);
+
+                            endScreen(player[num]);
                         }
 
                         io.of('/A'+idGame).to(player[num].socketId).emit('down');
