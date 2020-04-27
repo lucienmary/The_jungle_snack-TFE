@@ -142,7 +142,9 @@ $( document ).ready(function() {
     })
 
     // Destroy.
-    socket.on('destroy', (data) => {
+    socket.on('destroy', (data, price, title) => {
+        $('#title_chanceDestroy').text(title);
+        $('#price_chanceDestroy').text(price);
         data.forEach(element => {
             if (element.id != myId) {
                 // if (element.cards.bread === true || element.cards.meat === true || element.cards.salad === true || element.cards.sauce === true) {
@@ -241,6 +243,20 @@ $( document ).ready(function() {
     socket.on('noBank', (data) => { // Si compte à sec.
         console.log("Tu ne peux pas placer d'argent en banque. T'as R...");
     });
+
+
+
+    socket.on('noMoney', (price) => {
+        $('#modal_noMoney').removeClass('hidden');
+        $('#text_noMoney').text("Tu n'as pas les "+ price +" Coins nécéssaire.");
+
+        setTimeout( function() {
+            $('#modal_noMoney').addClass('hidden');
+        },3000);
+    })
+
+
+
 
     // Anim.
     // ----

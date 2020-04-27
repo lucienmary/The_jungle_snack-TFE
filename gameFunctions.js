@@ -20,7 +20,6 @@ module.exports = {
         const RESOURCES_PRICE = 50;
         const MONEY = [50, 25, 15, 0, 100, 75, 50];
         const BENEFIT = 10; // En pourcent.
-
         const CHANCE = { giveForEveryone: [5, 15, 25], giveForOne: [30, 40, 50], getFromEveryone: [5, 15, 25], getFromOne: [30, 40, 50], makeLoseOrWin: [60, 40, 30]};
 
         var player = [];
@@ -134,16 +133,19 @@ module.exports = {
                     }
 
                     // Savoir sur quelle case on est.
+
+                    // Chance.
                     if (player[num].position === BOXES.chance[0] || player[num].position === BOXES.chance[1] || player[num].position === BOXES.chance[2] || player[num].position === BOXES.chance[3]) {
                         console.log('Chance');
 
-                        // var randomChance = Math.floor(Math.random() * Math.floor(5));
-                        var randomChance = 5;
+                        var randomChance = Math.floor(Math.random() * Math.floor(5));
                         var responseRandom;
 
                         switch (randomChance) {
                             case 0:
                                 responseRandom = CHANCE.giveForEveryone[Math.floor(Math.random() * Math.floor(2))];
+
+                                console.log('giveForEveryone');
 
                                 io.of('/A'+idGame).emit('chance_giveForEveryone', responseRandom);
 
@@ -158,6 +160,8 @@ module.exports = {
                             break;
                             case 1:
                                 responseRandom = CHANCE.giveForOne[Math.floor(Math.random() * Math.floor(2))];
+
+                                console.log('giveForOne');
 
                                 io.of('/A'+idGame).to(player[num].socketId).emit('modal_chance', player);
 
@@ -174,6 +178,8 @@ module.exports = {
                             case 2:
                                 responseRandom = CHANCE.getFromEveryone[Math.floor(Math.random() * Math.floor(2))];
 
+                                console.log('getFromEveryone');
+
                                 io.of('/A'+idGame).emit('chance_getFromEveryone', responseRandom);
 
                                 player.forEach(element => {
@@ -186,6 +192,8 @@ module.exports = {
                             break;
                             case 3:
                                 responseRandom = CHANCE.getFromOne[Math.floor(Math.random() * Math.floor(2))];
+
+                                console.log('getFromOne');
 
                                 io.of('/A'+idGame).to(player[num].socketId).emit('modal_chance', player);
 
@@ -201,6 +209,8 @@ module.exports = {
                             break;
                             case 4:
                                 responseRandom = CHANCE.makeLoseOrWin[Math.floor(Math.random() * Math.floor(2))];
+
+                                console.log(modal_makeLoseOrWin);
 
                                 io.of('/A'+idGame).to(player[num].socketId).emit('makeLoseOrWin', player);
 
@@ -219,7 +229,9 @@ module.exports = {
                                 // io.of('/A'+idGame).emit('anim_money', player[num].username, MONEY[randomPosition]);
                             break;
                             case 5:
-                                io.of('/A'+idGame).to(player[num].socketId).emit('destroy', player);
+                                io.of('/A'+idGame).to(player[num].socketId).emit('destroy', player, 0, 'Chance');
+
+                                console.log('Destroy');
 
                                 socket.on('destroyed', (data) => {
 
@@ -264,6 +276,8 @@ module.exports = {
                         }
                         console.log('Here | '+responseRandom);
 
+
+                    // Money.
                     }else if (player[num].position === BOXES.money[0] || player[num].position === BOXES.money[1] || player[num].position === BOXES.money[2] || player[num].position === BOXES.money[3]) {
                         console.log('Money');
                         var randomPosition = (Math.floor(Math.random() * MONEY.length));
@@ -278,6 +292,7 @@ module.exports = {
                         io.of('/A'+idGame).emit('anim_money', player[num].username, MONEY[randomPosition]);
                         endOfTurn();
 
+                    // Resources.
                     }else if (player[num].position === BOXES.resources[0] || player[num].position === BOXES.resources[1] || player[num].position === BOXES.resources[2] || player[num].position === BOXES.resources[3]) {
                         console.log('Resources');
 
@@ -312,10 +327,59 @@ module.exports = {
                         }
                         endOfTurn();
 
+                    // Attack.
                     }else if (player[num].position === BOXES.attack[0] || player[num].position === BOXES.attack[1]) {
                         console.log('Attack');
-                        endOfTurn();
 
+                        var price = 40;
+
+                        if (price <= player[num].coins) {
+                            io.of('/A'+idGame).to(player[num].socketId).emit('destroy', player, price, 'Attaque');
+
+                            socket.on('destroyed', (data) => {
+
+                                if (data !== false) {
+                                    var tab = data.split('-');
+
+                                    player[num].coins -= price;
+                                    player.forEach(element => {
+                                        if (element.id == tab[1]) {
+                                            switch (tab[0]) {
+                                                case 'bread':
+                                                    element.cards.bread = false;
+                                                    console.log(element);
+                                                break;
+                                                case 'meat':
+                                                    element.cards.meat = false;
+                                                    console.log(element);
+                                                break;
+                                                case 'salad':
+                                                    element.cards.salad = false;
+                                                    console.log(element);
+                                                break;
+                                                case 'sauce':
+                                                    element.cards.sauce = false;
+                                                    console.log(element);
+                                                break;
+                                                default:
+
+                                            }
+                                        }
+                                    });
+                                    console.log('Suppr '+tab[0]+' for '+tab[1]);
+
+                                    endOfTurn();
+                                }else{
+                                    endOfTurn();
+                                }
+                            })
+                        }else{
+                            io.of('/A'+idGame).to(player[num].socketId).emit('noMoney', price);
+
+                            endOfTurn();
+                        }
+
+                    // Bank.
                     }else if (player[num].position === BOXES.bank[0] || player[num].position === BOXES.bank[1]) {
                         console.log('bank');
 
@@ -336,14 +400,16 @@ module.exports = {
                             endOfTurn();
                         }
 
+                    // Benefits.
                     }else if (player[num].position === BOXES.benefit[0] || player[num].position === BOXES.benefit[1]) {
                         console.log('benefit');
 
                         player[num].coins = Math.floor(player[num].coins + (player[num].coins/100)*BENEFIT);
 
                         endOfTurn();
-                    }
-                    else if (player[num].position === BOXES.empty[0] || player[num].position === BOXES.empty[1]) {
+
+                    // Empty.
+                    }else if (player[num].position === BOXES.empty[0] || player[num].position === BOXES.empty[1]) {
                         console.log('Nothing');
                         endOfTurn();
                     }
