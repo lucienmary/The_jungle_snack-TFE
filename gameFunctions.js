@@ -82,21 +82,6 @@ module.exports = {
                 console.log('Dé: ' +nb);
                 return nb;
             }
-            async function bank() {
-                var goBank;
-                var nextStep = false;
-                socket.on('addToBank', (addToBank) => {
-                    goBank = addToBank;
-
-                    console.log('///1');
-                    nextStep = true;
-                })
-                if (nextStep === true) {
-                    console.log('///2');
-                    nextStep = false
-                    return goBank;
-                }
-            }
             function win(num) {
                 if (player[num].cards.bread === true && player[num].cards.meat === true && player[num].cards.salad === true && player[num].cards.sauce === true && player[num].bank >= BANKGOALS) {
                     console.log('win: true');
@@ -210,7 +195,7 @@ module.exports = {
                             case 4:
                                 responseRandom = CHANCE.makeLoseOrWin[Math.floor(Math.random() * Math.floor(2))];
 
-                                console.log(modal_makeLoseOrWin);
+                                console.log('modal_makeLoseOrWin');
 
                                 io.of('/A'+idGame).to(player[num].socketId).emit('makeLoseOrWin', player);
 
@@ -374,7 +359,7 @@ module.exports = {
                                 }
                             })
                         }else{
-                            io.of('/A'+idGame).to(player[num].socketId).emit('noMoney', price);
+                            io.of('/A'+idGame).to(player[num].socketId).emit('noMoney', 'attack', price);
 
                             endOfTurn();
                         }
@@ -388,15 +373,20 @@ module.exports = {
 
                             socket.on('addToBank', (addToBank) => {
                                 console.log('add: '+addToBank + ' Coins');
-                                var nb = player[num].bank;
-                                player[num].bank = parseInt(addToBank) + nb;
-                                console.log('Bank: '+ player[num].bank);
-                                player[num].coins = player[num].coins - addToBank;
-                                endOfTurn();
+                                if (addToBank <= player[num].coins) {
+                                    var nb = player[num].bank;
+                                    player[num].bank = parseInt(addToBank) + nb;
+                                    console.log('Bank: '+ player[num].bank);
+                                    player[num].coins = player[num].coins - addToBank;
+                                    endOfTurn();
+                                }else {
+                                    io.of('/A'+idGame).to(player[num].socketId).emit('noMoney', 'bank', addToBank);
+                                    endOfTurn();
+                                }
                             })
 
                         }else{
-                            io.of('/A'+idGame).to(player[num].socketId).emit('noBank');
+                            io.of('/A'+idGame).to(player[num].socketId).emit('noMoney', 'bank', 0);
                             endOfTurn();
                         }
 
@@ -415,6 +405,14 @@ module.exports = {
                     }
 
                     function endOfTurn() {
+
+                        //  Éviter le négatif.
+                        player.forEach(element => {
+                            if (element.coins < 0) {
+                                element.coins = 0;
+                            }
+                        })
+
                         player[num].win = win(num);
                         if (player[num].win === true) {
                             console.log('The winner is: '+player[num].username);

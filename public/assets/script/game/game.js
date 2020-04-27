@@ -246,10 +246,20 @@ $( document ).ready(function() {
 
 
 
-    socket.on('noMoney', (price) => {
-        $('#modal_noMoney').removeClass('hidden');
-        $('#text_noMoney').text("Tu n'as pas les "+ price +" Coins nécéssaire.");
+    socket.on('noMoney', (box, price) => {
 
+        if (box === 'attack') {
+
+            $('#title_noMoney').text("Tu es à sec!");
+            $('#text_noMoney').text("Tu n'as pas les "+ price +" Coins nécéssaire.");
+        }else if(box === 'bank'){
+
+            $('#title_noMoney').text("Tu ne peux pas placer autant!");
+            $('#text_noMoney').text("Tu n'as pas les "+ price +" Coins nécéssaire.");
+        }
+
+        $('#modal_noMoney').removeClass('hidden');
+        
         setTimeout( function() {
             $('#modal_noMoney').addClass('hidden');
         },3000);
