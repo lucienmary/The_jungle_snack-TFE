@@ -1,5 +1,6 @@
 body{
     background-color: #D6D1A4;
+    margin: 0;
 }
 
 nav{
@@ -109,4 +110,12 @@ h1{
     top: 20vh;
     background-color: white;
     padding: 20px;
+}
+p{
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%);
+    color: lightgrey;
+    z-index: 10;
 }

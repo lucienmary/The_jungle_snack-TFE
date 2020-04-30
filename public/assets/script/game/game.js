@@ -131,6 +131,7 @@ $( document ).ready(function() {
 
     socket.on('makeLoseOrWin', (data) => {
         $('#modal_makeLoseOrWin').removeClass('hidden');
+        $('#title_makeLoseOrWin').text('Faire perdre '+ data +' Coins à tes adversaires ou les empocher?');
     })
     $('#lose').click( function() {
         socket.emit('lose-win', 'lose');
@@ -231,6 +232,7 @@ $( document ).ready(function() {
 
         $('#modal_bank').removeClass('hidden');
         $('#input_bank').attr('max', me.coins);
+        $('#input_bank').val(0);
     })
 
     $('#submit_bank').click( function() {
