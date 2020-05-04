@@ -57,6 +57,8 @@ module.exports = {
                 socket.emit('errorSocketIo', 410);
             }
 
+            io.of('/A'+idGame).to(socket.id).emit('view');
+
             // Envoi liste de joueur à chaque connexion/modif.
             io.of('/A'+idGame).to(socket.id).emit('player', player);
 

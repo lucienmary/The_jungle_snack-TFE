@@ -1,4 +1,5 @@
 // JS link partie.html
+
 $( document ).ready(function() {
 
     var location = window.location;
@@ -30,25 +31,25 @@ $( document ).ready(function() {
                 me = player[i];
             }
 
-            $('#playerList').append(`
-                <li class="clearfix list-player__el infos-player `+ classMyPosition +`">
-                    <img src="../assets/images/_`+ player[i].img +`.png" alt="Photo player">
-                    <div class="player">
-                        <p class="player-pseudo player-`+player[i].color+`">`+ player[i].username +`</p>
-                        <p><span id="coins_`+player[i].id+`">`+player[i].coins+`</span> 💰</p>
-                        <p><span id="bank_`+player[i].id+`">`+player[i].bank+`</span> 🏦</p>
-                        <p id="position_`+player[i].id+`">Position: `+player[i].position+`</p>
-                        <p id="chance_`+player[i].id+`">`+player[i].chance+`</p>
-
-                        <ul class="resources">
-                            <li>Bread: `+player[i].cards.bread+`</li>
-                            <li>Meat: `+player[i].cards.meat+`</li>
-                            <li>Salad: `+player[i].cards.salad+`</li>
-                            <li>Sauce: `+player[i].cards.sauce+`</li>
-                        </ul>
-                    </div>
-                </li>
-            `);
+            // $('#playerList').append(`
+            //     <li class="clearfix list-player__el infos-player `+ classMyPosition +`">
+            //         <img src="../assets/images/_`+ player[i].img +`.png" alt="Photo player">
+            //         <div class="player">
+            //             <p class="player-pseudo player-`+player[i].color+`">`+ player[i].username +`</p>
+            //             <p><span id="coins_`+player[i].id+`">`+player[i].coins+`</span> 💰</p>
+            //             <p><span id="bank_`+player[i].id+`">`+player[i].bank+`</span> 🏦</p>
+            //             <p id="position_`+player[i].id+`">Position: `+player[i].position+`</p>
+            //             <p id="chance_`+player[i].id+`">`+player[i].chance+`</p>
+            //
+            //             <ul class="resources">
+            //                 <li>Bread: `+player[i].cards.bread+`</li>
+            //                 <li>Meat: `+player[i].cards.meat+`</li>
+            //                 <li>Salad: `+player[i].cards.salad+`</li>
+            //                 <li>Sauce: `+player[i].cards.sauce+`</li>
+            //             </ul>
+            //         </div>
+            //     </li>
+            // `);
         }
     });
 

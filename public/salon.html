@@ -21,6 +21,7 @@
 
             <nav>
                 <ul>
+                    <li><a href="profil">🥺</a></li>
                     <li><a href="/">🏠</a></li>
                     <li><a id="disconnect" href="#">🔓</a></li>
                 </ul>
@@ -28,24 +29,24 @@
         </header>
 
         <section>
+
+            <label for="img">Pion:</label>
+            <select name="pion">
+                <!-- <option value="img-00">Super admin!</option> -->
+                <option value="pion-flamant">Flamant rose</option>
+                <option value="pion-renard">Renard</option>
+                <option value="pion-tortue">Tortue</option>
+            </select>
+
             <div class="">
                 <ul>
                     <li><a href="#">Jouer avec des amis (Coming soon)</a></li>
-                    <li><a href="profil">Modifier le profil</a></li>
                     <li><a href="settings">Paramètres</a></li>
                 </ul>
             </div>
 
             <div class="clear">
-                <ul id="playerList" class="list-player">
-                    <!-- <li class="clearfix list-player__el infos-player">
-                        <img id="img-03" src="../assets/images/empty-profile.png" alt="Photo player">
-                        <div class="player">
-                            <p id="pseudo-03" class="player-pseudo">Pseudo</p>
-                            <p id="score-03">Score</p>
-                        </div>
-                    </li> -->
-                </ul>
+                <ul id="playerList" class="list-player"></ul>
                 <p class="clear ready"><a id="join" href="#">Entrer</a></p>
                 <p><span id="timerForStart">20</span>s</p>
             </div>

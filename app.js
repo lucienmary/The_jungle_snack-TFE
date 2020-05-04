@@ -5,6 +5,8 @@ var path = require('path');
 var apiRouter = require('./apiRouter').router;
 var gameCtrl = require('./routes/gameCtrl');
 
+var NB_TO_START = 2;
+
 var idGame = 0;
 
 // Instantiate server
@@ -103,7 +105,7 @@ io.on('connect', (socket) => {
 
         }
 
-        if (playerList.length === 2) {
+        if (playerList.length === NB_TO_START) {
             startTimer(true);
         }
     })
@@ -120,7 +122,7 @@ io.on('connect', (socket) => {
             socket.emit('errorSocketIo', 500);
         }
 
-        if (playerList.length < 2) {
+        if (playerList.length < NB_TO_START) {
             startTimer(false);
         }
     })
