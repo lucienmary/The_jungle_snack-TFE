@@ -95,9 +95,11 @@ var profileLocal;
                 $('#playerList').append(`
                     <li class="clearfix list-player__el infos-player `+ classMyPosition +`">
                         <img src="../assets/images/_`+ playerList[i].img +`.png" alt="Photo player">
+
                         <div class="player">
                             <p class="player-pseudo">`+ playerList[i].username +`</p>
                             <p>`+ playerList[i].score +`</p>
+                            <p>Flamant<p>
                         </div>
                     </li>
                 `);

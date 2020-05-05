@@ -15,6 +15,7 @@ $( document ).ready(function() {
     const HUNIT = 80*SCALE;
     const FONT_RIGHT = {fontFamily: 'Arial', fontSize: 28, align: 'right'};
     const FONT_LEFT = {fontFamily: 'Arial', fontSize: 28, align: 'left'};
+    const FONT_MONEY = {fontFamily: 'Arial', fontSize: 24, align: 'left'};
 
     var config = {
             type: Phaser.AUTO,
@@ -52,11 +53,37 @@ $( document ).ready(function() {
         this.load.image('img-02', '../assets/images/_img-02_x90.png');
         this.load.image('img-03', '../assets/images/_img-03_x90.png');
         this.load.image('img-04', '../assets/images/_img-04_x90.png');
+
+
+        // Modal.
+        this.load.image('modal', '../assets/images/modal_01.png');
+
+        this.load.image('btn_blue', '../assets/images/btn_blue.png');
+        this.load.image('btn_red', '../assets/images/btn_red.png');
+        this.load.image('btn_green', '../assets/images/btn_green.png');
+        this.load.image('btn_yellow', '../assets/images/btn_yellow.png');
     }
 
     function create (){
+
+        // connection settings.
         this.socket = io.connect('/A'+idGame[1]);
 
+        var myId = $.cookie("myId");
+        var me;
+
+        this.socket.emit('fine', function (result) {
+            console.info("%c"+result.msg+" 🥰", "color: lightgreen");
+        });
+
+        this.socket.on('recupId', (player) => {
+            this.socket.emit('idSocket', myId, this.socket.id);
+        })
+
+
+        // ---------
+        //   BOXES
+        // ---------
 
         // Haut.
         var box11 = this.add.image(width/2, (height/2)-HUNIT*5, 'resources');
@@ -128,68 +155,317 @@ $( document ).ready(function() {
 
 
 
-        // Autres.
-        var cadre_bd = this.add.image(width-(500/2)*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre').setScale(SCALE_TEXT);
-
-        this.add.image(width-200, height-32, 'block').setScale(SCALE_TEXT);
-        this.bgCards.bread = this.add.image(width-43, height-200, 'position_cards').setScale(0.64);
-        this.bgCards.meat = this.add.image(width-119, height-200, 'position_cards').setScale(0.64);
-        this.bgCards.salad = this.add.image(width-195, height-200, 'position_cards').setScale(0.64);
-        this.bgCards.sauce = this.add.image(width-271, height-200, 'position_cards').setScale(0.64);
 
 
-        var cadre_hg = this.add.image(500/2*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre').setScale(SCALE_TEXT).setRotation(3.14);
 
-        this.add.image(200, 75, 'block').setScale(SCALE_TEXT);
-        this.hgCards.bread = this.add.image(width-43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-        this.hgCards.meat = this.add.image(width-119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-        this.hgCards.salad = this.add.image(width-195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-        this.hgCards.sauce = this.add.image(width-271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+        // --------------------
+        //Config. infos player.
+        // --------------------
 
-
-        var cadre_bg = this.add.image(500/2*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre02').setScale(SCALE_TEXT);
-
-        this.add.image(200, height-32, 'block').setScale(SCALE_TEXT);
-        this.bgCards.bread = this.add.image(43, height-200, 'position_cards').setScale(0.64);
-        this.bgCards.meat = this.add.image(119, height-200, 'position_cards').setScale(0.64);
-        this.bgCards.salad = this.add.image(195, height-200, 'position_cards').setScale(0.64);
-        this.bgCards.sauce = this.add.image(271, height-200, 'position_cards').setScale(0.64);
-
-
-        var cadre_hd = this.add.image(width-(500/2)*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre02').setScale(SCALE_TEXT).setRotation(3.14);
-
-        this.add.image(width-200, 75, 'block').setScale(SCALE_TEXT);
-        this.hdCards.bread = this.add.image(43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-        this.hdCards.meat = this.add.image(119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-        this.hdCards.salad = this.add.image(195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-        this.hdCards.sauce = this.add.image(271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-
+        this.bd = [];
+        this.bg = [];
+        this.hg = [];
+        this.hd = [];
 
 
         this.socket.on('player', (player) => {
-            console.log('Ok!');
 
-            this.text_bd = this.add.text(width-270, height-100, player[0].username, FONT_RIGHT);
-            this.img_bd = this.add.image(width-60, height-55, player[0].img);
+            for (var i = 0; i < player.length; i++) {
+                if (player[i].id == myId) {
+                    this.me = player[i];
+                }
+            }
 
-            this.text_bg = this.add.text(140, height-100, player[1].username, FONT_LEFT);
-            this.img_bg = this.add.image(60, height-55, player[1].img);
+            // BD player.
+            var cadre_bd = this.add.image(width-(500/2)*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre').setScale(SCALE_TEXT);
+            var block_bd = this.add.image(width-200, height-32, 'block').setScale(SCALE_TEXT);
+            this.bd.bread = this.add.image(width-43, height-200, 'position_cards').setScale(0.64);
+            this.bd.meat = this.add.image(width-119, height-200, 'position_cards').setScale(0.64);
+            this.bd.salad = this.add.image(width-195, height-200, 'position_cards').setScale(0.64);
+            this.bd.sauce = this.add.image(width-271, height-200, 'position_cards').setScale(0.64);
+
+            this.bd.username = this.add.text(width-270, height-100, player[0].username, FONT_RIGHT);
+            this.bd.coins = this.add.text(width-265, height-45, player[0].coins+' 💰', FONT_MONEY);
+            this.bd.bank = this.add.text(width-185, height-45, player[0].bank+ ' 🏦', FONT_MONEY);
+            this.bd.img = this.add.image(width-60, height-55, player[0].img);
+
+            // BG player.
+            var cadre_bg = this.add.image(500/2*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre02').setScale(SCALE_TEXT);
+            var block_bg = this.add.image(200, height-32, 'block').setScale(SCALE_TEXT);
+            this.bg.bread = this.add.image(43, height-200, 'position_cards').setScale(0.64);
+            this.bg.meat = this.add.image(119, height-200, 'position_cards').setScale(0.64);
+            this.bg.salad = this.add.image(195, height-200, 'position_cards').setScale(0.64);
+            this.bg.sauce = this.add.image(271, height-200, 'position_cards').setScale(0.64);
+
+            this.bg.username = this.add.text(140, height-100, player[1].username, FONT_LEFT);
+            this.bg.bank = this.add.text(215, height-45, player[1].bank+ ' 🏦', FONT_MONEY);
+            this.bg.coins = this.add.text(135, height-45, player[1].coins+' 💰', FONT_MONEY);
+            this.bg.img = this.add.image(60, height-55, player[1].img);
 
             switch (player.length) {
+                case 2:
+                    console.log('🟢 '+player.length+' joueurs connectés/affiché');
+                break;
+
                 case 3:
-                    this.text_hg = this.add.text(140, 20, player[2].username, FONT_LEFT);
-                    this.img_hg = this.add.image(60, 20, player[2].img);
+                    var cadre_hg = this.add.image(500/2*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre').setScale(SCALE_TEXT).setRotation(3.14);
+
+                    this.hg.bread = this.add.image(43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                    this.hg.meat = this.add.image(119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                    this.hg.salad = this.add.image(195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                    this.hg.sauce = this.add.image(271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+
+                    var block_hg = this.add.image(200, 75, 'block').setScale(SCALE_TEXT);
+                    this.hg.username = this.add.text(140, 10, player[2].username, FONT_LEFT);
+                    this.hg.bank = this.add.text(215, 45, player[2].bank+ ' 🏦', FONT_MONEY);
+                    this.hg.coins = this.add.text(135, 45, player[2].coins+' 💰', FONT_MONEY);
+                    this.hg.img = this.add.image(60, 55, player[2].img);
+                    console.log('🟢 '+player.length+' joueurs connectés/affichés');
                 break;
 
                 case 4:
-                    this.text_hg = this.add.text(140, 20, player[2].username, FONT_LEFT);
-                    this.text_hd = this.add.text(width-260, 20, player[3].username, FONT_RIGHT);
-                    this.img_hd = this.add.image(width-60, 20, player[3].img);
+                    // HG Player.
+                    this.hg.bread = this.add.image(43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                    this.hg.meat = this.add.image(119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                    this.hg.salad = this.add.image(195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                    this.hg.sauce = this.add.image(271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+
+                    var cadre_hg = this.add.image(500/2*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre').setScale(SCALE_TEXT).setRotation(3.14);
+                    this.add.image(200, 75, 'block').setScale(SCALE_TEXT);
+                    this.hg.username = this.add.text(140, 10, player[2].username, FONT_LEFT);
+                    this.hg.bank = this.add.text(215, 45, player[2].bank+ ' 🏦', FONT_MONEY);
+                    this.hg.coins = this.add.text(135, 45, player[2].coins+' 💰', FONT_MONEY);
+                    this.hg.img = this.add.image(60, 55, player[2].img);
+
+                    // HD Player.
+                    var cadre_hd = this.add.image(width-(500/2)*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre02').setScale(SCALE_TEXT).setRotation(3.14);
+                    this.add.image(width-200, 75, 'block').setScale(SCALE_TEXT);
+                    this.hd.bread = this.add.image(width-43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                    this.hd.meat = this.add.image(width-119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                    this.hd.salad = this.add.image(width-195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                    this.hd.sauce = this.add.image(width-271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+
+                    this.hd.username = this.add.text(width-260, 10, player[3].username, FONT_RIGHT);
+                    this.hd.bank = this.add.text(width-215, 45, player[3].bank+ ' 🏦', FONT_MONEY);
+                    this.hd.coins = this.add.text(width-135, 45, player[3].coins+' 💰', FONT_MONEY);
+                    this.hd.img = this.add.image(width-60, 55, player[3].img);
+
+                    console.log('🟢 '+player.length+' joueurs connectés/affichés');
                 break;
 
-                default:
-
+            default:
+                console.error('Erreur de chargement des joueurs');
             }
         })
+
+
+        // Tour de jeu et dé.
+        this.thimbleButton = this.add.text(width/2-100, height-100, '////// 🎲 //////', { fill: '#f0f' }).setInteractive();
+        this.thimbleButton.visible = false;
+
+        this.socket.on('play', () => {
+            console.log('Play');
+            this.socket.emit('goTurn');
+        })
+
+        this.socket.on('yourTurn', (pop) => {
+            var thimbleView = this.thimbleButton;
+
+            setTimeout(function(){ // Pour éviter adversaire déco.
+                thimbleView.visible = true;
+            }, 1000);
+        })
+
+        this.thimbleButton.on('pointerdown', () => {
+            this.socket.emit('thimble', true);
+            this.thimbleButton.visible = false;
+        });
+
+        this.socket.on('responseThimble', (responseThimble) => {
+            console.log(responseThimble);
+        })
+
+        this.socket.on('down', () => {
+            this.socket.close()
+            this.socket.open()
+            // socket.reload()
+        })
+
+
+        // Modal.
+        // Chance.
+
+        this.modal = this.add.image(width/2, height/2, 'modal').setDepth(0);
+        this.modal.visible = false;
+
+        this.title = this.add.text(width/2-160, height/2-150, 'Chance', FONT_LEFT);
+        this.text = this.add.text(width/2-160, height/2-50, 'text', FONT_LEFT);
+
+        this.title.visible = false;
+        this.text.visible = false;
+
+        this.btn = [];
+
+        this.btn.red = this.add.image(width/2-120, height/2+50, 'btn_red').setInteractive().setDepth(1);
+        this.btn.redText = this.add.text(width/2-160, height/2+34, 'Bouton', FONT_LEFT).setDepth(1);
+
+        this.btn.green = this.add.image(width/2-120, height/2+120, 'btn_green').setInteractive().setDepth(1);
+        this.btn.greenText = this.add.text(width/2-160, height/2+104, 'Bouton', FONT_LEFT).setDepth(1);
+
+        this.btn.blue = this.add.image(width/2+120, height/2+50, 'btn_blue').setInteractive().setDepth(1);
+        this.btn.blueText = this.add.text(width/2+80, height/2+34, 'Bouton', FONT_LEFT).setDepth(1);
+
+        this.btn.yellow = this.add.image(width/2+120, height/2+120, 'btn_yellow').setInteractive().setDepth(1);
+        this.btn.yellowText = this.add.text(width/2+80, height/2+104, 'Bouton', FONT_LEFT).setDepth(1);
+
+        this.btn.red.visible = false;
+        this.btn.redText.visible = false;
+
+        this.btn.green.visible = false;
+        this.btn.greenText.visible = false;
+
+        this.btn.blue.visible = false;
+        this.btn.blueText.visible = false;
+
+        this.btn.yellow.visible = false;
+        this.btn.yellowText.visible = false;
+
+
+        this.socket.on('modal_chance', (data, text) => {
+
+            this.modal.visible = true;
+            this.title.visible = true;
+            this.text.visible = true;
+            this.text.setText(text);
+
+            var i = 0;
+
+            data.forEach(element => {
+                if (element.id != myId) {
+                    switch (element.color) {
+                        case 'red':
+                            this.btn.red.visible = true;
+                            this.btn.redText.visible = true;
+                            this.btn.redText.setText(element.username);
+                            this.btn.redNum = i;
+
+                            break;
+                        case 'green':
+                            this.btn.green.visible = true;
+                            this.btn.greenText.visible = true;
+                            this.btn.greenText.setText(element.username);
+                            this.btn.greenNum = i;
+                            break;
+                        case 'blue':
+                            this.btn.blue.visible = true;
+                            this.btn.blueText.visible = true;
+                            this.btn.blueText.setText(element.username);
+                            this.btn.blueNum = i;
+                            break;
+                        case 'yellow':
+                            this.btn.yellow.visible = true;
+                            this.btn.yellowText.visible = true;
+                            this.btn.yellowText.setText(element.username);
+                            this.btn.yellowNum = i;
+                            break;
+                        default:
+                        console.error('Error: chance button.');
+                    }
+                    // this.btn = this.add.image(width/2-200+i*200, height/2+50, 'btn_'+element.color);
+                    // this.btn01.visible = true;
+                    // this.btn01.setText(element.username);
+
+                    // this.btn01 = this.add.text(width/2-250+i*200, height/2+35, element.username, FONT_LEFT);
+                }
+                i++;
+            })
+        })
+
+
+        this.btn.red.on('pointerdown', () => {
+            this.socket.emit('choice_chance', this.btn.redNum);
+            console.log(this.btn.redNum);
+            this.modal.visible = false;
+            this.title.visible = false;
+            this.text.visible = false;
+
+            this.btn.red.visible = false;
+            this.btn.redText.visible = false;
+
+            this.btn.green.visible = false;
+            this.btn.greenText.visible = false;
+
+            this.btn.blue.visible = false;
+            this.btn.blueText.visible = false;
+
+            this.btn.yellow.visible = false;
+            this.btn.yellowText.visible = false;
+        });
+
+        this.btn.green.on('pointerdown', () => {
+            this.socket.emit('choice_chance', this.btn.greenNum);
+            console.log(this.btn.greenNum);
+            this.modal.visible = false;
+            this.title.visible = false;
+            this.text.visible = false;
+
+            this.btn.red.visible = false;
+            this.btn.redText.visible = false;
+
+            this.btn.green.visible = false;
+            this.btn.greenText.visible = false;
+
+            this.btn.blue.visible = false;
+            this.btn.blueText.visible = false;
+
+            this.btn.yellow.visible = false;
+            this.btn.yellowText.visible = false;
+        });
+
+        this.btn.blue.on('pointerdown', () => {
+            this.socket.emit('choice_chance', this.btn.blueNum);
+            console.log(this.btn.blueNum);
+            this.modal.visible = false;
+            this.title.visible = false;
+            this.text.visible = false;
+
+            this.btn.red.visible = false;
+            this.btn.redText.visible = false;
+
+            this.btn.green.visible = false;
+            this.btn.greenText.visible = false;
+
+            this.btn.blue.visible = false;
+            this.btn.blueText.visible = false;
+
+            this.btn.yellow.visible = false;
+            this.btn.yellowText.visible = false;
+        });
+
+        this.btn.yellow.on('pointerdown', () => {
+            this.socket.emit('choice_chance', this.btn.yellowNum);
+            this.modal.visible = false;
+            this.title.visible = false;
+            this.text.visible = false;
+
+            this.btn.red.visible = false;
+            this.btn.redText.visible = false;
+
+            this.btn.green.visible = false;
+            this.btn.greenText.visible = false;
+
+            this.btn.blue.visible = false;
+            this.btn.blueText.visible = false;
+
+            this.btn.yellow.visible = false;
+            this.btn.yellowText.visible = false;
+        });
+
+    } // Fin Create.
+
+
+    function mask(){
+
     }
+
 });

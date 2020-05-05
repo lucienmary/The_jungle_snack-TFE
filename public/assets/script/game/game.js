@@ -10,14 +10,14 @@ $( document ).ready(function() {
     var myId = $.cookie("myId");
     var me;
 
-    socket.emit('fine', function (result) {
-        console.info("%c"+result.msg+" 👍", "color: lightgreen");
-    });
+    // socket.emit('fine', function (result) {
+    //     console.info("%c"+result.msg+" 👍", "color: lightgreen");
+    // });
 
 
-    socket.on('recupId', (player) => {
-        socket.emit('idSocket', myId, socket.id);
-    })
+    // socket.on('recupId', (player) => {
+    //     socket.emit('idSocket', myId, socket.id);
+    // })
 
     socket.on('player', (player) => {
 
@@ -61,73 +61,75 @@ $( document ).ready(function() {
     // ---------------
 
     // Appelée qd mon tour de jouer.
-    socket.on('play', () => {
-        socket.emit('goTurn');
-    })
+    // socket.on('play', () => {
+    //     console.log('PPPPPLAY');
+    //     socket.emit('goTurn');
+    // })
 
     // Appelée qd fin de mon tour pour reload client (éviter de relancer play plusieurs fois).
-    socket.on('down', () => {
-        socket.close()
-        socket.open()
-        // socket.reload()
-    })
+    // socket.on('down', () => {
+    //     socket.close()
+    //     socket.open()
+    //     // socket.reload()
+    // })
 
 
 
     // Dé.
     // --
-    socket.on('yourTurn', (pop) => {
-        setTimeout(function(){ // Pour éviter adversaire déco.
-            $('#thimble').prop('disabled', false);
-        }, 1000);
-    })
+    // socket.on('yourTurn', (pop) => {
+    //     console.log('trest');
+    //     setTimeout(function(){ // Pour éviter adversaire déco.
+    //         $('#thimble').prop('disabled', false);
+    //     }, 1000);
+    // })
 
-    $('#thimble').click( function() {
-        socket.emit('thimble', true);
-        $('#thimble').prop('disabled', true);
-    })
+    // $('#thimble').click( function() {
+    //     socket.emit('thimble', true);
+    //     $('#thimble').prop('disabled', true);
+    // })
 
     // Afficher dé de tout les joueurs.
-    socket.on('responseThimble', (responseThimble) => {
-        console.log(responseThimble);
-    })
+    // socket.on('responseThimble', (responseThimble) => {
+    //     console.log(responseThimble);
+    // })
 
 
     // Chance.
     // ------
-    socket.on('modal_chance', (data) => {
-        var i = 0;
-        data.forEach(element => {
-            if (element.id != myId) {
-                $('#modal_chance_ul').append(`
-                    <li>
-                        <img src="../assets/images/_`+element.img+`.png">
-                        <button id="num-`+i+`">`+element.username+`</button>
-                    </li>
-                `)
-            }
-            i++;
-        })
-
-        $('#num-0').click( function() {
-            socket.emit('choice_chance', 0);
-            restartChance();
-        })
-        $('#num-1').click( function() {
-            socket.emit('choice_chance', 1);
-            restartChance();
-        })
-        $('#num-2').click( function() {
-            socket.emit('choice_chance', 2);
-            restartChance();
-        })
-        $('#num-3').click( function() {
-            socket.emit('choice_chance', 3);
-            restartChance();
-        })
-
-        $('#modal_chance').removeClass('hidden');
-    })
+    // socket.on('modal_chance', (data) => {
+    //     var i = 0;
+    //     data.forEach(element => {
+    //         if (element.id != myId) {
+    //             $('#modal_chance_ul').append(`
+    //                 <li>
+    //                     <img src="../assets/images/_`+element.img+`.png">
+    //                     <button id="num-`+i+`">`+element.username+`</button>
+    //                 </li>
+    //             `)
+    //         }
+    //         i++;
+    //     })
+    //
+    //     $('#num-0').click( function() {
+    //         socket.emit('choice_chance', 0);
+    //         restartChance();
+    //     })
+    //     $('#num-1').click( function() {
+    //         socket.emit('choice_chance', 1);
+    //         restartChance();
+    //     })
+    //     $('#num-2').click( function() {
+    //         socket.emit('choice_chance', 2);
+    //         restartChance();
+    //     })
+    //     $('#num-3').click( function() {
+    //         socket.emit('choice_chance', 3);
+    //         restartChance();
+    //     })
+    //
+    //     $('#modal_chance').removeClass('hidden');
+    // })
 
 
     socket.on('makeLoseOrWin', (data) => {
