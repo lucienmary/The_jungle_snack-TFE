@@ -66,6 +66,13 @@ $( document ).ready(function() {
 
     function create (){
 
+        // this.nb = 0;
+        this.bd = [];
+        this.bg = [];
+        this.hg = [];
+        this.hd = [];
+        // var initialized = false;
+
         // connection settings.
         this.socket = io.connect('/A'+idGame[1]);
 
@@ -74,10 +81,63 @@ $( document ).ready(function() {
 
         this.socket.emit('fine', function (result) {
             console.info("%c"+result.msg+" 🥰", "color: lightgreen");
+            // console.info("%c"+result.nb, "color: red");
         });
 
         this.socket.on('recupId', (player) => {
             this.socket.emit('idSocket', myId, this.socket.id);
+        })
+
+
+        // Affichage des joueurs + infos joueurs.
+        this.socket.on('view', (playerForStart) => {
+            this.bd.bread = this.add.image(width-43, height-200, 'position_cards').setScale(0.64);
+            this.bd.meat = this.add.image(width-119, height-200, 'position_cards').setScale(0.64);
+            this.bd.salad = this.add.image(width-195, height-200, 'position_cards').setScale(0.64);
+            this.bd.sauce = this.add.image(width-271, height-200, 'position_cards').setScale(0.64);
+            this.add.image(width-(500/2)*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre').setScale(SCALE_TEXT);
+            this.add.image(width-200, height-32, 'block').setScale(SCALE_TEXT);
+            this.bd.username = this.add.text(width-270, height-100, playerForStart[0].username, FONT_RIGHT);
+            this.bd.img = this.add.image(width-60, height-55, playerForStart[0].img);
+            this.bd.coins = this.add.text(width-265, height-45, playerForStart[0].coins, FONT_MONEY);
+            this.bd.bank = this.add.text(width-185, height-45, playerForStart[0].bank, FONT_MONEY);
+
+            this.bg.bread = this.add.image(43, height-200, 'position_cards').setScale(0.64);
+            this.bg.meat = this.add.image(119, height-200, 'position_cards').setScale(0.64);
+            this.bg.salad = this.add.image(195, height-200, 'position_cards').setScale(0.64);
+            this.bg.sauce = this.add.image(271, height-200, 'position_cards').setScale(0.64);
+            this.add.image(500/2*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre02').setScale(SCALE_TEXT);
+            this.add.image(200, height-32, 'block').setScale(SCALE_TEXT);
+            this.bg.username = this.add.text(140, height-100, playerForStart[1].username, FONT_LEFT);
+            this.bg.img = this.add.image(60, height-55, playerForStart[1].img);
+            this.bg.bank = this.add.text(215, height-45, playerForStart[1].bank, FONT_MONEY);
+            this.bg.coins = this.add.text(135, height-45, playerForStart[1].coins, FONT_MONEY);
+
+            if (playerForStart.length > 2) {
+                this.hg.bread = this.add.image(43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                this.hg.meat = this.add.image(119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                this.hg.salad = this.add.image(195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                this.hg.sauce = this.add.image(271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                this.add.image(500/2*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre').setScale(SCALE_TEXT).setRotation(3.14);
+                this.add.image(200, 75, 'block').setScale(SCALE_TEXT);
+                this.hg.username = this.add.text(140, 10, playerForStart[2].username, FONT_LEFT);
+                this.hg.img = this.add.image(60, 55, playerForStart[2].img);
+                this.hg.bank = this.add.text(215, 45, playerForStart[2].bank, FONT_MONEY);
+                this.hg.coins = this.add.text(135, 45, playerForStart[2].coins, FONT_MONEY);
+            }
+
+            if (playerForStart.length > 3) {
+                this.hd.bread = this.add.image(width-43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                this.hd.meat = this.add.image(width-119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                this.hd.salad = this.add.image(width-195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                this.hd.sauce = this.add.image(width-271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
+                this.add.image(width-(500/2)*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre02').setScale(SCALE_TEXT).setRotation(3.14);
+                this.add.image(width-200, 75, 'block').setScale(SCALE_TEXT);
+                this.hd.username = this.add.text(width-260, 10, playerForStart[3].username, FONT_RIGHT);
+                this.hd.img = this.add.image(width-60, 55, playerForStart[3].img);
+                this.hd.bank = this.add.text( width-135, 45, playerForStart[3].bank, FONT_MONEY);
+                this.hd.coins = this.add.text(width-215, 45, playerForStart[3].coins, FONT_MONEY);
+            }
         })
 
 
@@ -155,108 +215,30 @@ $( document ).ready(function() {
 
 
 
-
-
-
         // --------------------
         //Config. infos player.
         // --------------------
 
-        this.bd = [];
-        this.bg = [];
-        this.hg = [];
-        this.hd = [];
-
-
         this.socket.on('player', (player) => {
 
-            for (var i = 0; i < player.length; i++) {
-                if (player[i].id == myId) {
-                    this.me = player[i];
+            if (this.bd.bank) { // If this.bd.bank existe, la vue à été initialisée (dans view, plus haut).
+                this.bd.bank.setText(player[0].bank);
+                this.bd.coins.setText(player[0].coins);
+
+                this.bg.bank.setText(player[1].bank);
+                this.bg.coins.setText(player[1].coins);
+
+                if (player.length > 2) {
+                    this.hg.bank.setText(player[2].bank);
+                    this.hg.coins.setText(player[2].coins);
+                }
+
+                if (player.length > 3) {
+                    this.hd.bank.setText(player[3].bank);
+                    this.hd.coins.setText(player[3].coins);
                 }
             }
-
-            // BD player.
-            var cadre_bd = this.add.image(width-(500/2)*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre').setScale(SCALE_TEXT);
-            var block_bd = this.add.image(width-200, height-32, 'block').setScale(SCALE_TEXT);
-            this.bd.bread = this.add.image(width-43, height-200, 'position_cards').setScale(0.64);
-            this.bd.meat = this.add.image(width-119, height-200, 'position_cards').setScale(0.64);
-            this.bd.salad = this.add.image(width-195, height-200, 'position_cards').setScale(0.64);
-            this.bd.sauce = this.add.image(width-271, height-200, 'position_cards').setScale(0.64);
-
-            this.bd.username = this.add.text(width-270, height-100, player[0].username, FONT_RIGHT);
-            this.bd.coins = this.add.text(width-265, height-45, player[0].coins+' 💰', FONT_MONEY);
-            this.bd.bank = this.add.text(width-185, height-45, player[0].bank+ ' 🏦', FONT_MONEY);
-            this.bd.img = this.add.image(width-60, height-55, player[0].img);
-
-            // BG player.
-            var cadre_bg = this.add.image(500/2*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre02').setScale(SCALE_TEXT);
-            var block_bg = this.add.image(200, height-32, 'block').setScale(SCALE_TEXT);
-            this.bg.bread = this.add.image(43, height-200, 'position_cards').setScale(0.64);
-            this.bg.meat = this.add.image(119, height-200, 'position_cards').setScale(0.64);
-            this.bg.salad = this.add.image(195, height-200, 'position_cards').setScale(0.64);
-            this.bg.sauce = this.add.image(271, height-200, 'position_cards').setScale(0.64);
-
-            this.bg.username = this.add.text(140, height-100, player[1].username, FONT_LEFT);
-            this.bg.bank = this.add.text(215, height-45, player[1].bank+ ' 🏦', FONT_MONEY);
-            this.bg.coins = this.add.text(135, height-45, player[1].coins+' 💰', FONT_MONEY);
-            this.bg.img = this.add.image(60, height-55, player[1].img);
-
-            switch (player.length) {
-                case 2:
-                    console.log('🟢 '+player.length+' joueurs connectés/affiché');
-                break;
-
-                case 3:
-                    var cadre_hg = this.add.image(500/2*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre').setScale(SCALE_TEXT).setRotation(3.14);
-
-                    this.hg.bread = this.add.image(43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                    this.hg.meat = this.add.image(119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                    this.hg.salad = this.add.image(195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                    this.hg.sauce = this.add.image(271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-
-                    var block_hg = this.add.image(200, 75, 'block').setScale(SCALE_TEXT);
-                    this.hg.username = this.add.text(140, 10, player[2].username, FONT_LEFT);
-                    this.hg.bank = this.add.text(215, 45, player[2].bank+ ' 🏦', FONT_MONEY);
-                    this.hg.coins = this.add.text(135, 45, player[2].coins+' 💰', FONT_MONEY);
-                    this.hg.img = this.add.image(60, 55, player[2].img);
-                    console.log('🟢 '+player.length+' joueurs connectés/affichés');
-                break;
-
-                case 4:
-                    // HG Player.
-                    this.hg.bread = this.add.image(43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                    this.hg.meat = this.add.image(119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                    this.hg.salad = this.add.image(195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                    this.hg.sauce = this.add.image(271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-
-                    var cadre_hg = this.add.image(500/2*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre').setScale(SCALE_TEXT).setRotation(3.14);
-                    this.add.image(200, 75, 'block').setScale(SCALE_TEXT);
-                    this.hg.username = this.add.text(140, 10, player[2].username, FONT_LEFT);
-                    this.hg.bank = this.add.text(215, 45, player[2].bank+ ' 🏦', FONT_MONEY);
-                    this.hg.coins = this.add.text(135, 45, player[2].coins+' 💰', FONT_MONEY);
-                    this.hg.img = this.add.image(60, 55, player[2].img);
-
-                    // HD Player.
-                    var cadre_hd = this.add.image(width-(500/2)*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre02').setScale(SCALE_TEXT).setRotation(3.14);
-                    this.add.image(width-200, 75, 'block').setScale(SCALE_TEXT);
-                    this.hd.bread = this.add.image(width-43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                    this.hd.meat = this.add.image(width-119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                    this.hd.salad = this.add.image(width-195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                    this.hd.sauce = this.add.image(width-271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-
-                    this.hd.username = this.add.text(width-260, 10, player[3].username, FONT_RIGHT);
-                    this.hd.bank = this.add.text(width-215, 45, player[3].bank+ ' 🏦', FONT_MONEY);
-                    this.hd.coins = this.add.text(width-135, 45, player[3].coins+' 💰', FONT_MONEY);
-                    this.hd.img = this.add.image(width-60, 55, player[3].img);
-
-                    console.log('🟢 '+player.length+' joueurs connectés/affichés');
-                break;
-
-            default:
-                console.error('Erreur de chargement des joueurs');
-            }
-        })
+        });
 
 
         // Tour de jeu et dé.

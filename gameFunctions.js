@@ -28,6 +28,8 @@ module.exports = {
         var nextPlayer;
         var cptPlayer = 0;
 
+        var viewPhaser = false;
+
 
         // Modification des players pour accueillir infos de jeu.
         var j = 0;
@@ -49,6 +51,10 @@ module.exports = {
             // Msg. signaler bien connecté.
             socket.on('fine', (callback) => {
                 console.log('\x1b[36m%s\x1b[0m\x1b[41m%s\x1b[0m', '/////)> ','Game successfully connected to the server.');
+
+                // Affiche la vue. (Cadre, nom, etc. qui n'est pas modifiable in game)
+                io.of('/A'+idGame).to(socket.id).emit('view', player);
+
                 callback({msg: 'Game successfully connected to the server.'})
             })
 
@@ -56,8 +62,6 @@ module.exports = {
             if (playerList.length < 2) {
                 socket.emit('errorSocketIo', 410);
             }
-
-            io.of('/A'+idGame).to(socket.id).emit('view');
 
             // Envoi liste de joueur à chaque connexion/modif.
             io.of('/A'+idGame).to(socket.id).emit('player', player);
