@@ -62,6 +62,8 @@ $( document ).ready(function() {
         this.load.image('btn_red', '../assets/images/btn_red.png');
         this.load.image('btn_green', '../assets/images/btn_green.png');
         this.load.image('btn_yellow', '../assets/images/btn_yellow.png');
+        this.load.image('btn_take', '../assets/images/btn_take.png');
+        this.load.image('btn_lose', '../assets/images/btn_lose.png');
     }
 
     function create (){
@@ -274,7 +276,10 @@ $( document ).ready(function() {
         })
 
 
-        // Modal.
+
+        // ----------
+        //   Modal.
+        // ----------
         // Chance.
 
         this.modal = this.add.image(width/2, height/2, 'modal').setDepth(0);
@@ -287,6 +292,12 @@ $( document ).ready(function() {
         this.text.visible = false;
 
         this.btn = [];
+
+        this.btn.take = this.add.image(width/2-120, height/2+50, 'btn_take').setInteractive().setDepth(1);
+        this.btn.lose = this.add.image(width/2+120, height/2+50, 'btn_lose').setInteractive().setDepth(1);
+
+        this.btn.take.visible = false;
+        this.btn.lose.visible = false;
 
         this.btn.red = this.add.image(width/2-120, height/2+50, 'btn_red').setInteractive().setDepth(1);
         this.btn.redText = this.add.text(width/2-160, height/2+34, 'Bouton', FONT_LEFT).setDepth(1);
@@ -311,6 +322,9 @@ $( document ).ready(function() {
 
         this.btn.yellow.visible = false;
         this.btn.yellowText.visible = false;
+
+
+
 
 
         this.socket.on('modal_chance', (data, text) => {
@@ -362,7 +376,6 @@ $( document ).ready(function() {
                 i++;
             })
         })
-
 
         this.btn.red.on('pointerdown', () => {
             this.socket.emit('choice_chance', this.btn.redNum);
@@ -441,6 +454,34 @@ $( document ).ready(function() {
 
             this.btn.yellow.visible = false;
             this.btn.yellowText.visible = false;
+        });
+
+
+
+        this.socket.on('makeLoseOrWin', (text) => {
+            this.modal.visible = true;
+            this.title.visible = true;
+            this.text.visible = true;
+            this.btn.take.visible = true;
+            this.btn.lose.visible = true;
+            this.text.setText(text);
+        })
+
+        this.btn.take.on('pointerdown', () => {
+            this.socket.emit('lose-win', 'win');
+            this.modal.visible = false;
+            this.title.visible = false;
+            this.text.visible = false;
+            this.btn.take.visible = false;
+            this.btn.lose.visible = false;
+        });
+        this.btn.lose.on('pointerdown', () => {
+            this.socket.emit('lose-win', 'lose');
+            this.modal.visible = false;
+            this.title.visible = false;
+            this.text.visible = false;
+            this.btn.take.visible = false;
+            this.btn.lose.visible = false;
         });
 
     } // Fin Create.

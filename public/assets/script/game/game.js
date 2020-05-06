@@ -132,18 +132,18 @@ $( document ).ready(function() {
     // })
 
 
-    socket.on('makeLoseOrWin', (data) => {
-        $('#modal_makeLoseOrWin').removeClass('hidden');
-        $('#title_makeLoseOrWin').text('Faire perdre '+ data +' Coins à tes adversaires ou les empocher?');
-    })
-    $('#lose').click( function() {
-        socket.emit('lose-win', 'lose');
-        $('#modal_makeLoseOrWin').addClass('hidden');
-    })
-    $('#win').click( function() {
-        socket.emit('lose-win', 'win');
-        $('#modal_makeLoseOrWin').addClass('hidden');
-    })
+    // socket.on('makeLoseOrWin', (data) => {
+    //     $('#modal_makeLoseOrWin').removeClass('hidden');
+    //     $('#title_makeLoseOrWin').text('Faire perdre '+ data +' Coins à tes adversaires ou les empocher?');
+    // })
+    // $('#lose').click( function() {
+    //     socket.emit('lose-win', 'lose');
+    //     $('#modal_makeLoseOrWin').addClass('hidden');
+    // })
+    // $('#win').click( function() {
+    //     socket.emit('lose-win', 'win');
+    //     $('#modal_makeLoseOrWin').addClass('hidden');
+    // })
 
     // Destroy.
     socket.on('destroy', (data, price, title) => {

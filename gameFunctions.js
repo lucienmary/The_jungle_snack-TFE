@@ -141,7 +141,7 @@ module.exports = {
                         console.log('Chance');
 
                         // var randomChance = Math.floor(Math.random() * Math.floor(5));
-                        var randomChance = 3;
+                        var randomChance = 4;
                         var responseRandom;
 
                         switch (randomChance) {
@@ -219,7 +219,9 @@ module.exports = {
 
                                 console.log('modal_makeLoseOrWin');
 
-                                io.of('/A'+idGame).to(player[num].socketId).emit('makeLoseOrWin', responseRandom);
+                                var textModal = 'Faire perdre '+ responseRandom +' Coins à tes \nadversaires ou les empocher?'
+
+                                io.of('/A'+idGame).to(player[num].socketId).emit('makeLoseOrWin', textModal);
 
                                 socket.on('lose-win', (data) => {
                                     if (data === 'lose') {
