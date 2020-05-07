@@ -146,7 +146,7 @@ $( document ).ready(function() {
     // })
 
     // Destroy.
-    socket.on('destroy', (data, price, title) => {
+    socket.on('destroy', (data, price, title) => { 
         $('#title_chanceDestroy').text(title);
         $('#price_chanceDestroy').text(price);
         data.forEach(element => {

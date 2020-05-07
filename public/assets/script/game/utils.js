@@ -1,3 +1,3 @@
-$(window).on('beforeunload', function(e){
-    return "Actualiser?";
-})
+// $(window).on('beforeunload', function(e){
+//     return "Actualiser?";
+// })

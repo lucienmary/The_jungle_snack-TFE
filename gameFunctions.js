@@ -141,7 +141,7 @@ module.exports = {
                         console.log('Chance');
 
                         // var randomChance = Math.floor(Math.random() * Math.floor(5));
-                        var randomChance = 4;
+                        var randomChance = 5;
                         var responseRandom;
 
                         switch (randomChance) {
@@ -243,6 +243,8 @@ module.exports = {
                                 console.log('Destroy');
 
                                 socket.on('destroyed', (data) => {
+
+                                    console.log(data);
 
                                     if (data !== false) {
                                         var tab = data.split('-');

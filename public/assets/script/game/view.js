@@ -4,8 +4,6 @@ $( document ).ready(function() {
     var location = window.location;
     var idGame = location.href.split('id=A');
 
-
-
     var width = window.innerWidth;
     var height = window.innerHeight;
 
@@ -64,6 +62,14 @@ $( document ).ready(function() {
         this.load.image('btn_yellow', '../assets/images/btn_yellow.png');
         this.load.image('btn_take', '../assets/images/btn_take.png');
         this.load.image('btn_lose', '../assets/images/btn_lose.png');
+        this.load.image('area_red', '../assets/images/area_red.png');
+        this.load.image('area_blue', '../assets/images/area_blue.png');
+        this.load.image('area_green', '../assets/images/area_green.png');
+        this.load.image('area_yellow', '../assets/images/area_yellow.png');
+        this.load.image('btn_meat', '../assets/images/btn_v.png');
+        this.load.image('btn_bread', '../assets/images/btn_p.png');
+        this.load.image('btn_salad', '../assets/images/btn_sal.png');
+        this.load.image('btn_sauce', '../assets/images/btn_sau.png');
     }
 
     function create (){
@@ -286,12 +292,45 @@ $( document ).ready(function() {
         this.modal.visible = false;
 
         this.title = this.add.text(width/2-160, height/2-150, 'Chance', FONT_LEFT);
-        this.text = this.add.text(width/2-160, height/2-50, 'text', FONT_LEFT);
+        this.text = this.add.text(width/2-160, height/2-100, 'text', FONT_LEFT);
+        this.price = this.add.text(width/2+160, height/2-150, 'Prix: - Coins', FONT_LEFT);
 
         this.title.visible = false;
         this.text.visible = false;
+        this.price.visible = false;
 
+        this.area = [];
         this.btn = [];
+
+        // this.area.red.visible = false;
+        // this.area.redText.visible = false;
+        // this.area.blue.visible = false;
+        // this.area.blueText.visible = false;
+        // this.area.green.visible = false;
+        // this.area.greenText.visible = false;
+        // this.area.yellow.visible = false;
+        // this.area.yellowText.visible = false;
+        //
+        // this.btn.redMeat.visible = false;
+        // this.btn.redBread.visible = false;
+        // this.btn.redSalad.visible = false;
+        // this.btn.redSauce.visible = false;
+        //
+        // this.btn.blueMeat.visible = false;
+        // this.btn.blueBread.visible = false;
+        // this.btn.blueSalad.visible = false;
+        // this.btn.blueSauce.visible = false;
+        //
+        // this.btn.greenMeat.visible = false;
+        // this.btn.greenBread.visible = false;
+        // this.btn.greenSalad.visible = false;
+        // this.btn.greenSauce.visible = false;
+        //
+        // this.btn.yellowMeat.visible = false;
+        // this.btn.yellowBread.visible = false;
+        // this.btn.yellowSalad.visible = false;
+        // this.btn.yellowSauce.visible = false;
+
 
         this.btn.take = this.add.image(width/2-120, height/2+50, 'btn_take').setInteractive().setDepth(1);
         this.btn.lose = this.add.image(width/2+120, height/2+50, 'btn_lose').setInteractive().setDepth(1);
@@ -339,30 +378,29 @@ $( document ).ready(function() {
             data.forEach(element => {
                 if (element.id != myId) {
                     switch (element.color) {
-                        case 'red':
-                            this.btn.red.visible = true;
-                            this.btn.redText.visible = true;
-                            this.btn.redText.setText(element.username);
-                            this.btn.redNum = i;
-
-                            break;
-                        case 'green':
-                            this.btn.green.visible = true;
-                            this.btn.greenText.visible = true;
-                            this.btn.greenText.setText(element.username);
-                            this.btn.greenNum = i;
-                            break;
                         case 'blue':
                             this.btn.blue.visible = true;
                             this.btn.blueText.visible = true;
                             this.btn.blueText.setText(element.username);
                             this.btn.blueNum = i;
                             break;
+                        case 'red':
+                            this.btn.red.visible = true;
+                            this.btn.redText.visible = true;
+                            this.btn.redText.setText(element.username);
+                            this.btn.redNum = i;
+                            break;
                         case 'yellow':
                             this.btn.yellow.visible = true;
                             this.btn.yellowText.visible = true;
                             this.btn.yellowText.setText(element.username);
                             this.btn.yellowNum = i;
+                            break;
+                        case 'green':
+                            this.btn.green.visible = true;
+                            this.btn.greenText.visible = true;
+                            this.btn.greenText.setText(element.username);
+                            this.btn.greenNum = i;
                             break;
                         default:
                         console.error('Error: chance button.');
@@ -484,11 +522,212 @@ $( document ).ready(function() {
             this.btn.lose.visible = false;
         });
 
+
+        this.socket.on('destroy', (data, price, title) => {
+
+            this.modal.visible = true;
+            this.title.visible = true;
+            this.text.visible = true;
+            this.price.visible = true;
+            this.btn.cancel = this.add.image(width/2, height/2+100, 'btn_meat').setDepth(1).setInteractive();
+            this.title.setText(title);
+            this.price.setText('Prix: '+price+' Coins');
+            this.text.setText('Quelle carte voulez-vous détruire?');
+
+            this.btn.meat = [];
+            this.btn.bread = [];
+            this.btn.salad = [];
+            this.btn.sauce = [];
+            this.area = [];
+            this.area.text = [];
+
+            data.forEach((element, i) => {
+                this.area[element.color] = this.add.image( (width/2-270)+i*180, height/2, 'area_'+element.color).setDepth(0);
+                this.area.text[element.color] = this.add.text((width/2-310)+i*180, height/2-50, element.username, FONT_LEFT).setDepth(1);
+                this.btn.meat[element.color] = this.add.image((width/2-335)+i*180, height/2, 'btn_meat').setDepth(1).setInteractive();
+                this.btn.bread[element.color] = this.add.image((width/2-290)+i*180, height/2, 'btn_bread').setDepth(1).setInteractive();
+                this.btn.salad[element.color] = this.add.image((width/2-245)+i*180, height/2, 'btn_salad').setDepth(1).setInteractive();
+                this.btn.sauce[element.color] = this.add.image((width/2-200)+i*180, height/2, 'btn_sauce').setDepth(1).setInteractive();
+            })
+
+
+            this.btn.meat['blue'].on('pointerdown', () => {
+                this.socket.emit('destroyed', 'meat-'+data[0].id);
+                console.log('blue m');
+                deleteModal(this, data);
+            });
+            this.btn.bread['blue'].on('pointerdown', () => {
+                this.socket.emit('destroyed', 'bread-'+data[0].id);
+                console.log('blue b');
+                deleteModal(this, data);
+            });
+            this.btn.salad['blue'].on('pointerdown', () => {
+                this.socket.emit('destroyed', 'salad-'+data[0].id);
+                console.log('blue sal');
+                deleteModal(this, data);
+            });
+            this.btn.sauce['blue'].on('pointerdown', () => {
+                this.socket.emit('destroyed', 'sauce-'+data[0].id);
+                console.log('blue sau');
+                deleteModal(this, data);
+            });
+
+
+            this.btn.meat['red'].on('pointerdown', () => {
+                this.socket.emit('destroyed', 'meat-'+data[1].id);
+                console.log('Red m');
+                deleteModal(this, data);
+            });
+            this.btn.bread['red'].on('pointerdown', () => {
+                this.socket.emit('destroyed', 'bread-'+data[1].id);
+                console.log('Red b');
+                deleteModal(this, data);
+            });
+            this.btn.salad['red'].on('pointerdown', () => {
+                this.socket.emit('destroyed', 'salad-'+data[1].id);
+                console.log('Red sal');
+                deleteModal(this, data);
+            });
+            this.btn.sauce['red'].on('pointerdown', () => {
+                this.socket.emit('destroyed', 'sauce-'+data[1].id);
+                console.log('Red sau');
+                deleteModal(this, data);
+            });
+
+
+            if (data.length > 2) {
+                this.btn.meat['yellow'].on('pointerdown', () => {
+                    this.socket.emit('destroyed', 'meat-'+data[2].id);
+                    console.log('yellow');
+                    deleteModal(this, data);
+                });
+                this.btn.bread['yellow'].on('pointerdown', () => {
+                    this.socket.emit('destroyed', 'bread-'+data[2].id);
+                    console.log('yellow');
+                    deleteModal(this, data);
+                });
+                this.btn.salad['yellow'].on('pointerdown', () => {
+                    this.socket.emit('destroyed', 'salad-'+data[2].id);
+                    console.log('yellow');
+                    deleteModal(this, data);
+                });
+                this.btn.sauce['yellow'].on('pointerdown', () => {
+                    this.socket.emit('destroyed', 'sauce-'+data[2].id);
+                    console.log('yellow');
+                    deleteModal(this, data);
+                });
+            }
+            if (data.length > 3) {
+                this.btn.meat['green'].on('pointerdown', () => {
+                    this.socket.emit('destroyed', 'meat-'+data[3].id);
+                    console.log('green');
+                    deleteModal(this, data);
+                });
+                this.btn.bread['green'].on('pointerdown', () => {
+                    this.socket.emit('destroyed', 'bread-'+data[3].id);
+                    console.log('green');
+                    deleteModal(this, data);
+                });
+                this.btn.salad['green'].on('pointerdown', () => {
+                    this.socket.emit('destroyed', 'salad-'+data[3].id);
+                    console.log('green');
+                    deleteModal(this, data);
+                });
+                this.btn.sauce['green'].on('pointerdown', () => {
+                    this.socket.emit('destroyed', 'sauce-'+data[3].id);
+                    console.log('green');
+                    deleteModal(this, data);
+                });
+            }
+
+
+            this.btn.cancel.on('pointerdown', () => {
+                console.log('Cancel');
+                this.socket.emit('destroyed', false);
+                deleteModal(this, data);
+            });
+        });
+
     } // Fin Create.
 
+    function deleteModal(thisObj, data) {
+        data.forEach((element, i) => {
+            thisObj.area[element.color].destroy();
+            thisObj.area.text[element.color].destroy();
+            thisObj.btn.meat[element.color].destroy();
+            thisObj.btn.bread[element.color].destroy();
+            thisObj.btn.salad[element.color].destroy();
+            thisObj.btn.sauce[element.color].destroy();
+        });
 
-    function mask(){
+        thisObj.btn.cancel.destroy();
+        thisObj.modal.visible = false;
+        thisObj.title.visible = false;
+        thisObj.text.visible = false;
+        thisObj.price.visible = false;
 
     }
 
+
 });
+
+
+
+
+
+
+
+
+
+
+// this.area.red.visible = true;
+// this.area.redText.visible = true;
+// this.area.blue.visible = true;
+// this.area.blueText.visible = true;
+// this.area.green.visible = true;
+// this.area.greenText.visible = true;
+// this.area.yellow.visible = true;
+// this.area.yellowText.visible = true;
+//
+// this.area.blue = this.add.image(width/2-90, height/2, 'area_blue').setDepth(0);
+// this.area.blueText = this.add.text(width/2-130, height/2-50, 'Bouton', FONT_LEFT).setDepth(1);
+// this.btn.blueMeat = this.add.image(width/2-155, height/2, 'btn_meat').setDepth(1).setInteractive();
+// this.btn.blueBread = this.add.image(width/2-110, height/2, 'btn_bread').setDepth(1).setInteractive();
+// this.btn.blueSalad = this.add.image(width/2-65, height/2, 'btn_salad').setDepth(1).setInteractive();
+// this.btn.blueSauce = this.add.image(width/2-20, height/2, 'btn_sauce').setDepth(1).setInteractive();
+//
+// this.area.green = this.add.image(width/2+90, height/2, 'area_green').setDepth(0);
+// this.area.greenText = this.add.text(width/2+50, height/2-50, 'Bouton', FONT_LEFT).setDepth(1);
+// this.btn.greenMeat = this.add.image(width/2+25, height/2, 'btn_meat').setDepth(1).setInteractive();
+// this.btn.greenBread = this.add.image(width/2+70, height/2, 'btn_bread').setDepth(1).setInteractive();
+// this.btn.greenSalad = this.add.image(width/2+115, height/2, 'btn_salad').setDepth(1).setInteractive();
+// this.btn.greenSauce = this.add.image(width/2+160, height/2, 'btn_sauce').setDepth(1).setInteractive();
+//
+// this.area.yellow = this.add.image(width/2+270, height/2, 'area_yellow').setDepth(0);
+// this.area.yellowText= this.add.text(width/2+230, height/2-50, 'Bouton', FONT_LEFT).setDepth(1);
+// this.btn.yellowMeat = this.add.image(width/2+205, height/2, 'btn_meat').setDepth(1).setInteractive();
+// this.btn.yellowBread = this.add.image(width/2+250, height/2, 'btn_bread').setDepth(1).setInteractive();
+// this.btn.yellowSalad = this.add.image(width/2+295, height/2, 'btn_salad').setDepth(1).setInteractive();
+// this.btn.yellowSauce = this.add.image(width/2+340, height/2, 'btn_sauce').setDepth(1).setInteractive();
+//
+//
+//
+// this.btn.redMeat.visible = true;
+// this.btn.redBread.visible = true;
+// this.btn.redSalad.visible = true;
+// this.btn.redSauce.visible = true;
+//
+// this.btn.blueMeat.visible = true;
+// this.btn.blueBread.visible = true;
+// this.btn.blueSalad.visible = true;
+// this.btn.blueSauce.visible = true;
+//
+// this.btn.greenMeat.visible = true;
+// this.btn.greenBread.visible = true;
+// this.btn.greenSalad.visible = true;
+// this.btn.greenSauce.visible = true;
+//
+// this.btn.yellowMeat.visible = true;
+// this.btn.yellowBread.visible = true;
+// this.btn.yellowSalad.visible = true;
+// this.btn.yellowSauce.visible = true;
