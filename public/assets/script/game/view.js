@@ -54,6 +54,7 @@ $( document ).ready(function() {
 
 
         // Modal.
+        this.load.html('bankform', '../assets/text/bankform.html');
         this.load.image('modal', '../assets/images/modal_01.png');
 
         this.load.image('btn_blue', '../assets/images/btn_blue.png');
@@ -648,8 +649,74 @@ $( document ).ready(function() {
             });
         });
 
+
+
+        this.socket.on('chance_giveForEveryone', (data) => {
+            console.log('Give for everyone: '+ data);
+        })
+
+        this.socket.on('chance_getFromEveryone', (data) => {
+            console.log('Get from everyone: '+ data);
+        })
+
+        this.socket.on('chance_giveForOne', (p, p2, responseRandom) => {
+            console.log(p.username +' gives '+ responseRandom + ' for ' +p2.username);
+        })
+
+        this.socket.on('chance_getFromOne', (p, p2, responseRandom) => {
+            console.log(p.username +' take in '+ responseRandom + ' from ' +p2.username);
+        })
+
+
+
+
+        // Bank.
+        // -----
+
+        this.socket.on('bank', (data) => {
+            console.log('Go bank');
+            console.log(data);
+            var bankNum = 0;
+
+            this.title.setText('Banque');
+            this.text.setText('Combien voulez-vous placer \nà la banque?');
+            this.btn.inputBank = this.add.image(width/2, height/2, 'btn_blue').setDepth(1);
+            this.btn.inputBankText = this.add.text(width/2, height/2+35, 0, FONT_LEFT).setDepth(1);
+            this.btn.up = this.add.image(width/2+100, height/2, 'btn_meat').setDepth(1).setInteractive();
+            this.btn.down = this.add.image(width/2+140, height/2, 'btn_meat').setDepth(1).setInteractive();
+            this.btn.ok = this.add.image(width/2, height/2+80, 'btn_meat').setDepth(1).setInteractive();
+            this.modal.visible = true;
+            this.title.visible = true;
+            this.text.visible = true;
+
+            this.btn.up.on('pointerdown', () => {
+                console.log('Up');
+                if (bankNum < data.coins-4) {
+                    bankNum += 5;
+                    this.btn.inputBankText.setText(bankNum);
+                }
+            });
+            this.btn.down.on('pointerdown', () => {
+                console.log('Down');
+
+                if (bankNum > 0) {
+                    bankNum -= 5;
+                    this.btn.inputBankText.setText(bankNum);
+                }
+            });
+
+            this.btn.ok.on('pointerdown', () => {
+                this.socket.emit('addToBank', bankNum);
+
+                deleteBank(this);
+            });
+        })
+
+
     } // Fin Create.
 
+
+    // Efface modal attack (ou chance).
     function deleteModal(thisObj, data) {
         data.forEach((element, i) => {
             thisObj.area[element.color].destroy();
@@ -665,69 +732,18 @@ $( document ).ready(function() {
         thisObj.title.visible = false;
         thisObj.text.visible = false;
         thisObj.price.visible = false;
+    }
 
+    function deleteBank(thisObj){
+        thisObj.btn.inputBank.destroy();
+        thisObj.btn.inputBankText.destroy();
+        thisObj.btn.up.destroy();
+        thisObj.btn.down.destroy();
+        thisObj.btn.ok.destroy();
+        thisObj.modal.visible = false;
+        thisObj.title.visible = false;
+        thisObj.text.visible = false;
     }
 
 
 });
-
-
-
-
-
-
-
-
-
-
-// this.area.red.visible = true;
-// this.area.redText.visible = true;
-// this.area.blue.visible = true;
-// this.area.blueText.visible = true;
-// this.area.green.visible = true;
-// this.area.greenText.visible = true;
-// this.area.yellow.visible = true;
-// this.area.yellowText.visible = true;
-//
-// this.area.blue = this.add.image(width/2-90, height/2, 'area_blue').setDepth(0);
-// this.area.blueText = this.add.text(width/2-130, height/2-50, 'Bouton', FONT_LEFT).setDepth(1);
-// this.btn.blueMeat = this.add.image(width/2-155, height/2, 'btn_meat').setDepth(1).setInteractive();
-// this.btn.blueBread = this.add.image(width/2-110, height/2, 'btn_bread').setDepth(1).setInteractive();
-// this.btn.blueSalad = this.add.image(width/2-65, height/2, 'btn_salad').setDepth(1).setInteractive();
-// this.btn.blueSauce = this.add.image(width/2-20, height/2, 'btn_sauce').setDepth(1).setInteractive();
-//
-// this.area.green = this.add.image(width/2+90, height/2, 'area_green').setDepth(0);
-// this.area.greenText = this.add.text(width/2+50, height/2-50, 'Bouton', FONT_LEFT).setDepth(1);
-// this.btn.greenMeat = this.add.image(width/2+25, height/2, 'btn_meat').setDepth(1).setInteractive();
-// this.btn.greenBread = this.add.image(width/2+70, height/2, 'btn_bread').setDepth(1).setInteractive();
-// this.btn.greenSalad = this.add.image(width/2+115, height/2, 'btn_salad').setDepth(1).setInteractive();
-// this.btn.greenSauce = this.add.image(width/2+160, height/2, 'btn_sauce').setDepth(1).setInteractive();
-//
-// this.area.yellow = this.add.image(width/2+270, height/2, 'area_yellow').setDepth(0);
-// this.area.yellowText= this.add.text(width/2+230, height/2-50, 'Bouton', FONT_LEFT).setDepth(1);
-// this.btn.yellowMeat = this.add.image(width/2+205, height/2, 'btn_meat').setDepth(1).setInteractive();
-// this.btn.yellowBread = this.add.image(width/2+250, height/2, 'btn_bread').setDepth(1).setInteractive();
-// this.btn.yellowSalad = this.add.image(width/2+295, height/2, 'btn_salad').setDepth(1).setInteractive();
-// this.btn.yellowSauce = this.add.image(width/2+340, height/2, 'btn_sauce').setDepth(1).setInteractive();
-//
-//
-//
-// this.btn.redMeat.visible = true;
-// this.btn.redBread.visible = true;
-// this.btn.redSalad.visible = true;
-// this.btn.redSauce.visible = true;
-//
-// this.btn.blueMeat.visible = true;
-// this.btn.blueBread.visible = true;
-// this.btn.blueSalad.visible = true;
-// this.btn.blueSauce.visible = true;
-//
-// this.btn.greenMeat.visible = true;
-// this.btn.greenBread.visible = true;
-// this.btn.greenSalad.visible = true;
-// this.btn.greenSauce.visible = true;
-//
-// this.btn.yellowMeat.visible = true;
-// this.btn.yellowBread.visible = true;
-// this.btn.yellowSalad.visible = true;
-// this.btn.yellowSauce.visible = true;

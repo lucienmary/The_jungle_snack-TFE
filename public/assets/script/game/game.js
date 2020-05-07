@@ -146,108 +146,108 @@ $( document ).ready(function() {
     // })
 
     // Destroy.
-    socket.on('destroy', (data, price, title) => { 
-        $('#title_chanceDestroy').text(title);
-        $('#price_chanceDestroy').text(price);
-        data.forEach(element => {
-            if (element.id != myId) {
-                // if (element.cards.bread === true || element.cards.meat === true || element.cards.salad === true || element.cards.sauce === true) {
-                //
-                // }
-                $('#modal_chanceDestroy_ul').append(`
-                    <li id="modal_chanceDestroy_li-`+ element.id +`">
-                        <div>
-                            <img src="../assets/images/_`+element.img+`.png">
-                            <p>`+element.username+`</p>
-                        </div>
-                        <div>
-                            <button id="bread-`+element.id+`" class="button-destroy">🍞</button>
-                            <button id="meat-`+element.id+`" class="button-destroy">🥩</button>
-                            <button id="salad-`+element.id+`" class="button-destroy">🥗</button>
-                            <button id="sauce-`+element.id+`" class="button-destroy">🥫</button>
-                        </div>
-                    </li>
-                `);
+    // socket.on('destroy', (data, price, title) => {
+    //     $('#title_chanceDestroy').text(title);
+    //     $('#price_chanceDestroy').text(price);
+    //     data.forEach(element => {
+    //         if (element.id != myId) {
+    //             // if (element.cards.bread === true || element.cards.meat === true || element.cards.salad === true || element.cards.sauce === true) {
+    //             //
+    //             // }
+    //             $('#modal_chanceDestroy_ul').append(`
+    //                 <li id="modal_chanceDestroy_li-`+ element.id +`">
+    //                     <div>
+    //                         <img src="../assets/images/_`+element.img+`.png">
+    //                         <p>`+element.username+`</p>
+    //                     </div>
+    //                     <div>
+    //                         <button id="bread-`+element.id+`" class="button-destroy">🍞</button>
+    //                         <button id="meat-`+element.id+`" class="button-destroy">🥩</button>
+    //                         <button id="salad-`+element.id+`" class="button-destroy">🥗</button>
+    //                         <button id="sauce-`+element.id+`" class="button-destroy">🥫</button>
+    //                     </div>
+    //                 </li>
+    //             `);
+    //
+    //             if (element.cards.bread === false) {
+    //                 $('#bread-'+element.id).prop('disabled', true);
+    //             };
+    //             if (element.cards.meat === false) {
+    //                 $('#meat-'+element.id).prop('disabled', true);
+    //             };
+    //             if (element.cards.salad === false) {
+    //                 $('#salad-'+element.id).prop('disabled', true);
+    //             };
+    //             if (element.cards.sauce === false) {
+    //                 $('#sauce-'+element.id).prop('disabled', true);
+    //             };
+    //         }
+    //     })
+    //
+    //     $('#modal_chanceDestroy').append(`<button id="iAmPacifist" type="button" name="button">Ne rien détruire</button>`);
+    //     $('#modal_chanceDestroy').removeClass('hidden');
+    //
+    //     $('.button-destroy').click(function(e) {
+    //         console.log( this.id);
+    //         socket.emit('destroyed', this.id);
+    //         $('#modal_chanceDestroy').addClass('hidden');
+    //         $('#modal_chanceDestroy_ul').empty();
+    //         $('#iAmPacifist').remove();
+    //     });
+    //     $('#iAmPacifist').click(function(e) {
+    //         console.log('I am pacifist');
+    //         socket.emit('destroyed', false);
+    //         $('#modal_chanceDestroy').addClass('hidden');
+    //         $('#modal_chanceDestroy_ul').empty();
+    //         $('#iAmPacifist').remove();
+    //     });
+    //
+    // })
 
-                if (element.cards.bread === false) {
-                    $('#bread-'+element.id).prop('disabled', true);
-                };
-                if (element.cards.meat === false) {
-                    $('#meat-'+element.id).prop('disabled', true);
-                };
-                if (element.cards.salad === false) {
-                    $('#salad-'+element.id).prop('disabled', true);
-                };
-                if (element.cards.sauce === false) {
-                    $('#sauce-'+element.id).prop('disabled', true);
-                };
-            }
-        })
+    // socket.on('chance_giveForEveryone', (data) => {
+    //     console.log('Give for everyone: '+ data);
+    // })
 
-        $('#modal_chanceDestroy').append(`<button id="iAmPacifist" type="button" name="button">Ne rien détruire</button>`);
-        $('#modal_chanceDestroy').removeClass('hidden');
+    // socket.on('chance_getFromEveryone', (data) => {
+    //     console.log('Get from everyone: '+ data);
+    // })
 
-        $('.button-destroy').click(function(e) {
-            console.log( this.id);
-            socket.emit('destroyed', this.id);
-            $('#modal_chanceDestroy').addClass('hidden');
-            $('#modal_chanceDestroy_ul').empty();
-            $('#iAmPacifist').remove();
-        });
-        $('#iAmPacifist').click(function(e) {
-            console.log('I am pacifist');
-            socket.emit('destroyed', false);
-            $('#modal_chanceDestroy').addClass('hidden');
-            $('#modal_chanceDestroy_ul').empty();
-            $('#iAmPacifist').remove();
-        });
+    // socket.on('chance_giveForOne', (p, p2, responseRandom) => {
+    //     console.log(p.username +' gives '+ responseRandom + ' for ' +p2.username);
+    // })
+    //
+    // socket.on('chance_getFromOne', (p, p2, responseRandom) => {
+    //     console.log(p.username +' take in '+ responseRandom + ' from ' +p2.username);
+    // })
 
-    })
-
-    socket.on('chance_giveForEveryone', (data) => {
-        console.log('Give for everyone: '+ data);
-    })
-
-    socket.on('chance_getFromEveryone', (data) => {
-        console.log('Get from everyone: '+ data);
-    })
-
-    socket.on('chance_giveForOne', (p, p2, responseRandom) => {
-        console.log(p.username +' gives '+ responseRandom + ' for ' +p2.username);
-    })
-
-    socket.on('chance_getFromOne', (p, p2, responseRandom) => {
-        console.log(p.username +' take in '+ responseRandom + ' from ' +p2.username);
-    })
-
-    function restartChance() {
-        $('#modal_chance').addClass('hidden');
-        $('#modal_chance_ul').empty();
-    }
+    // function restartChance() {
+    //     $('#modal_chance').addClass('hidden');
+    //     $('#modal_chance_ul').empty();
+    // }
 
 
 
     // Bank.
     // ----
-    socket.on('bank', (data) => {
-        console.log('Go bank');
-        console.log(me.coins);
+    // socket.on('bank', (data) => {
+    //     console.log('Go bank');
+    //     console.log(me.coins);
+    //
+    //     $('#modal_bank').removeClass('hidden');
+    //     $('#input_bank').attr('max', me.coins);
+    //     $('#input_bank').val(0);
+    // })
 
-        $('#modal_bank').removeClass('hidden');
-        $('#input_bank').attr('max', me.coins);
-        $('#input_bank').val(0);
-    })
-
-    $('#submit_bank').click( function() {
-        var added = $('#input_bank').val();
-        console.log(added);
-        socket.emit('addToBank', added);
-
-        $('#modal_bank').addClass('hidden');
-    })
-    socket.on('noBank', (data) => { // Si compte à sec.
-        console.log("Tu ne peux pas placer d'argent en banque. T'as R...");
-    });
+    // $('#submit_bank').click( function() {
+    //     var added = $('#input_bank').val();
+    //     console.log(added);
+    //     socket.emit('addToBank', added);
+    //
+    //     $('#modal_bank').addClass('hidden');
+    // })
+    // socket.on('noBank', (data) => { // Si compte à sec.
+    //     console.log("Tu ne peux pas placer d'argent en banque. T'as R...");
+    // });
 
 
 

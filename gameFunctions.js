@@ -140,8 +140,8 @@ module.exports = {
                     if (player[num].position === BOXES.chance[0] || player[num].position === BOXES.chance[1] || player[num].position === BOXES.chance[2] || player[num].position === BOXES.chance[3]) {
                         console.log('Chance');
 
-                        // var randomChance = Math.floor(Math.random() * Math.floor(5));
-                        var randomChance = 5;
+                        var randomChance = Math.floor(Math.random() * Math.floor(5));
+                        // var randomChance = 5;
                         var responseRandom;
 
                         switch (randomChance) {
