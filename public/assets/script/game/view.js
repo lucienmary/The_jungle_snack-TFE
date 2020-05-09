@@ -278,51 +278,39 @@ $( document ).ready(function() {
 
                 this.bg.bank.setText(player[1].bank);
                 this.bg.coins.setText(player[1].coins);
-                if (player[1].cards.meat === true) {
-                    this.bg.meat.setTexture('card_meat');
-                }
-                if (player[1].cards.bread === true) {
-                    this.bg.bread.setTexture('card_bread');
-                }
-                if (player[1].cards.salad === true) {
-                    this.bg.salad.setTexture('card_salad');
-                }
-                if (player[1].cards.sauce === true) {
-                    this.bg.sauce.setTexture('card_sauce');
-                }
+                if (player[1].cards.meat === true) this.bg.meat.setTexture('card_meat');
+                    else this.bg.meat.setTexture('position_cards');
+                if (player[1].cards.bread === true) this.bg.bread.setTexture('card_bread');
+                    else this.bg.bread.setTexture('position_cards');
+                if (player[1].cards.salad === true) this.bg.salad.setTexture('card_salad');
+                    else this.bg.salad.setTexture('position_cards');
+                if (player[1].cards.sauce === true) this.bg.sauce.setTexture('card_sauce');
+                    else this.bg.sauce.setTexture('position_cards');
 
                 if (player.length > 2) {
                     this.hg.bank.setText(player[2].bank);
                     this.hg.coins.setText(player[2].coins);
-                    if (player[2].cards.meat === true) {
-                        this.hg.meat.setTexture('card_meat');
-                    }
-                    if (player[2].cards.bread === true) {
-                        this.hg.bread.setTexture('card_bread');
-                    }
-                    if (player[2].cards.salad === true) {
-                        this.hg.salad.setTexture('card_salad');
-                    }
-                    if (player[2].cards.sauce === true) {
-                        this.hg.sauce.setTexture('card_sauce');
-                    }
+                    if (player[2].cards.meat === true) this.hg.meat.setTexture('card_meat');
+                        else this.hg.meat.setTexture('position_cards');
+                    if (player[2].cards.bread === true) this.hg.bread.setTexture('card_bread');
+                        else this.hg.meat.setTexture('position_cards');
+                    if (player[2].cards.salad === true) this.hg.salad.setTexture('card_salad');
+                        else this.hg.meat.setTexture('position_cards');
+                    if (player[2].cards.sauce === true) this.hg.sauce.setTexture('card_sauce');
+                        else this.hg.meat.setTexture('position_cards');
                 }
 
                 if (player.length > 3) {
                     this.hd.bank.setText(player[3].bank);
                     this.hd.coins.setText(player[3].coins);
-                    if (player[3].cards.meat === true) {
-                        this.hd.meat.setTexture('card_meat');
-                    }
-                    if (player[3].cards.bread === true) {
-                        this.hd.bread.setTexture('card_bread');
-                    }
-                    if (player[3].cards.salad === true) {
-                        this.hd.salad.setTexture('card_salad');
-                    }
-                    if (player[3].cards.sauce === true) {
-                        this.hd.sauce.setTexture('card_sauce');
-                    }
+                    if (player[3].cards.meat === true) this.hd.meat.setTexture('card_meat');
+                        else this.hd.meat.setTexture('position_cards');
+                    if (player[3].cards.bread === true) this.hd.bread.setTexture('card_bread');
+                        else this.hd.meat.setTexture('position_cards');
+                    if (player[3].cards.salad === true) this.hd.salad.setTexture('card_salad');
+                        else this.hd.meat.setTexture('position_cards');
+                    if (player[3].cards.sauce === true) this.hd.sauce.setTexture('card_sauce');
+                        else this.hd.meat.setTexture('position_cards');
                 }
             }
         });
