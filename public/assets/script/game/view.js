@@ -92,13 +92,22 @@ $( document ).ready(function() {
 
         // Musiques et son.
         this.load.audio('music', '../assets/sounds/music.mp3');
+
+        // thimble.
+        this.load.video('v1', '../assets/videos/thimble01.webm');
+
     }
+
+    var video;
 
     function create (){
 
         var music = this.sound.add('music');
         music.setLoop(true);
         music.play();
+
+
+        this.video01 = this.add.video(width/2, 0, 'v1').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
 
         // this.nb = 0;
         this.bd = [];
@@ -356,16 +365,16 @@ $( document ).ready(function() {
         // ----------
         // Chance.
 
-        this.modal = this.add.image(width/2, height/2, 'modal').setDepth(2);
+        this.modal = this.add.image(width/2, height/2, 'modal').setDepth(2.5);
         this.modal.visible = false;
 
-        this.modalChance = this.add.image(width/2, height/2-100, 'modal_chance').setDepth(2);
+        this.modalChance = this.add.image(width/2, height/2-100, 'modal_chance').setDepth(2.5);
         this.modalChance.visible = false;
 
-        this.modalAttack = this.add.image(width/2, height/2-100, 'modal_attack').setDepth(2);
+        this.modalAttack = this.add.image(width/2, height/2-100, 'modal_attack').setDepth(2.5);
         this.modalAttack.visible = false;
 
-        this.modalBank = this.add.image(width/2, height/2-100, 'modal_bank').setDepth(2);
+        this.modalBank = this.add.image(width/2, height/2-100, 'modal_bank').setDepth(2.5);
         this.modalBank.visible = false;
 
         this.title = this.add.text(width/2-160, height/2-150, 'Chance', FONT_LEFT).setDepth(3);
@@ -785,6 +794,7 @@ $( document ).ready(function() {
 
         this.socket.on('responseThimble', (responseThimble, player) => {
             console.log(responseThimble);
+            this.video01.play();
 
             var realPosition;
             if (player.position+responseThimble-1 <= 19) realPosition = player.position+responseThimble-1;
