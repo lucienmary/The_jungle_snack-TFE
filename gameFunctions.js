@@ -14,7 +14,7 @@ module.exports = {
     gameSettings: (playerList, idGame, io, socket) => {
         var io = io;
 
-        const GAME_CONFIG = {coins: 300, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
+        const GAME_CONFIG = {coins: 50, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
         const BANKGOALS = 50;
         const BOARD = 20;
         const BOXES = {chance: [5, 10, 15, 20], money: [3, 8, 13, 18], resources: [1, 6, 11, 16], attack: [9, 19], bank: [7, 17], benefit: [2, 12], empty: [4, 14]};
@@ -38,7 +38,7 @@ module.exports = {
             element.color = GAME_CONFIG.color[j];
             element.bank = GAME_CONFIG.bank;
             element.position = GAME_CONFIG.position[j];
-            element.cards = {bread: true, meat: true, salad: true, sauce: true};
+            element.cards = {bread: false, meat: false, salad: false, sauce: false};
             element.chance = '';
             element.win = false;
             j++;

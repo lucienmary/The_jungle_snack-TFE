@@ -14,6 +14,7 @@ $( document ).ready(function() {
     const FONT_RIGHT = {fontFamily: 'Arial', fontSize: 28, align: 'right'};
     const FONT_LEFT = {fontFamily: 'Arial', fontSize: 28, align: 'left'};
     const FONT_MONEY = {fontFamily: 'Arial', fontSize: 24, align: 'left'};
+    const ANIMATION_TIMER = 1;
 
     var config = {
             type: Phaser.AUTO,
@@ -41,8 +42,10 @@ $( document ).ready(function() {
 
         // Autres.
         this.load.image('centrum', '../assets/images/centrum.png');
-        this.load.image('cadre', '../assets/images/cadre_bd.png');
-        this.load.image('cadre02', '../assets/images/cadre_bg.png');
+        this.load.image('cadre_blue', '../assets/images/cadre_blue.png');
+        this.load.image('cadre_red', '../assets/images/cadre_red.png');
+        this.load.image('cadre_yellow', '../assets/images/cadre_yellow.png');
+        this.load.image('cadre_green', '../assets/images/cadre_green.png');
         this.load.image('position_cards', '../assets/images/position_cards@2x.png');
         this.load.image('block', '../assets/images/block.png');
         this.load.image('btn_thimble', '../assets/images/btn_thimble.png');
@@ -54,12 +57,17 @@ $( document ).ready(function() {
         this.load.image('img-03', '../assets/images/_img-03_x90.png');
         this.load.image('img-04', '../assets/images/_img-04_x90.png');
 
+        // Card.
+        this.load.image('card_meat', '../assets/images/card_meat.png');
+        this.load.image('card_bread', '../assets/images/card_bread.png');
+        this.load.image('card_salad', '../assets/images/card_salad.png');
+        this.load.image('card_sauce', '../assets/images/card_sauce.png');
 
         // Modal.
-        this.load.html('bankform', '../assets/text/bankform.html');
         this.load.image('modal', '../assets/images/modal_01.png');
         this.load.image('modal_chance', '../assets/images/modal_chance.png');
         this.load.image('modal_attack', '../assets/images/modal_attack.png');
+        this.load.image('modal_bank', '../assets/images/modal_bank.png');
 
         this.load.image('btn_blue', '../assets/images/btn_blue.png');
         this.load.image('btn_red', '../assets/images/btn_red.png');
@@ -80,9 +88,17 @@ $( document ).ready(function() {
         this.load.image('pawn_flamingo', '../assets/images/pawn_flamingo.png');
         this.load.image('pawn_fox', '../assets/images/pawn_fox.png');
         this.load.image('pawn_turtle', '../assets/images/pawn_turtle.png');
+
+
+        // Musiques et son.
+        this.load.audio('music', '../assets/sounds/music.mp3');
     }
 
     function create (){
+
+        var music = this.sound.add('music');
+        music.setLoop(true);
+        music.play();
 
         // this.nb = 0;
         this.bd = [];
@@ -116,7 +132,7 @@ $( document ).ready(function() {
             this.bd.meat = this.add.image(width-119, height-200, 'position_cards').setScale(0.64);
             this.bd.salad = this.add.image(width-195, height-200, 'position_cards').setScale(0.64);
             this.bd.sauce = this.add.image(width-271, height-200, 'position_cards').setScale(0.64);
-            this.add.image(width-(500/2)*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre').setScale(SCALE_TEXT);
+            this.add.image(width-(500/2)*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre_blue').setScale(SCALE_TEXT);
             this.add.image(width-200, height-32, 'block').setScale(SCALE_TEXT);
             this.bd.username = this.add.text(width-270, height-100, playerForStart[0].username, FONT_RIGHT);
             this.bd.img = this.add.image(width-60, height-55, playerForStart[0].img);
@@ -129,7 +145,7 @@ $( document ).ready(function() {
             this.bg.meat = this.add.image(119, height-200, 'position_cards').setScale(0.64);
             this.bg.salad = this.add.image(195, height-200, 'position_cards').setScale(0.64);
             this.bg.sauce = this.add.image(271, height-200, 'position_cards').setScale(0.64);
-            this.add.image(500/2*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre02').setScale(SCALE_TEXT);
+            this.add.image(500/2*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre_red').setScale(SCALE_TEXT);
             this.add.image(200, height-32, 'block').setScale(SCALE_TEXT);
             this.bg.username = this.add.text(140, height-100, playerForStart[1].username, FONT_LEFT);
             this.bg.img = this.add.image(60, height-55, playerForStart[1].img);
@@ -143,7 +159,7 @@ $( document ).ready(function() {
                 this.hg.meat = this.add.image(119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
                 this.hg.salad = this.add.image(195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
                 this.hg.sauce = this.add.image(271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                this.add.image(500/2*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre').setScale(SCALE_TEXT).setRotation(3.14);
+                this.add.image(500/2*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre_yellow').setScale(SCALE_TEXT).setRotation(3.14);
                 this.add.image(200, 75, 'block').setScale(SCALE_TEXT);
                 this.hg.username = this.add.text(140, 10, playerForStart[2].username, FONT_LEFT);
                 this.hg.img = this.add.image(60, 55, playerForStart[2].img);
@@ -158,7 +174,7 @@ $( document ).ready(function() {
                 this.hd.meat = this.add.image(width-119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
                 this.hd.salad = this.add.image(width-195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
                 this.hd.sauce = this.add.image(width-271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                this.add.image(width-(500/2)*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre02').setScale(SCALE_TEXT).setRotation(3.14);
+                this.add.image(width-(500/2)*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre_green').setScale(SCALE_TEXT).setRotation(3.14);
                 this.add.image(width-200, 75, 'block').setScale(SCALE_TEXT);
                 this.hd.username = this.add.text(width-260, 10, playerForStart[3].username, FONT_RIGHT);
                 this.hd.img = this.add.image(width-60, 55, playerForStart[3].img);
@@ -251,29 +267,69 @@ $( document ).ready(function() {
             if (this.bd.bank) { // If this.bd.bank existe, la vue à été initialisée (dans view, plus haut).
                 this.bd.bank.setText(player[0].bank);
                 this.bd.coins.setText(player[0].coins);
-                // this.bd.pawn.setPosition(this.casesX[player[0].position-1], this.casesY[player[0].position-1]);
+                if (player[0].cards.meat === true) this.bd.meat.setTexture('card_meat');
+                    else this.bd.meat.setTexture('position_cards');
+                if (player[0].cards.bread === true) this.bd.bread.setTexture('card_bread');
+                    else this.bd.bread.setTexture('position_cards');
+                if (player[0].cards.salad === true) this.bd.salad.setTexture('card_salad');
+                    else this.bd.salad.setTexture('position_cards');
+                if (player[0].cards.sauce === true) this.bd.sauce.setTexture('card_sauce');
+                    else this.bd.sauce.setTexture('position_cards');
 
                 this.bg.bank.setText(player[1].bank);
                 this.bg.coins.setText(player[1].coins);
-                // this.bg.pawn.setPosition(this.casesX[player[1].position-1], this.casesY[player[1].position-1]);
+                if (player[1].cards.meat === true) {
+                    this.bg.meat.setTexture('card_meat');
+                }
+                if (player[1].cards.bread === true) {
+                    this.bg.bread.setTexture('card_bread');
+                }
+                if (player[1].cards.salad === true) {
+                    this.bg.salad.setTexture('card_salad');
+                }
+                if (player[1].cards.sauce === true) {
+                    this.bg.sauce.setTexture('card_sauce');
+                }
 
                 if (player.length > 2) {
                     this.hg.bank.setText(player[2].bank);
                     this.hg.coins.setText(player[2].coins);
-                    // this.hg.pawn.setPosition(this.casesX[player[2].position-1], this.casesY[player[2].position-1]);
+                    if (player[2].cards.meat === true) {
+                        this.hg.meat.setTexture('card_meat');
+                    }
+                    if (player[2].cards.bread === true) {
+                        this.hg.bread.setTexture('card_bread');
+                    }
+                    if (player[2].cards.salad === true) {
+                        this.hg.salad.setTexture('card_salad');
+                    }
+                    if (player[2].cards.sauce === true) {
+                        this.hg.sauce.setTexture('card_sauce');
+                    }
                 }
 
                 if (player.length > 3) {
                     this.hd.bank.setText(player[3].bank);
                     this.hd.coins.setText(player[3].coins);
-                    // this.hd.pawn.setPosition(this.casesX[player[3].position-1], this.casesY[player[3].position-1]);
+                    if (player[3].cards.meat === true) {
+                        this.hd.meat.setTexture('card_meat');
+                    }
+                    if (player[3].cards.bread === true) {
+                        this.hd.bread.setTexture('card_bread');
+                    }
+                    if (player[3].cards.salad === true) {
+                        this.hd.salad.setTexture('card_salad');
+                    }
+                    if (player[3].cards.sauce === true) {
+                        this.hd.sauce.setTexture('card_sauce');
+                    }
                 }
             }
         });
 
 
         // Tour de jeu et dé.
-        this.thimbleButton = this.add.image(width/2, height-100, 'btn_thimble').setDepth(2).setInteractive();
+        this.thimbleButton = this.add.image(width/2, height-100, 'btn_thimble').setDepth(5).setInteractive();
         this.thimbleButton.visible = false;
 
         this.socket.on('play', () => {
@@ -296,6 +352,8 @@ $( document ).ready(function() {
 
         this.bd.move = 0;
         this.bg.move = 0;
+        this.hg.move = 0;
+        this.hd.move = 0;
 
         this.socket.on('down', () => {
             this.socket.close()
@@ -310,18 +368,21 @@ $( document ).ready(function() {
         // ----------
         // Chance.
 
-        this.modal = this.add.image(width/2, height/2, 'modal').setDepth(0);
+        this.modal = this.add.image(width/2, height/2, 'modal').setDepth(2);
         this.modal.visible = false;
 
-        this.modalChance = this.add.image(width/2, height/2-100, 'modal_chance').setDepth(0);
+        this.modalChance = this.add.image(width/2, height/2-100, 'modal_chance').setDepth(2);
         this.modalChance.visible = false;
 
-        this.modalAttack = this.add.image(width/2, height/2-100, 'modal_attack').setDepth(0);
+        this.modalAttack = this.add.image(width/2, height/2-100, 'modal_attack').setDepth(2);
         this.modalAttack.visible = false;
 
-        this.title = this.add.text(width/2-160, height/2-150, 'Chance', FONT_LEFT);
-        this.text = this.add.text(width/2-160, height/2-100, 'text', FONT_LEFT);
-        this.price = this.add.text(width/2+160, height/2-150, 'Prix: - Coins', FONT_LEFT);
+        this.modalBank = this.add.image(width/2, height/2-100, 'modal_bank').setDepth(2);
+        this.modalBank.visible = false;
+
+        this.title = this.add.text(width/2-160, height/2-150, 'Chance', FONT_LEFT).setDepth(3);
+        this.text = this.add.text(width/2-160, height/2-100, 'text', FONT_LEFT).setDepth(3);
+        this.price = this.add.text(width/2+160, height/2-150, 'Prix: - Coins', FONT_LEFT).setDepth(3);
 
         this.title.visible = false;
         this.text.visible = false;
@@ -330,23 +391,23 @@ $( document ).ready(function() {
         this.area = [];
         this.btn = [];
 
-        this.btn.take = this.add.image(width/2-120, height/2+50, 'btn_take').setInteractive().setDepth(1);
-        this.btn.lose = this.add.image(width/2+120, height/2+50, 'btn_lose').setInteractive().setDepth(1);
+        this.btn.take = this.add.image(width/2-120, height/2+50, 'btn_take').setInteractive().setDepth(3);
+        this.btn.lose = this.add.image(width/2+120, height/2+50, 'btn_lose').setInteractive().setDepth(3);
 
         this.btn.take.visible = false;
         this.btn.lose.visible = false;
 
-        this.btn.red = this.add.image(width/2-120, height/2+50, 'btn_red').setInteractive().setDepth(1);
-        this.btn.redText = this.add.text(width/2-160, height/2+34, 'Bouton', FONT_LEFT).setDepth(1);
+        this.btn.red = this.add.image(width/2-120, height/2+50, 'btn_red').setInteractive().setDepth(3);
+        this.btn.redText = this.add.text(width/2-160, height/2+34, 'Bouton', FONT_LEFT).setDepth(3);
 
-        this.btn.green = this.add.image(width/2-120, height/2+120, 'btn_green').setInteractive().setDepth(1);
-        this.btn.greenText = this.add.text(width/2-160, height/2+104, 'Bouton', FONT_LEFT).setDepth(1);
+        this.btn.green = this.add.image(width/2-120, height/2+120, 'btn_green').setInteractive().setDepth(3);
+        this.btn.greenText = this.add.text(width/2-160, height/2+104, 'Bouton', FONT_LEFT).setDepth(3);
 
-        this.btn.blue = this.add.image(width/2+120, height/2+50, 'btn_blue').setInteractive().setDepth(1);
-        this.btn.blueText = this.add.text(width/2+80, height/2+34, 'Bouton', FONT_LEFT).setDepth(1);
+        this.btn.blue = this.add.image(width/2+120, height/2+50, 'btn_blue').setInteractive().setDepth(3);
+        this.btn.blueText = this.add.text(width/2+80, height/2+34, 'Bouton', FONT_LEFT).setDepth(3);
 
-        this.btn.yellow = this.add.image(width/2+120, height/2+120, 'btn_yellow').setInteractive().setDepth(1);
-        this.btn.yellowText = this.add.text(width/2+80, height/2+104, 'Bouton', FONT_LEFT).setDepth(1);
+        this.btn.yellow = this.add.image(width/2+120, height/2+120, 'btn_yellow').setInteractive().setDepth(3);
+        this.btn.yellowText = this.add.text(width/2+80, height/2+104, 'Bouton', FONT_LEFT).setDepth(3);
 
         this.btn.red.visible = false;
         this.btn.redText.visible = false;
@@ -359,9 +420,6 @@ $( document ).ready(function() {
 
         this.btn.yellow.visible = false;
         this.btn.yellowText.visible = false;
-
-
-
 
 
         this.socket.on('modal_chance', (data, text) => {
@@ -403,11 +461,6 @@ $( document ).ready(function() {
                         default:
                         console.error('Error: chance button.');
                     }
-                    // this.btn = this.add.image(width/2-200+i*200, height/2+50, 'btn_'+element.color);
-                    // this.btn01.visible = true;
-                    // this.btn01.setText(element.username);
-
-                    // this.btn01 = this.add.text(width/2-250+i*200, height/2+35, element.username, FONT_LEFT);
                 }
                 i++;
             })
@@ -492,8 +545,6 @@ $( document ).ready(function() {
             this.btn.yellowText.visible = false;
         });
 
-
-
         this.socket.on('makeLoseOrWin', (text) => {
             this.modalChance.visible = true;
             this.title.visible = true;
@@ -511,6 +562,7 @@ $( document ).ready(function() {
             this.btn.take.visible = false;
             this.btn.lose.visible = false;
         });
+
         this.btn.lose.on('pointerdown', () => {
             this.socket.emit('lose-win', 'lose');
             this.modalChance.visible = false;
@@ -519,7 +571,6 @@ $( document ).ready(function() {
             this.btn.take.visible = false;
             this.btn.lose.visible = false;
         });
-
 
         this.socket.on('destroy', (data, price, title) => {
 
@@ -531,7 +582,7 @@ $( document ).ready(function() {
             this.title.visible = true;
             this.text.visible = true;
             this.price.visible = true;
-            this.btn.cancel = this.add.image(width/2, height/2+100, 'btn_meat').setDepth(1).setInteractive();
+            this.btn.cancel = this.add.image(width/2, height/2+100, 'btn_meat').setDepth(3).setInteractive();
             this.title.setText(title);
             this.price.setText('Prix: '+price+' Coins');
             this.text.setText('Quelle carte voulez-vous détruire?');
@@ -544,12 +595,12 @@ $( document ).ready(function() {
             this.area.text = [];
 
             data.forEach((element, i) => { // Pour chaque joueur, ajout des 4 btn. + son nom.
-                this.area[element.color] = this.add.image( (width/2-270)+i*180, height/2, 'area_'+element.color).setDepth(0);
-                this.area.text[element.color] = this.add.text((width/2-310)+i*180, height/2-50, element.username, FONT_LEFT).setDepth(1);
-                this.btn.meat[element.color] = this.add.image((width/2-335)+i*180, height/2, 'btn_meat').setDepth(1).setInteractive();
-                this.btn.bread[element.color] = this.add.image((width/2-290)+i*180, height/2, 'btn_bread').setDepth(1).setInteractive();
-                this.btn.salad[element.color] = this.add.image((width/2-245)+i*180, height/2, 'btn_salad').setDepth(1).setInteractive();
-                this.btn.sauce[element.color] = this.add.image((width/2-200)+i*180, height/2, 'btn_sauce').setDepth(1).setInteractive();
+                this.area[element.color] = this.add.image( (width/2-270)+i*180, height/2, 'area_'+element.color).setDepth(3);
+                this.area.text[element.color] = this.add.text((width/2-310)+i*180, height/2-50, element.username, FONT_LEFT).setDepth(4);
+                this.btn.meat[element.color] = this.add.image((width/2-335)+i*180, height/2, 'btn_meat').setDepth(4).setInteractive();
+                this.btn.bread[element.color] = this.add.image((width/2-290)+i*180, height/2, 'btn_bread').setDepth(4).setInteractive();
+                this.btn.salad[element.color] = this.add.image((width/2-245)+i*180, height/2, 'btn_salad').setDepth(4).setInteractive();
+                this.btn.sauce[element.color] = this.add.image((width/2-200)+i*180, height/2, 'btn_sauce').setDepth(4).setInteractive();
             })
 
 
@@ -650,8 +701,6 @@ $( document ).ready(function() {
             });
         });
 
-
-
         this.socket.on('chance_giveForEveryone', (data) => {
             console.log('Give for everyone: '+ data);
         })
@@ -668,12 +717,6 @@ $( document ).ready(function() {
             console.log(p.username +' take in '+ responseRandom + ' from ' +p2.username);
         })
 
-
-
-
-        // Bank.
-        // -----
-
         this.socket.on('bank', (data) => {
             console.log('Go bank');
             console.log(data);
@@ -683,12 +726,12 @@ $( document ).ready(function() {
 
                 this.title.setText('Banque');
                 this.text.setText('Combien voulez-vous placer \nà la banque?');
-                this.btn.inputBank = this.add.image(width/2, height/2, 'btn_blue').setDepth(1);
-                this.btn.inputBankText = this.add.text(width/2, height/2+35, 0, FONT_LEFT).setDepth(1);
-                this.btn.up = this.add.image(width/2+100, height/2, 'btn_meat').setDepth(1).setInteractive();
-                this.btn.down = this.add.image(width/2+140, height/2, 'btn_meat').setDepth(1).setInteractive();
-                this.btn.ok = this.add.image(width/2, height/2+80, 'btn_meat').setDepth(1).setInteractive();
-                this.modal.visible = true;
+                this.btn.inputBank = this.add.image(width/2, height/2, 'btn_blue').setDepth(3);
+                this.btn.inputBankText = this.add.text(width/2, height/2+35, 0, FONT_LEFT).setDepth(3);
+                this.btn.up = this.add.image(width/2+100, height/2, 'btn_meat').setDepth(3).setInteractive();
+                this.btn.down = this.add.image(width/2+140, height/2, 'btn_meat').setDepth(3).setInteractive();
+                this.btn.ok = this.add.image(width/2, height/2+80, 'btn_meat').setDepth(3).setInteractive();
+                this.modalBank.visible = true;
                 this.title.visible = true;
                 this.text.visible = true;
 
@@ -714,7 +757,7 @@ $( document ).ready(function() {
                     deleteBank(this);
                 });
             }else{
-                this.add.text(width/2, height/2+35, 'Pas de money', FONT_LEFT).setDepth(1);
+                this.add.text(width/2, height/2+35, 'Pas de money', FONT_LEFT).setDepth(3);
                 this.socket.emit('addToBank', 0);
             }
         })
@@ -723,7 +766,7 @@ $( document ).ready(function() {
             this.modal.visible = true;
             this.title.visible = true;
             this.text.visible = true;
-            var salon = this.add.image(width/2, height/2+80, 'btn_meat').setDepth(1).setInteractive();
+            var salon = this.add.image(width/2, height/2+80, 'btn_meat').setDepth(3).setInteractive();
             this.title.setText('#finDuGame');
             this.text.setText(winner.username + ' remporte la partie! \n Bien joué!');
 
@@ -733,7 +776,6 @@ $( document ).ready(function() {
                 window.location.href = '/jeu/salon';
             });
         })
-
 
         this.socket.on('errorSocketIo', (data) => {
             switch (data) {
@@ -753,8 +795,6 @@ $( document ).ready(function() {
             }
         })
 
-
-
         this.socket.on('responseThimble', (responseThimble, player) => {
             console.log(responseThimble);
 
@@ -770,77 +810,82 @@ $( document ).ready(function() {
                 this.bg.move = responseThimble;
             }
 
-            // if (player.color === 'blue') this.bd.pawn.setPosition( this.casesX[realPosition], this.casesY[realPosition]-75);
-            // if (player.color === 'red') this.bg.pawn.setPosition(this.casesX[realPosition], this.casesY[realPosition]-75);
-            // if (player.color === 'yellow') this.hg.pawn.setPosition(this.casesX[realPosition], this.casesY[realPosition]-75);
-            // if (player.color === 'green') this.hd.pawn.setPosition(this.casesX[realPosition], this.casesY[realPosition]-75);
+            if (player.color === 'yellow'){
+                this.hg.move = responseThimble;
+            }
+
+            if (player.color === 'green'){
+                this.hd.move = responseThimble;
+            }
+
         })
     } // Fin Create.
+
 
     function update(){
         if (this.bd.move > 0) {
             if (this.bd.pawn.y > height/2 && this.bd.pawn.x <= width/2) {
-                this.bd.pawn.x -= WUNIT;
-                this.bd.pawn.y -= HUNIT;
+                this.bd.pawn.x -= WUNIT/ANIMATION_TIMER;
+                this.bd.pawn.y -= HUNIT/ANIMATION_TIMER;
             }else if (this.bd.pawn.y <= height/2 && this.bd.pawn.x < width/2) {
-                this.bd.pawn.x += WUNIT;
-                this.bd.pawn.y -= HUNIT;
+                this.bd.pawn.x += WUNIT/ANIMATION_TIMER;
+                this.bd.pawn.y -= HUNIT/ANIMATION_TIMER;
             }else if (this.bd.pawn.y < height/2 && this.bd.pawn.x >= width/2) {
-                this.bd.pawn.x += WUNIT;
-                this.bd.pawn.y += HUNIT;
+                this.bd.pawn.x += WUNIT/ANIMATION_TIMER;
+                this.bd.pawn.y += HUNIT/ANIMATION_TIMER;
             }else{
-                this.bd.pawn.x -= WUNIT;
-                this.bd.pawn.y += HUNIT;
+                this.bd.pawn.x -= WUNIT/ANIMATION_TIMER;
+                this.bd.pawn.y += HUNIT/ANIMATION_TIMER;
             }
-            this.bd.move -= 1;
+            this.bd.move -= 1/ANIMATION_TIMER;
         }
         if (this.bg.move > 0) {
             if (this.bg.pawn.y > height/2 && this.bg.pawn.x <= width/2) {
-                this.bg.pawn.x -= WUNIT;
-                this.bg.pawn.y -= HUNIT;
+                this.bg.pawn.x -= WUNIT/ANIMATION_TIMER;
+                this.bg.pawn.y -= HUNIT/ANIMATION_TIMER;
             }else if (this.bg.pawn.y <= height/2 && this.bg.pawn.x < width/2) {
-                this.bg.pawn.x += WUNIT;
-                this.bg.pawn.y -= HUNIT;
+                this.bg.pawn.x += WUNIT/ANIMATION_TIMER;
+                this.bg.pawn.y -= HUNIT/ANIMATION_TIMER;
             }else if (this.bg.pawn.y < height/2 && this.bg.pawn.x >= width/2) {
-                this.bg.pawn.x += WUNIT;
-                this.bg.pawn.y += HUNIT;
+                this.bg.pawn.x += WUNIT/ANIMATION_TIMER;
+                this.bg.pawn.y += HUNIT/ANIMATION_TIMER;
             }else{
-                this.bg.pawn.x -= WUNIT;
-                this.bg.pawn.y += HUNIT;
+                this.bg.pawn.x -= WUNIT/ANIMATION_TIMER;
+                this.bg.pawn.y += HUNIT/ANIMATION_TIMER;
             }
-            this.bg.move -= 1;
+            this.bg.move -= 1/ANIMATION_TIMER;
         }
         if (this.hg.move > 0) {
             if (this.hg.pawn.y > height/2 && this.hg.pawn.x <= width/2) {
-                this.hg.pawn.x -= WUNIT;
-                this.hg.pawn.y -= HUNIT;
+                this.hg.pawn.x -= WUNIT/ANIMATION_TIMER;
+                this.hg.pawn.y -= HUNIT/ANIMATION_TIMER;
             }else if (this.hg.pawn.y <= height/2 && this.hg.pawn.x < width/2) {
-                this.hg.pawn.x += WUNIT;
-                this.hg.pawn.y -= HUNIT;
+                this.hg.pawn.x += WUNIT/ANIMATION_TIMER;
+                this.hg.pawn.y -= HUNIT/ANIMATION_TIMER;
             }else if (this.hg.pawn.y < height/2 && this.hg.pawn.x >= width/2) {
-                this.hg.pawn.x += WUNIT;
-                this.hg.pawn.y += HUNIT;
+                this.hg.pawn.x += WUNIT/ANIMATION_TIMER;
+                this.hg.pawn.y += HUNIT/ANIMATION_TIMER;
             }else{
-                this.hg.pawn.x -= WUNIT;
-                this.hg.pawn.y += HUNIT;
+                this.hg.pawn.x -= WUNIT/ANIMATION_TIMER;
+                this.hg.pawn.y += HUNIT/ANIMATION_TIMER;
             }
-            this.hg.move -= 1;
+            this.hg.move -= 1/ANIMATION_TIMER;
         }
         if (this.hd.move > 0) {
             if (this.hd.pawn.y > height/2 && this.hd.pawn.x <= width/2) {
-                this.hd.pawn.x -= WUNIT;
-                this.hd.pawn.y -= HUNIT;
+                this.hd.pawn.x -= WUNIT/ANIMATION_TIMER;
+                this.hd.pawn.y -= HUNIT/ANIMATION_TIMER;
             }else if (this.hd.pawn.y <= height/2 && this.hd.pawn.x < width/2) {
-                this.hd.pawn.x += WUNIT;
-                this.hd.pawn.y -= HUNIT;
+                this.hd.pawn.x += WUNIT/ANIMATION_TIMER;
+                this.hd.pawn.y -= HUNIT/ANIMATION_TIMER;
             }else if (this.hd.pawn.y < height/2 && this.hd.pawn.x >= width/2) {
-                this.hd.pawn.x += WUNIT;
-                this.hd.pawn.y += HUNIT;
+                this.hd.pawn.x += WUNIT/ANIMATION_TIMER;
+                this.hd.pawn.y += HUNIT/ANIMATION_TIMER;
             }else{
-                this.hd.pawn.x -= WUNIT;
-                this.hd.pawn.y += HUNIT;
+                this.hd.pawn.x -= WUNIT/ANIMATION_TIMER;
+                this.hd.pawn.y += HUNIT/ANIMATION_TIMER;
             }
-            this.hd.move -= 1;
+            this.hd.move -= 1/ANIMATION_TIMER;
         }
     }
 
@@ -870,7 +915,7 @@ $( document ).ready(function() {
         thisObj.btn.up.destroy();
         thisObj.btn.down.destroy();
         thisObj.btn.ok.destroy();
-        thisObj.modal.visible = false;
+        thisObj.modalBank.visible = false;
         thisObj.title.visible = false;
         thisObj.text.visible = false;
     }
