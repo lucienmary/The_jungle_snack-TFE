@@ -122,7 +122,7 @@ module.exports = {
 
                 socket.on('thimble', (ok) => {
                     console.log('Dé lancé: '+ ok);
-                    var responseThimble = thimble(5);
+                    var responseThimble = thimble(6);
 
                     io.of('/A'+idGame).emit('responseThimble', responseThimble, player[num]);
 

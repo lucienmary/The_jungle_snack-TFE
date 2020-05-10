@@ -14,7 +14,7 @@ $( document ).ready(function() {
     const FONT_RIGHT = {fontFamily: 'Arial', fontSize: 28, align: 'right'};
     const FONT_LEFT = {fontFamily: 'Arial', fontSize: 28, align: 'left'};
     const FONT_MONEY = {fontFamily: 'Arial', fontSize: 24, align: 'left'};
-    const ANIMATION_TIMER = 1;
+    const ANIMATION_TIMER = 10;
 
     var config = {
             type: Phaser.AUTO,
@@ -94,11 +94,14 @@ $( document ).ready(function() {
         this.load.audio('music', '../assets/sounds/music.mp3');
 
         // thimble.
-        this.load.video('v1', '../assets/videos/thimble01.webm');
+        this.load.video('video06', '../assets/videos/6.webm');
+        this.load.video('video05', '../assets/videos/5.webm');
+        this.load.video('video04', '../assets/videos/4.webm');
+        this.load.video('video03', '../assets/videos/3.webm');
+        this.load.video('video02', '../assets/videos/2.webm');
+        this.load.video('video01', '../assets/videos/1.webm');
 
     }
-
-    var video;
 
     function create (){
 
@@ -106,8 +109,14 @@ $( document ).ready(function() {
         music.setLoop(true);
         music.play();
 
+        this.video = [];
 
-        this.video01 = this.add.video(width/2, 0, 'v1').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
+        this.video[5] = this.add.video(width/2, 0, 'video06').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
+        this.video[4] = this.add.video(width/2, 0, 'video05').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
+        this.video[3] = this.add.video(width/2, 0, 'video04').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
+        this.video[2] = this.add.video(width/2, 0, 'video03').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
+        this.video[1] = this.add.video(width/2, 0, 'video02').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
+        this.video[0] = this.add.video(width/2, 0, 'video01').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
 
         // this.nb = 0;
         this.bd = [];
@@ -794,28 +803,48 @@ $( document ).ready(function() {
 
         this.socket.on('responseThimble', (responseThimble, player) => {
             console.log(responseThimble);
-            this.video01.play();
 
-            var realPosition;
-            if (player.position+responseThimble-1 <= 19) realPosition = player.position+responseThimble-1;
-            else realPosition = (player.position+responseThimble-1)-20;
+            console.log('video');
+            this.video[responseThimble-1].play();
+            this.video[responseThimble-1].visible = true;
 
-            if (player.color === 'blue'){
-                this.bd.move = responseThimble;
+            var passVideo = this.video;
+
+            setTimeout(move, 3000, player, this);
+            setTimeout(stopVideo, 5000, this);
+
+            function move(player, this0) {
+
+                var realPosition;
+
+                if (player.position+responseThimble-1 <= 19) realPosition = player.position+responseThimble-1;
+                else realPosition = (player.position+responseThimble-1)-20;
+
+                if (player.color === 'blue'){
+                    this0.bd.move = responseThimble;
+                }
+
+                if (player.color === 'red'){
+                    this0.bg.move = responseThimble;
+                }
+
+                if (player.color === 'yellow'){
+                    this0.hg.move = responseThimble;
+                }
+
+                if (player.color === 'green'){
+                    this0.hd.move = responseThimble;
+                }
             }
 
-            if (player.color === 'red'){
-                this.bg.move = responseThimble;
+            function stopVideo(this0) {
+                for (var i = 0; i < 6; i++) {
+                    console.log('cc');
+                    this0.video[i].setCurrentTime(0);
+                    this0.video[i].stop();
+                    this0.video[i].visible = false;
+                }
             }
-
-            if (player.color === 'yellow'){
-                this.hg.move = responseThimble;
-            }
-
-            if (player.color === 'green'){
-                this.hd.move = responseThimble;
-            }
-
         })
     } // Fin Create.
 
