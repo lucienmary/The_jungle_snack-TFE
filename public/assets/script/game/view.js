@@ -14,6 +14,7 @@ $( document ).ready(function() {
     const FONT_RIGHT = {fontFamily: 'Arial', fontSize: 28, align: 'right'};
     const FONT_LEFT = {fontFamily: 'Arial', fontSize: 28, align: 'left'};
     const FONT_MONEY = {fontFamily: 'Arial', fontSize: 24, align: 'left'};
+    const FONT_INFOS = {fontFamily: 'Arial Black', fontSize: 72, align: 'center', color: '#FFF3C2', fontWeight: 'bold'};
     const ANIMATION_TIMER = 10;
     const ALPHA_PAWN = 0.7;
     const TIME_THIMBLE = 4000;
@@ -113,6 +114,8 @@ $( document ).ready(function() {
         music.setLoop(true);
         music.play();
 
+        this.info = this.add.text(width/2, height/2-20, '/', FONT_INFOS).setDepth(7).setOrigin(0.5);
+        this.info.visible = false;
         this.gradient = this.add.image(width/2, height/2, 'gradient').setOrigin(0.5, 0.5).setDepth(5);
         this.gradient.visible = false;
 
@@ -287,7 +290,7 @@ $( document ).ready(function() {
         this.socket.on('player', (player) => {
 
             this.p = player;
-            this.gradient.visible = false;
+            // this.gradient.visible = false;
 
             if (this.bd.bank) { // If this.bd.bank existe, la vue à été initialisée (dans view, plus haut).
 
@@ -506,6 +509,7 @@ $( document ).ready(function() {
             this.socket.emit('choice_chance', this.btn.redNum);
             console.log(this.btn.redNum);
             this.modalChance.visible = false;
+            this.gradient.visible = false;
             this.title.visible = false;
             this.text.visible = false;
 
@@ -526,6 +530,7 @@ $( document ).ready(function() {
             this.socket.emit('choice_chance', this.btn.greenNum);
             console.log(this.btn.greenNum);
             this.modalChance.visible = false;
+            this.gradient.visible = false;
             this.title.visible = false;
             this.text.visible = false;
 
@@ -546,6 +551,7 @@ $( document ).ready(function() {
             this.socket.emit('choice_chance', this.btn.blueNum);
             console.log(this.btn.blueNum);
             this.modalChance.visible = false;
+            this.gradient.visible = false;
             this.title.visible = false;
             this.text.visible = false;
 
@@ -565,6 +571,7 @@ $( document ).ready(function() {
         this.btn.yellow.on('pointerdown', () => {
             this.socket.emit('choice_chance', this.btn.yellowNum);
             this.modalChance.visible = false;
+            this.gradient.visible = false;
             this.title.visible = false;
             this.text.visible = false;
 
@@ -598,6 +605,7 @@ $( document ).ready(function() {
         this.btn.take.on('pointerdown', () => {
             this.socket.emit('lose-win', 'win');
             this.modalChance.visible = false;
+            this.gradient.visible = false;
             this.title.visible = false;
             this.text.visible = false;
             this.btn.take.visible = false;
@@ -607,6 +615,7 @@ $( document ).ready(function() {
         this.btn.lose.on('pointerdown', () => {
             this.socket.emit('lose-win', 'lose');
             this.modalChance.visible = false;
+            this.gradient.visible = false;
             this.title.visible = false;
             this.text.visible = false;
             this.btn.take.visible = false;
@@ -746,8 +755,22 @@ $( document ).ready(function() {
             }
         });
 
-        this.socket.on('chance_giveForEveryone', (data) => {
-            console.log('Give for everyone: '+ data);
+        this.socket.on('infos', (info) => {
+            setTimeout( infos, TIME_MODAL, this, info)
+            function infos(this0, info) {
+
+                this0.info.setText(info);
+                this0.info.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+                this0.info.visible = true;
+                this0.gradient.visible = true;
+
+                setTimeout( deleteInfos, 2500, this0)
+                function deleteInfos(this0) {
+                    this0.info.visible = false;
+                    this0.gradient.visible = false;
+                }
+            }
+            console.log(info);
         })
 
         this.socket.on('chance_getFromEveryone', (data) => {
@@ -976,6 +999,7 @@ $( document ).ready(function() {
         thisObj.btn.cancel.destroy();
         thisObj.modalAttack.visible = false;
         thisObj.modalChance.visible = false;
+        thisObj.gradient.visible = false;
         thisObj.title.visible = false;
         thisObj.text.visible = false;
         thisObj.price.visible = false;
@@ -988,6 +1012,7 @@ $( document ).ready(function() {
         thisObj.btn.down.destroy();
         thisObj.btn.ok.destroy();
         thisObj.modalBank.visible = false;
+        thisObj.gradient.visible = false;
         thisObj.title.visible = false;
         thisObj.text.visible = false;
     }

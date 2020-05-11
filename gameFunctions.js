@@ -140,17 +140,17 @@ module.exports = {
                     if (player[num].position === BOXES.chance[0] || player[num].position === BOXES.chance[1] || player[num].position === BOXES.chance[2] || player[num].position === BOXES.chance[3]) {
                         console.log('Chance');
 
-                        var randomChance = Math.floor(Math.random() * Math.floor(5));
-                        // var randomChance = 5;
+                        // var randomChance = Math.floor(Math.random() * Math.floor(5));
+                        var randomChance = 2;
                         var responseRandom;
 
                         switch (randomChance) {
                             case 0:
                                 responseRandom = CHANCE.giveForEveryone[Math.floor(Math.random() * Math.floor(2))];
 
-                                console.log('giveForEveryone');
+                                var info = player[num].username + ' donne '+ responseRandom + ' Coins à chaque joueur!';
 
-                                io.of('/A'+idGame).emit('chance_giveForEveryone', responseRandom);
+                                io.of('/A'+idGame).emit('infos', info);
 
                                 player.forEach(element => {
                                     element.coins += responseRandom;
@@ -183,9 +183,9 @@ module.exports = {
                             case 2:
                                 responseRandom = CHANCE.getFromEveryone[Math.floor(Math.random() * Math.floor(2))];
 
-                                console.log('getFromEveryone');
+                                var info = player[num].username + ' à volé '+ responseRandom + ' Coins à chaque joueur!';
 
-                                io.of('/A'+idGame).emit('chance_getFromEveryone', responseRandom);
+                                io.of('/A'+idGame).emit('infos', info);
 
                                 player.forEach(element => {
                                     element.coins -= responseRandom;
@@ -293,12 +293,14 @@ module.exports = {
                         console.log('Money');
                         var randomPosition = (Math.floor(Math.random() * MONEY.length));
 
-                        console.log(randomPosition);
                         if (randomPosition === null) {
                             randomPosition = 25;
                             console.log('bug money');
                         }
                         player[num].coins = player[num].coins + MONEY[randomPosition];
+
+                        var info = player[num].username + ' a gagné ' + MONEY[randomPosition] + ' Coins';
+                        io.of('/A'+idGame).emit('infos', info);
 
                         io.of('/A'+idGame).emit('anim_money', player[num].username, MONEY[randomPosition]);
                         endOfTurn();
