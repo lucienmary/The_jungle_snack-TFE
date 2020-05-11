@@ -17,6 +17,7 @@ $( document ).ready(function() {
     const ANIMATION_TIMER = 10;
     const ALPHA_PAWN = 0.7;
     const TIME_THIMBLE = 4000;
+    const TIME_MODAL = 4000;
 
     var config = {
             type: Phaser.AUTO,
@@ -124,7 +125,6 @@ $( document ).ready(function() {
         this.video[1] = this.add.video(width/2, 0, 'video02').setDepth(4).setOrigin(0.5, 0).setScale(0.8);
         this.video[0] = this.add.video(width/2, 0, 'video01').setDepth(4).setOrigin(0.5, 0).setScale(0.8);
 
-        // this.nb = 0;
         this.bd = [];
         this.bg = [];
         this.hg = [];
@@ -132,7 +132,6 @@ $( document ).ready(function() {
 
         this.casesX = [width/2, (width/2)-WUNIT, (width/2)-WUNIT*2, (width/2)-WUNIT*3, (width/2)-WUNIT*4, (width/2)-WUNIT*5, (width/2)-WUNIT*4, (width/2)-WUNIT*3, (width/2)-WUNIT*2, (width/2)-WUNIT, width/2, (width/2)+WUNIT, (width/2)+WUNIT*2, (width/2)+WUNIT*3, (width/2)+WUNIT*4, (width/2)+WUNIT*5, (width/2)+WUNIT*4, (width/2)+WUNIT*3, (width/2)+WUNIT*2, (width/2)+WUNIT]
         this.casesY = [(height/2)+HUNIT*5, (height/2)+HUNIT*4, (height/2)+HUNIT*3, (height/2)+HUNIT*2, (height/2)+HUNIT, height/2, (height/2)-HUNIT, (height/2)-HUNIT*2, (height/2)-HUNIT*3, (height/2)-HUNIT*4, (height/2)-HUNIT*5, (height/2)-HUNIT*4, (height/2)-HUNIT*3, (height/2)-HUNIT*2, (height/2)-HUNIT*1, height/2, (height/2)+HUNIT, (height/2)+HUNIT*2, (height/2)+HUNIT*3, (height/2)+HUNIT*4];
-        // var initialized = false;
 
         // connection settings.
         this.socket = io.connect('/A'+idGame[1]);
@@ -142,7 +141,6 @@ $( document ).ready(function() {
 
         this.socket.emit('fine', function (result) {
             console.info("%c"+result.msg+" 🥰", "color: lightgreen");
-            // console.info("%c"+result.nb, "color: red");
         });
 
         this.socket.on('recupId', (player) => {
@@ -392,7 +390,6 @@ $( document ).ready(function() {
         this.socket.on('down', () => {
             this.socket.close()
             this.socket.open()
-            // socket.reload()
         })
 
 
@@ -457,13 +454,8 @@ $( document ).ready(function() {
 
 
         this.socket.on('modal_chance', (data, text) => {
-            // this.modalChance.visible = true;
-            // this.gradient.visible = true;
-            // // this.title.visible = true;
-            // this.text.visible = true;
 
-
-            setTimeout(chanceTimer, 4000, this, data, text);
+            setTimeout(chanceTimer, TIME_MODAL, this, data, text);
             function chanceTimer(this0, data, text) {
 
                 this0.text.setText(text);
@@ -590,13 +582,17 @@ $( document ).ready(function() {
         });
 
         this.socket.on('makeLoseOrWin', (text) => {
-            this.modalChance.visible = true;
-            this.gradient.visible = true;
-            this.title.visible = true;
-            this.text.visible = true;
-            this.btn.take.visible = true;
-            this.btn.lose.visible = true;
-            this.text.setText(text);
+            setTimeout(makeLoseOrWinTimer, TIME_MODAL, this, text);
+
+            function makeLoseOrWinTimer(this0, text) {
+                this0.modalChance.visible = true;
+                this0.gradient.visible = true;
+                this0.title.visible = true;
+                this0.text.visible = true;
+                this0.btn.take.visible = true;
+                this0.btn.lose.visible = true;
+                this0.text.setText(text);
+            }
         })
 
         this.btn.take.on('pointerdown', () => {
@@ -619,132 +615,135 @@ $( document ).ready(function() {
 
         this.socket.on('destroy', (data, price, title) => {
 
-            if (price  === 0) {
-                this.modalChance.visible = true;
-            }else{
-                this.modalAttack.visible = true;
+            setTimeout(destroyModal, TIME_MODAL, this, data, price, title);
+
+            function destroyModal(this0, data, price, title) {
+                if (price  === 0) {
+                    this0.modalChance.visible = true;
+                }else{
+                    this0.modalAttack.visible = true;
+                }
+                this0.gradient.visible = true;
+                this0.title.visible = true;
+                this0.text.visible = true;
+                this0.price.visible = true;
+                this0.btn.cancel = this0.add.image(width/2, height/2+100, 'btn_meat').setDepth(7).setInteractive();
+                this0.title.setText(title);
+                this0.price.setText('Prix: '+price+' Coins');
+                this0.text.setText('Quelle carte voulez-vous détruire?');
+
+                this0.btn.meat = [];
+                this0.btn.bread = [];
+                this0.btn.salad = [];
+                this0.btn.sauce = [];
+                this0.area = [];
+                this0.area.text = [];
+
+                data.forEach((element, i) => { // Pour chaque joueur, ajout des 4 btn. + son nom.
+                    this0.area[element.color] = this0.add.image( (width/2-270)+i*180, height/2, 'area_'+element.color).setDepth(6.5);
+                    this0.area.text[element.color] = this0.add.text((width/2-310)+i*180, height/2-50, element.username, FONT_LEFT).setDepth(7);
+                    this0.btn.meat[element.color] = this0.add.image((width/2-335)+i*180, height/2, 'btn_meat').setDepth(7).setInteractive();
+                    this0.btn.bread[element.color] = this0.add.image((width/2-290)+i*180, height/2, 'btn_bread').setDepth(7).setInteractive();
+                    this0.btn.salad[element.color] = this0.add.image((width/2-245)+i*180, height/2, 'btn_salad').setDepth(7).setInteractive();
+                    this0.btn.sauce[element.color] = this0.add.image((width/2-200)+i*180, height/2, 'btn_sauce').setDepth(7).setInteractive();
+                })
+
+
+                this0.btn.meat['blue'].on('pointerdown', () => {
+                    this0.socket.emit('destroyed', 'meat-'+data[0].id);
+                    console.log('blue m');
+                    deleteModal(this0, data);
+                });
+                this0.btn.bread['blue'].on('pointerdown', () => {
+                    this0.socket.emit('destroyed', 'bread-'+data[0].id);
+                    console.log('blue b');
+                    deleteModal(this0, data);
+                });
+                this0.btn.salad['blue'].on('pointerdown', () => {
+                    this0.socket.emit('destroyed', 'salad-'+data[0].id);
+                    console.log('blue sal');
+                    deleteModal(this0, data);
+                });
+                this0.btn.sauce['blue'].on('pointerdown', () => {
+                    this0.socket.emit('destroyed', 'sauce-'+data[0].id);
+                    console.log('blue sau');
+                    deleteModal(this0, data);
+                });
+
+
+                this0.btn.meat['red'].on('pointerdown', () => {
+                    this0.socket.emit('destroyed', 'meat-'+data[1].id);
+                    console.log('Red m');
+                    deleteModal(this0, data);
+                });
+                this0.btn.bread['red'].on('pointerdown', () => {
+                    this0.socket.emit('destroyed', 'bread-'+data[1].id);
+                    console.log('Red b');
+                    deleteModal(this0, data);
+                });
+                this0.btn.salad['red'].on('pointerdown', () => {
+                    this0.socket.emit('destroyed', 'salad-'+data[1].id);
+                    console.log('Red sal');
+                    deleteModal(this0, data);
+                });
+                this0.btn.sauce['red'].on('pointerdown', () => {
+                    this0.socket.emit('destroyed', 'sauce-'+data[1].id);
+                    console.log('Red sau');
+                    deleteModal(this0, data);
+                });
+
+
+                if (data.length > 2) {
+                    this0.btn.meat['yellow'].on('pointerdown', () => {
+                        this0.socket.emit('destroyed', 'meat-'+data[2].id);
+                        console.log('yellow');
+                        deleteModal(this0, data);
+                    });
+                    this0.btn.bread['yellow'].on('pointerdown', () => {
+                        this0.socket.emit('destroyed', 'bread-'+data[2].id);
+                        console.log('yellow');
+                        deleteModal(this0, data);
+                    });
+                    this0.btn.salad['yellow'].on('pointerdown', () => {
+                        this0.socket.emit('destroyed', 'salad-'+data[2].id);
+                        console.log('yellow');
+                        deleteModal(this0, data);
+                    });
+                    this0.btn.sauce['yellow'].on('pointerdown', () => {
+                        this0.socket.emit('destroyed', 'sauce-'+data[2].id);
+                        console.log('yellow');
+                        deleteModal(this0, data);
+                    });
+                }
+                if (data.length > 3) {
+                    this0.btn.meat['green'].on('pointerdown', () => {
+                        this0.socket.emit('destroyed', 'meat-'+data[3].id);
+                        console.log('green');
+                        deleteModal(this0, data);
+                    });
+                    this0.btn.bread['green'].on('pointerdown', () => {
+                        this0.socket.emit('destroyed', 'bread-'+data[3].id);
+                        console.log('green');
+                        deleteModal(this0, data);
+                    });
+                    this0.btn.salad['green'].on('pointerdown', () => {
+                        this0.socket.emit('destroyed', 'salad-'+data[3].id);
+                        console.log('green');
+                        deleteModal(this0, data);
+                    });
+                    this0.btn.sauce['green'].on('pointerdown', () => {
+                        this0.socket.emit('destroyed', 'sauce-'+data[3].id);
+                        console.log('green');
+                        deleteModal(this0, data);
+                    });
+                }
+
+                this0.btn.cancel.on('pointerdown', () => {
+                    console.log('Cancel');
+                    this0.socket.emit('destroyed', false);
+                    deleteModal(this0, data);
+                });
             }
-            this.gradient.visible = true;
-            this.title.visible = true;
-            this.text.visible = true;
-            this.price.visible = true;
-            this.btn.cancel = this.add.image(width/2, height/2+100, 'btn_meat').setDepth(7).setInteractive();
-            this.title.setText(title);
-            this.price.setText('Prix: '+price+' Coins');
-            this.text.setText('Quelle carte voulez-vous détruire?');
-
-            this.btn.meat = [];
-            this.btn.bread = [];
-            this.btn.salad = [];
-            this.btn.sauce = [];
-            this.area = [];
-            this.area.text = [];
-
-            data.forEach((element, i) => { // Pour chaque joueur, ajout des 4 btn. + son nom.
-                this.area[element.color] = this.add.image( (width/2-270)+i*180, height/2, 'area_'+element.color).setDepth(6.5);
-                this.area.text[element.color] = this.add.text((width/2-310)+i*180, height/2-50, element.username, FONT_LEFT).setDepth(7);
-                this.btn.meat[element.color] = this.add.image((width/2-335)+i*180, height/2, 'btn_meat').setDepth(7).setInteractive();
-                this.btn.bread[element.color] = this.add.image((width/2-290)+i*180, height/2, 'btn_bread').setDepth(7).setInteractive();
-                this.btn.salad[element.color] = this.add.image((width/2-245)+i*180, height/2, 'btn_salad').setDepth(7).setInteractive();
-                this.btn.sauce[element.color] = this.add.image((width/2-200)+i*180, height/2, 'btn_sauce').setDepth(7).setInteractive();
-            })
-
-
-            this.btn.meat['blue'].on('pointerdown', () => {
-                this.socket.emit('destroyed', 'meat-'+data[0].id);
-                console.log('blue m');
-                deleteModal(this, data);
-            });
-            this.btn.bread['blue'].on('pointerdown', () => {
-                this.socket.emit('destroyed', 'bread-'+data[0].id);
-                console.log('blue b');
-                deleteModal(this, data);
-            });
-            this.btn.salad['blue'].on('pointerdown', () => {
-                this.socket.emit('destroyed', 'salad-'+data[0].id);
-                console.log('blue sal');
-                deleteModal(this, data);
-            });
-            this.btn.sauce['blue'].on('pointerdown', () => {
-                this.socket.emit('destroyed', 'sauce-'+data[0].id);
-                console.log('blue sau');
-                deleteModal(this, data);
-            });
-
-
-            this.btn.meat['red'].on('pointerdown', () => {
-                this.socket.emit('destroyed', 'meat-'+data[1].id);
-                console.log('Red m');
-                deleteModal(this, data);
-            });
-            this.btn.bread['red'].on('pointerdown', () => {
-                this.socket.emit('destroyed', 'bread-'+data[1].id);
-                console.log('Red b');
-                deleteModal(this, data);
-            });
-            this.btn.salad['red'].on('pointerdown', () => {
-                this.socket.emit('destroyed', 'salad-'+data[1].id);
-                console.log('Red sal');
-                deleteModal(this, data);
-            });
-            this.btn.sauce['red'].on('pointerdown', () => {
-                this.socket.emit('destroyed', 'sauce-'+data[1].id);
-                console.log('Red sau');
-                deleteModal(this, data);
-            });
-
-
-            if (data.length > 2) {
-                this.btn.meat['yellow'].on('pointerdown', () => {
-                    this.socket.emit('destroyed', 'meat-'+data[2].id);
-                    console.log('yellow');
-                    deleteModal(this, data);
-                });
-                this.btn.bread['yellow'].on('pointerdown', () => {
-                    this.socket.emit('destroyed', 'bread-'+data[2].id);
-                    console.log('yellow');
-                    deleteModal(this, data);
-                });
-                this.btn.salad['yellow'].on('pointerdown', () => {
-                    this.socket.emit('destroyed', 'salad-'+data[2].id);
-                    console.log('yellow');
-                    deleteModal(this, data);
-                });
-                this.btn.sauce['yellow'].on('pointerdown', () => {
-                    this.socket.emit('destroyed', 'sauce-'+data[2].id);
-                    console.log('yellow');
-                    deleteModal(this, data);
-                });
-            }
-            if (data.length > 3) {
-                this.btn.meat['green'].on('pointerdown', () => {
-                    this.socket.emit('destroyed', 'meat-'+data[3].id);
-                    console.log('green');
-                    deleteModal(this, data);
-                });
-                this.btn.bread['green'].on('pointerdown', () => {
-                    this.socket.emit('destroyed', 'bread-'+data[3].id);
-                    console.log('green');
-                    deleteModal(this, data);
-                });
-                this.btn.salad['green'].on('pointerdown', () => {
-                    this.socket.emit('destroyed', 'salad-'+data[3].id);
-                    console.log('green');
-                    deleteModal(this, data);
-                });
-                this.btn.sauce['green'].on('pointerdown', () => {
-                    this.socket.emit('destroyed', 'sauce-'+data[3].id);
-                    console.log('green');
-                    deleteModal(this, data);
-                });
-            }
-
-
-            this.btn.cancel.on('pointerdown', () => {
-                console.log('Cancel');
-                this.socket.emit('destroyed', false);
-                deleteModal(this, data);
-            });
         });
 
         this.socket.on('chance_giveForEveryone', (data) => {
@@ -764,65 +763,72 @@ $( document ).ready(function() {
         })
 
         this.socket.on('bank', (data) => {
-            console.log('Go bank');
-            console.log(data);
 
-            if (data.coins >= 5) {
-                var bankNum = 0;
+            setTimeout(bankTimer, TIME_MODAL, this, data);
 
-                this.title.setText('Banque');
-                this.text.setText('Combien voulez-vous placer \nà la banque?');
-                this.btn.inputBank = this.add.image(width/2, height/2, 'btn_blue').setDepth(7);
-                this.btn.inputBankText = this.add.text(width/2, height/2+35, 0, FONT_LEFT).setDepth(7);
-                this.btn.up = this.add.image(width/2+100, height/2, 'btn_meat').setDepth(7).setInteractive();
-                this.btn.down = this.add.image(width/2+140, height/2, 'btn_meat').setDepth(7).setInteractive();
-                this.btn.ok = this.add.image(width/2, height/2+80, 'btn_meat').setDepth(7).setInteractive();
-                this.modalBank.visible = true;
-                this.gradient.visible = true;
-                this.title.visible = true;
-                this.text.visible = true;
+            function bankTimer(this0, data) {
+                if (data.coins >= 5) {
+                    var bankNum = 0;
 
-                this.btn.up.on('pointerdown', () => {
-                    console.log('Up');
-                    if (bankNum < data.coins-4) {
-                        bankNum += 5;
-                        this.btn.inputBankText.setText(bankNum);
-                    }
-                });
-                this.btn.down.on('pointerdown', () => {
-                    console.log('Down');
+                    this0.title.setText('Banque');
+                    this0.text.setText('Combien voulez-vous placer \nà la banque?');
+                    this0.btn.inputBank = this0.add.image(width/2, height/2, 'btn_blue').setDepth(7);
+                    this0.btn.inputBankText = this0.add.text(width/2, height/2+35, 0, FONT_LEFT).setDepth(7);
+                    this0.btn.up = this0.add.image(width/2+100, height/2, 'btn_meat').setDepth(7).setInteractive();
+                    this0.btn.down = this0.add.image(width/2+140, height/2, 'btn_meat').setDepth(7).setInteractive();
+                    this0.btn.ok = this0.add.image(width/2, height/2+80, 'btn_meat').setDepth(7).setInteractive();
+                    this0.modalBank.visible = true;
+                    this0.gradient.visible = true;
+                    this0.title.visible = true;
+                    this0.text.visible = true;
 
-                    if (bankNum > 0) {
-                        bankNum -= 5;
-                        this.btn.inputBankText.setText(bankNum);
-                    }
-                });
+                    this0.btn.up.on('pointerdown', () => {
+                        console.log('Up');
+                        if (bankNum < data.coins-4) {
+                            bankNum += 5;
+                            this0.btn.inputBankText.setText(bankNum);
+                        }
+                    });
+                    this0.btn.down.on('pointerdown', () => {
+                        console.log('Down');
 
-                this.btn.ok.on('pointerdown', () => {
-                    this.socket.emit('addToBank', bankNum);
+                        if (bankNum > 0) {
+                            bankNum -= 5;
+                            this0.btn.inputBankText.setText(bankNum);
+                        }
+                    });
 
-                    deleteBank(this);
-                });
-            }else{
-                this.add.text(width/2, height/2+35, 'Pas de money', FONT_LEFT).setDepth(7);
-                this.socket.emit('addToBank', 0);
+                    this0.btn.ok.on('pointerdown', () => {
+                        this0.socket.emit('addToBank', bankNum);
+
+                        deleteBank(this0);
+                    });
+                }else{
+                    this0.add.text(width/2, height/2+35, 'Pas de money', FONT_LEFT).setDepth(7);
+                    this0.socket.emit('addToBank', 0);
+                }
             }
         })
 
         this.socket.on('endScreen', (winner) => {
-            this.modal.visible = true;
-            this.gradient.visible = true;
-            this.title.visible = true;
-            this.text.visible = true;
-            var salon = this.add.image(width/2, height/2+80, 'btn_meat').setDepth(7).setInteractive();
-            this.title.setText('#finDuGame');
-            this.text.setText(winner.username + ' remporte la partie! \n Bien joué!');
 
-            salon.on('pointerdown', () => {
-                console.log('Retour salon');
+            setTimeout(bankTimer, TIME_MODAL, this, winner);
 
-                window.location.href = '/jeu/salon';
-            });
+            function endTimer(this0, winner) {
+                this0.modal.visible = true;
+                this0.gradient.visible = true;
+                this0.title.visible = true;
+                this0.text.visible = true;
+                var salon = this0.add.image(width/2, height/2+80, 'btn_meat').setDepth(7).setInteractive();
+                this0.title.setText('#finDuGame');
+                this0.text.setText(winner.username + ' remporte la partie! \n Bien joué!');
+
+                salon.on('pointerdown', () => {
+                    console.log('Retour salon');
+
+                    window.location.href = '/jeu/salon';
+                });
+            }
         })
 
         this.socket.on('errorSocketIo', (data) => {
@@ -832,11 +838,9 @@ $( document ).ready(function() {
                     break;
                 case 401:
                     console.error('(403): Une authentification est nécéssaire (ou ce compte est déjà utilisé).');
-                    // setTimeout( disco,1000);
                     break;
                 case 410:
                     console.error('(410): La partie a été annulée car vous êtes le seul joueur présent.');
-                    // setTimeout( disco,1000);
                     break;
                 default:
                     console.error('(?): Erreur non-identifiée.');
@@ -907,16 +911,6 @@ $( document ).ready(function() {
                 this.bd.pawn.y += HUNIT/ANIMATION_TIMER;
             }
             this.bd.move -= 1/ANIMATION_TIMER;
-
-            // setTimeout(replaceBd, 2000, this);
-
-            // setTimeout(replacePawn, 1000, player, this);
-            //
-            // function replacePawn(player, this0) {
-            //
-            //     this0.bg.pawn.x = this0.casesX[(player[1].position)-1];
-            //     this0.bg.pawn.y = this0.casesY[(player[1].position)-1];
-            // }
         }
         if (this.bg.move > 0) {
             if (this.bg.pawn.y > height/2 && this.bg.pawn.x <= width/2) {
@@ -933,8 +927,6 @@ $( document ).ready(function() {
                 this.bg.pawn.y += HUNIT/ANIMATION_TIMER;
             }
             this.bg.move -= 1/ANIMATION_TIMER;
-
-            // setTimeout(replaceBg, 2000, this);
         }
         if (this.hg.move > 0) {
             if (this.hg.pawn.y > height/2 && this.hg.pawn.x <= width/2) {
@@ -951,8 +943,6 @@ $( document ).ready(function() {
                 this.hg.pawn.y += HUNIT/ANIMATION_TIMER;
             }
             this.hg.move -= 1/ANIMATION_TIMER;
-
-            // setTimeout(replaceHg, 2000, this);
         }
         if (this.hd.move > 0) {
             if (this.hd.pawn.y > height/2 && this.hd.pawn.x <= width/2) {
@@ -969,8 +959,6 @@ $( document ).ready(function() {
                 this.hd.pawn.y += HUNIT/ANIMATION_TIMER;
             }
             this.hd.move -= 1/ANIMATION_TIMER;
-
-            // setTimeout(replaceHd, 2000, this);
         }
     }
 
