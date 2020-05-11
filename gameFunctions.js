@@ -460,7 +460,7 @@ module.exports = {
                         io.of('/A'+idGame).emit('player', player);
 
                         nextPlayer = num;
-                        io.of('/A'+idGame).to(player[num].socketId).emit('play');
+                        io.of('/A'+idGame).to(player[num].socketId).emit('play', num);
                     }
 
                 })

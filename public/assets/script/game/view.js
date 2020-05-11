@@ -16,6 +16,7 @@ $( document ).ready(function() {
     const FONT_MONEY = {fontFamily: 'Arial', fontSize: 24, align: 'left'};
     const ANIMATION_TIMER = 10;
     const ALPHA_PAWN = 0.7;
+    const TIME_THIMBLE = 4000;
 
     var config = {
             type: Phaser.AUTO,
@@ -292,6 +293,9 @@ $( document ).ready(function() {
 
             if (this.bd.bank) { // If this.bd.bank existe, la vue à été initialisée (dans view, plus haut).
 
+                this.bd.pawn.setAlpha(0.7);
+                this.bg.pawn.setAlpha(0.7);
+
                 this.bd.bank.setText(player[0].bank);
                 this.bd.coins.setText(player[0].coins);
                 if (player[0].cards.meat === true) this.bd.meat.setTexture('card_meat');
@@ -315,6 +319,7 @@ $( document ).ready(function() {
                     else this.bg.sauce.setTexture('position_cards');
 
                 if (player.length > 2) {
+                    this.hg.pawn.setAlpha(0.7);
                     this.hg.bank.setText(player[2].bank);
                     this.hg.coins.setText(player[2].coins);
                     if (player[2].cards.meat === true) this.hg.meat.setTexture('card_meat');
@@ -328,6 +333,7 @@ $( document ).ready(function() {
                 }
 
                 if (player.length > 3) {
+                    this.hd.pawn.setAlpha(0.7);
                     this.hd.bank.setText(player[3].bank);
                     this.hd.coins.setText(player[3].coins);
                     if (player[3].cards.meat === true) this.hd.meat.setTexture('card_meat');
@@ -339,6 +345,13 @@ $( document ).ready(function() {
                     if (player[3].cards.sauce === true) this.hd.sauce.setTexture('card_sauce');
                         else this.hd.meat.setTexture('position_cards');
                 }
+
+                setTimeout(playersPositions, TIME_THIMBLE, this);
+
+                function playersPositions(this0) {
+                    this0.bd.pawn.setPosition(this0.casesX[this0.p[0].position-1], this0.casesY[this0.p[0].position-1]);
+                    this0.bg.pawn.setPosition(this0.casesX[this0.p[1].position-1], this0.casesY[this0.p[1].position-1]);
+                }
             }
         });
 
@@ -347,8 +360,14 @@ $( document ).ready(function() {
         this.thimbleButton = this.add.image(width/2, height-100, 'btn_thimble').setDepth(4).setInteractive();
         this.thimbleButton.visible = false;
 
-        this.socket.on('play', () => {
-            console.log('Play');
+        this.socket.on('play', (num) => {
+
+            if (this.bd.bank) {
+                if (num === 0) this.bd.pawn.setAlpha(1);
+                if (num === 1) this.bg.pawn.setAlpha(1);
+                if (num === 2) this.hg.pawn.setAlpha(1);
+                if (num === 3) this.hd.pawn.setAlpha(1);
+            }
             this.socket.emit('goTurn');
         })
 
@@ -357,7 +376,7 @@ $( document ).ready(function() {
 
             setTimeout(function(){ // Pour éviter adversaire déco.
                 thimbleView.visible = true;
-            }, 1000);
+            }, TIME_THIMBLE);
         })
 
         this.thimbleButton.on('pointerdown', () => {
@@ -438,50 +457,57 @@ $( document ).ready(function() {
 
 
         this.socket.on('modal_chance', (data, text) => {
-
-            setTimeout(chanceTimer, 3000, this);
-
             // this.modalChance.visible = true;
             // this.gradient.visible = true;
             // // this.title.visible = true;
             // this.text.visible = true;
-            this.text.setText(text);
 
-            var i = 0;
 
-            data.forEach(element => {
-                if (element.id != myId) {
-                    switch (element.color) {
-                        case 'blue':
-                            this.btn.blue.visible = true;
-                            this.btn.blueText.visible = true;
-                            this.btn.blueText.setText(element.username);
-                            this.btn.blueNum = i;
-                            break;
-                        case 'red':
-                            this.btn.red.visible = true;
-                            this.btn.redText.visible = true;
-                            this.btn.redText.setText(element.username);
-                            this.btn.redNum = i;
-                            break;
-                        case 'yellow':
-                            this.btn.yellow.visible = true;
-                            this.btn.yellowText.visible = true;
-                            this.btn.yellowText.setText(element.username);
-                            this.btn.yellowNum = i;
-                            break;
-                        case 'green':
-                            this.btn.green.visible = true;
-                            this.btn.greenText.visible = true;
-                            this.btn.greenText.setText(element.username);
-                            this.btn.greenNum = i;
-                            break;
-                        default:
-                        console.error('Error: chance button.');
+            setTimeout(chanceTimer, 4000, this, data, text);
+            function chanceTimer(this0, data, text) {
+
+                this0.text.setText(text);
+
+                var i = 0;
+
+                data.forEach(element => {
+                    if (element.id != myId) {
+                        switch (element.color) {
+                            case 'blue':
+                                this0.btn.blue.visible = true;
+                                this0.btn.blueText.visible = true;
+                                this0.btn.blueText.setText(element.username);
+                                this0.btn.blueNum = i;
+                                break;
+                            case 'red':
+                                this0.btn.red.visible = true;
+                                this0.btn.redText.visible = true;
+                                this0.btn.redText.setText(element.username);
+                                this0.btn.redNum = i;
+                                break;
+                            case 'yellow':
+                                this0.btn.yellow.visible = true;
+                                this0.btn.yellowText.visible = true;
+                                this0.btn.yellowText.setText(element.username);
+                                this0.btn.yellowNum = i;
+                                break;
+                            case 'green':
+                                this0.btn.green.visible = true;
+                                this0.btn.greenText.visible = true;
+                                this0.btn.greenText.setText(element.username);
+                                this0.btn.greenNum = i;
+                                break;
+                            default:
+                            console.error('Error: chance button.');
+                        }
                     }
-                }
-                i++;
-            })
+                    i++;
+                })
+
+                this0.modalChance.visible = true;
+                this0.gradient.visible = true;
+                this0.text.visible = true;
+            }
         })
 
         this.btn.red.on('pointerdown', () => {
@@ -867,7 +893,6 @@ $( document ).ready(function() {
 
     function update(){
         if (this.bd.move > 0) {
-            this.bd.pawn.setAlpha(1);
             if (this.bd.pawn.y > height/2 && this.bd.pawn.x <= width/2) {
                 this.bd.pawn.x -= WUNIT/ANIMATION_TIMER;
                 this.bd.pawn.y -= HUNIT/ANIMATION_TIMER;
@@ -883,7 +908,7 @@ $( document ).ready(function() {
             }
             this.bd.move -= 1/ANIMATION_TIMER;
 
-            setTimeout(replaceBd, 2000, this);
+            // setTimeout(replaceBd, 2000, this);
 
             // setTimeout(replacePawn, 1000, player, this);
             //
@@ -894,7 +919,6 @@ $( document ).ready(function() {
             // }
         }
         if (this.bg.move > 0) {
-            this.bg.pawn.setAlpha(1);
             if (this.bg.pawn.y > height/2 && this.bg.pawn.x <= width/2) {
                 this.bg.pawn.x -= WUNIT/ANIMATION_TIMER;
                 this.bg.pawn.y -= HUNIT/ANIMATION_TIMER;
@@ -910,10 +934,9 @@ $( document ).ready(function() {
             }
             this.bg.move -= 1/ANIMATION_TIMER;
 
-            setTimeout(replaceBg, 2000, this);
+            // setTimeout(replaceBg, 2000, this);
         }
         if (this.hg.move > 0) {
-            this.hg.pawn.setAlpha(1);
             if (this.hg.pawn.y > height/2 && this.hg.pawn.x <= width/2) {
                 this.hg.pawn.x -= WUNIT/ANIMATION_TIMER;
                 this.hg.pawn.y -= HUNIT/ANIMATION_TIMER;
@@ -929,10 +952,9 @@ $( document ).ready(function() {
             }
             this.hg.move -= 1/ANIMATION_TIMER;
 
-            setTimeout(replaceHg, 2000, this);
+            // setTimeout(replaceHg, 2000, this);
         }
         if (this.hd.move > 0) {
-            this.hd.pawn.setAlpha(1);
             if (this.hd.pawn.y > height/2 && this.hd.pawn.x <= width/2) {
                 this.hd.pawn.x -= WUNIT/ANIMATION_TIMER;
                 this.hd.pawn.y -= HUNIT/ANIMATION_TIMER;
@@ -948,32 +970,8 @@ $( document ).ready(function() {
             }
             this.hd.move -= 1/ANIMATION_TIMER;
 
-            setTimeout(replaceHd, 2000, this);
+            // setTimeout(replaceHd, 2000, this);
         }
-    }
-
-    function replaceBd(this0){
-        this0.bd.pawn.setAlpha(ALPHA_PAWN);
-        this0.bd.pawn.x = this0.casesX[(this0.p[0].position)-1];
-        this0.bd.pawn.y = this0.casesY[(this0.p[0].position)-1];
-    }
-
-    function replaceBg(this0){
-        this0.bg.pawn.setAlpha(ALPHA_PAWN);
-        this0.bg.pawn.x = this0.casesX[(this0.p[1].position)-1];
-        this0.bg.pawn.y = this0.casesY[(this0.p[1].position)-1];
-    }
-
-    function replaceHg(this0){
-        this0.hg.pawn.setAlpha(ALPHA_PAWN);
-        this0.hg.pawn.x = this0.casesX[(this0.p[2].position)-1];
-        this0.hg.pawn.y = this0.casesY[(this0.p[2].position)-1];
-    }
-
-    function replaceHd(this0){
-        this0.hd.pawn.setAlpha(ALPHA_PAWN);
-        this0.hd.pawn.x = this0.casesX[(this0.p[3].position)-1];
-        this0.hd.pawn.y = this0.casesY[(this0.p[3].position)-1];
     }
 
     // Efface modal attack (ou chance).
@@ -1004,11 +1002,5 @@ $( document ).ready(function() {
         thisObj.modalBank.visible = false;
         thisObj.title.visible = false;
         thisObj.text.visible = false;
-    }
-
-    function chanceTimer(this0) {
-        this0.modalChance.visible = true;
-        this0.gradient.visible = true;
-        this0.text.visible = true;
     }
 });
