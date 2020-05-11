@@ -15,6 +15,7 @@ $( document ).ready(function() {
     const FONT_LEFT = {fontFamily: 'Arial', fontSize: 28, align: 'left'};
     const FONT_MONEY = {fontFamily: 'Arial', fontSize: 24, align: 'left'};
     const ANIMATION_TIMER = 10;
+    const ALPHA_PAWN = 0.7;
 
     var config = {
             type: Phaser.AUTO,
@@ -68,6 +69,7 @@ $( document ).ready(function() {
         this.load.image('modal_chance', '../assets/images/modal_chance.png');
         this.load.image('modal_attack', '../assets/images/modal_attack.png');
         this.load.image('modal_bank', '../assets/images/modal_bank.png');
+        this.load.image('gradient', '../assets/images/gradient@2x.png');
 
         this.load.image('btn_blue', '../assets/images/btn_blue.png');
         this.load.image('btn_red', '../assets/images/btn_red.png');
@@ -109,14 +111,17 @@ $( document ).ready(function() {
         music.setLoop(true);
         music.play();
 
+        this.gradient = this.add.image(width/2, height/2, 'gradient').setOrigin(0.5, 0.5).setDepth(5);
+        this.gradient.visible = false;
+
         this.video = [];
 
-        this.video[5] = this.add.video(width/2, 0, 'video06').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
-        this.video[4] = this.add.video(width/2, 0, 'video05').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
-        this.video[3] = this.add.video(width/2, 0, 'video04').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
-        this.video[2] = this.add.video(width/2, 0, 'video03').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
-        this.video[1] = this.add.video(width/2, 0, 'video02').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
-        this.video[0] = this.add.video(width/2, 0, 'video01').setDepth(2.25).setOrigin(0.5, 0).setScale(0.8);
+        this.video[5] = this.add.video(width/2, 0, 'video06').setDepth(4).setOrigin(0.5, 0).setScale(0.8);
+        this.video[4] = this.add.video(width/2, 0, 'video05').setDepth(4).setOrigin(0.5, 0).setScale(0.8);
+        this.video[3] = this.add.video(width/2, 0, 'video04').setDepth(4).setOrigin(0.5, 0).setScale(0.8);
+        this.video[2] = this.add.video(width/2, 0, 'video03').setDepth(4).setOrigin(0.5, 0).setScale(0.8);
+        this.video[1] = this.add.video(width/2, 0, 'video02').setDepth(4).setOrigin(0.5, 0).setScale(0.8);
+        this.video[0] = this.add.video(width/2, 0, 'video01').setDepth(4).setOrigin(0.5, 0).setScale(0.8);
 
         // this.nb = 0;
         this.bd = [];
@@ -157,7 +162,7 @@ $( document ).ready(function() {
             this.bd.coins = this.add.text(width-265, height-45, playerForStart[0].coins, FONT_MONEY);
             this.bd.bank = this.add.text(width-185, height-45, playerForStart[0].bank, FONT_MONEY);
 
-            this.bd.pawn = this.add.image(this.casesX[(playerForStart[0].position)-1], this.casesY[(playerForStart[0].position)-1], 'pawn_flamingo').setScale(SCALE/1.5).setOrigin(0.5, 1);
+            this.bd.pawn = this.add.image(this.casesX[(playerForStart[0].position)-1], this.casesY[(playerForStart[0].position)-1], 'pawn_flamingo').setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
 
             this.bg.bread = this.add.image(43, height-200, 'position_cards').setScale(0.64);
             this.bg.meat = this.add.image(119, height-200, 'position_cards').setScale(0.64);
@@ -170,7 +175,7 @@ $( document ).ready(function() {
             this.bg.bank = this.add.text(215, height-45, playerForStart[1].bank, FONT_MONEY);
             this.bg.coins = this.add.text(135, height-45, playerForStart[1].coins, FONT_MONEY);
 
-            this.bg.pawn = this.add.image(this.casesX[(playerForStart[1].position)-1], this.casesY[(playerForStart[1].position)-1], 'pawn_turtle').setScale(SCALE/1.5).setOrigin(0.5, 1);
+            this.bg.pawn = this.add.image(this.casesX[(playerForStart[1].position)-1], this.casesY[(playerForStart[1].position)-1], 'pawn_turtle').setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
 
             if (playerForStart.length > 2) {
                 this.hg.bread = this.add.image(43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
@@ -184,7 +189,7 @@ $( document ).ready(function() {
                 this.hg.bank = this.add.text(215, 45, playerForStart[2].bank, FONT_MONEY);
                 this.hg.coins = this.add.text(135, 45, playerForStart[2].coins, FONT_MONEY);
 
-                this.hg.pawn = this.add.image(this.casesX[(playerForStart[2].position)-1], this.casesY[(playerForStart[2].position)-1]-75, 'pawn_fox').setScale(SCALE/1.5);
+                this.hg.pawn = this.add.image(this.casesX[(playerForStart[2].position)-1], this.casesY[(playerForStart[2].position)-1]-75, 'pawn_fox').setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
             }
 
             if (playerForStart.length > 3) {
@@ -199,7 +204,7 @@ $( document ).ready(function() {
                 this.hd.bank = this.add.text( width-135, 45, playerForStart[3].bank, FONT_MONEY);
                 this.hd.coins = this.add.text(width-215, 45, playerForStart[3].coins, FONT_MONEY);
 
-                this.hd.pawn = this.add.image(this.casesX[(playerForStart[3].position)-1], this.casesY[(playerForStart[3].position)-1]-75, 'pawn_fox').setScale(SCALE/1.5);
+                this.hd.pawn = this.add.image(this.casesX[(playerForStart[3].position)-1], this.casesY[(playerForStart[3].position)-1]-75, 'pawn_fox').setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
             }
         })
 
@@ -282,7 +287,11 @@ $( document ).ready(function() {
 
         this.socket.on('player', (player) => {
 
+            this.p = player;
+            this.gradient.visible = false;
+
             if (this.bd.bank) { // If this.bd.bank existe, la vue à été initialisée (dans view, plus haut).
+
                 this.bd.bank.setText(player[0].bank);
                 this.bd.coins.setText(player[0].coins);
                 if (player[0].cards.meat === true) this.bd.meat.setTexture('card_meat');
@@ -335,7 +344,7 @@ $( document ).ready(function() {
 
 
         // Tour de jeu et dé.
-        this.thimbleButton = this.add.image(width/2, height-100, 'btn_thimble').setDepth(5).setInteractive();
+        this.thimbleButton = this.add.image(width/2, height-100, 'btn_thimble').setDepth(4).setInteractive();
         this.thimbleButton.visible = false;
 
         this.socket.on('play', () => {
@@ -374,21 +383,21 @@ $( document ).ready(function() {
         // ----------
         // Chance.
 
-        this.modal = this.add.image(width/2, height/2, 'modal').setDepth(2.5);
+        this.modal = this.add.image(width/2, height/2, 'modal').setDepth(6);
         this.modal.visible = false;
 
-        this.modalChance = this.add.image(width/2, height/2-100, 'modal_chance').setDepth(2.5);
+        this.modalChance = this.add.image(width/2, height/2-100, 'modal_chance').setDepth(6);
         this.modalChance.visible = false;
 
-        this.modalAttack = this.add.image(width/2, height/2-100, 'modal_attack').setDepth(2.5);
+        this.modalAttack = this.add.image(width/2, height/2-100, 'modal_attack').setDepth(6);
         this.modalAttack.visible = false;
 
-        this.modalBank = this.add.image(width/2, height/2-100, 'modal_bank').setDepth(2.5);
+        this.modalBank = this.add.image(width/2, height/2-100, 'modal_bank').setDepth(6);
         this.modalBank.visible = false;
 
-        this.title = this.add.text(width/2-160, height/2-150, 'Chance', FONT_LEFT).setDepth(3);
-        this.text = this.add.text(width/2-160, height/2-100, 'text', FONT_LEFT).setDepth(3);
-        this.price = this.add.text(width/2+160, height/2-150, 'Prix: - Coins', FONT_LEFT).setDepth(3);
+        this.title = this.add.text(width/2-160, height/2-150, 'Chance', FONT_LEFT).setDepth(7);
+        this.text = this.add.text(width/2-160, height/2-100, 'text', FONT_LEFT).setDepth(7);
+        this.price = this.add.text(width/2+160, height/2-150, 'Prix: - Coins', FONT_LEFT).setDepth(7);
 
         this.title.visible = false;
         this.text.visible = false;
@@ -397,23 +406,23 @@ $( document ).ready(function() {
         this.area = [];
         this.btn = [];
 
-        this.btn.take = this.add.image(width/2-120, height/2+50, 'btn_take').setInteractive().setDepth(3);
-        this.btn.lose = this.add.image(width/2+120, height/2+50, 'btn_lose').setInteractive().setDepth(3);
+        this.btn.take = this.add.image(width/2-120, height/2+50, 'btn_take').setInteractive().setDepth(7);
+        this.btn.lose = this.add.image(width/2+120, height/2+50, 'btn_lose').setInteractive().setDepth(7);
 
         this.btn.take.visible = false;
         this.btn.lose.visible = false;
 
-        this.btn.red = this.add.image(width/2-120, height/2+50, 'btn_red').setInteractive().setDepth(3);
-        this.btn.redText = this.add.text(width/2-160, height/2+34, 'Bouton', FONT_LEFT).setDepth(3);
+        this.btn.red = this.add.image(width/2-120, height/2+50, 'btn_red').setInteractive().setDepth(7);
+        this.btn.redText = this.add.text(width/2-160, height/2+34, 'Bouton', FONT_LEFT).setDepth(7);
 
-        this.btn.green = this.add.image(width/2-120, height/2+120, 'btn_green').setInteractive().setDepth(3);
-        this.btn.greenText = this.add.text(width/2-160, height/2+104, 'Bouton', FONT_LEFT).setDepth(3);
+        this.btn.green = this.add.image(width/2-120, height/2+120, 'btn_green').setInteractive().setDepth(7);
+        this.btn.greenText = this.add.text(width/2-160, height/2+104, 'Bouton', FONT_LEFT).setDepth(7);
 
-        this.btn.blue = this.add.image(width/2+120, height/2+50, 'btn_blue').setInteractive().setDepth(3);
-        this.btn.blueText = this.add.text(width/2+80, height/2+34, 'Bouton', FONT_LEFT).setDepth(3);
+        this.btn.blue = this.add.image(width/2+120, height/2+50, 'btn_blue').setInteractive().setDepth(7);
+        this.btn.blueText = this.add.text(width/2+80, height/2+34, 'Bouton', FONT_LEFT).setDepth(7);
 
-        this.btn.yellow = this.add.image(width/2+120, height/2+120, 'btn_yellow').setInteractive().setDepth(3);
-        this.btn.yellowText = this.add.text(width/2+80, height/2+104, 'Bouton', FONT_LEFT).setDepth(3);
+        this.btn.yellow = this.add.image(width/2+120, height/2+120, 'btn_yellow').setInteractive().setDepth(7);
+        this.btn.yellowText = this.add.text(width/2+80, height/2+104, 'Bouton', FONT_LEFT).setDepth(7);
 
         this.btn.red.visible = false;
         this.btn.redText.visible = false;
@@ -430,9 +439,12 @@ $( document ).ready(function() {
 
         this.socket.on('modal_chance', (data, text) => {
 
-            this.modalChance.visible = true;
-            // this.title.visible = true;
-            this.text.visible = true;
+            setTimeout(chanceTimer, 3000, this);
+
+            // this.modalChance.visible = true;
+            // this.gradient.visible = true;
+            // // this.title.visible = true;
+            // this.text.visible = true;
             this.text.setText(text);
 
             var i = 0;
@@ -553,6 +565,7 @@ $( document ).ready(function() {
 
         this.socket.on('makeLoseOrWin', (text) => {
             this.modalChance.visible = true;
+            this.gradient.visible = true;
             this.title.visible = true;
             this.text.visible = true;
             this.btn.take.visible = true;
@@ -585,10 +598,11 @@ $( document ).ready(function() {
             }else{
                 this.modalAttack.visible = true;
             }
+            this.gradient.visible = true;
             this.title.visible = true;
             this.text.visible = true;
             this.price.visible = true;
-            this.btn.cancel = this.add.image(width/2, height/2+100, 'btn_meat').setDepth(3).setInteractive();
+            this.btn.cancel = this.add.image(width/2, height/2+100, 'btn_meat').setDepth(7).setInteractive();
             this.title.setText(title);
             this.price.setText('Prix: '+price+' Coins');
             this.text.setText('Quelle carte voulez-vous détruire?');
@@ -601,12 +615,12 @@ $( document ).ready(function() {
             this.area.text = [];
 
             data.forEach((element, i) => { // Pour chaque joueur, ajout des 4 btn. + son nom.
-                this.area[element.color] = this.add.image( (width/2-270)+i*180, height/2, 'area_'+element.color).setDepth(3);
-                this.area.text[element.color] = this.add.text((width/2-310)+i*180, height/2-50, element.username, FONT_LEFT).setDepth(4);
-                this.btn.meat[element.color] = this.add.image((width/2-335)+i*180, height/2, 'btn_meat').setDepth(4).setInteractive();
-                this.btn.bread[element.color] = this.add.image((width/2-290)+i*180, height/2, 'btn_bread').setDepth(4).setInteractive();
-                this.btn.salad[element.color] = this.add.image((width/2-245)+i*180, height/2, 'btn_salad').setDepth(4).setInteractive();
-                this.btn.sauce[element.color] = this.add.image((width/2-200)+i*180, height/2, 'btn_sauce').setDepth(4).setInteractive();
+                this.area[element.color] = this.add.image( (width/2-270)+i*180, height/2, 'area_'+element.color).setDepth(6.5);
+                this.area.text[element.color] = this.add.text((width/2-310)+i*180, height/2-50, element.username, FONT_LEFT).setDepth(7);
+                this.btn.meat[element.color] = this.add.image((width/2-335)+i*180, height/2, 'btn_meat').setDepth(7).setInteractive();
+                this.btn.bread[element.color] = this.add.image((width/2-290)+i*180, height/2, 'btn_bread').setDepth(7).setInteractive();
+                this.btn.salad[element.color] = this.add.image((width/2-245)+i*180, height/2, 'btn_salad').setDepth(7).setInteractive();
+                this.btn.sauce[element.color] = this.add.image((width/2-200)+i*180, height/2, 'btn_sauce').setDepth(7).setInteractive();
             })
 
 
@@ -732,12 +746,13 @@ $( document ).ready(function() {
 
                 this.title.setText('Banque');
                 this.text.setText('Combien voulez-vous placer \nà la banque?');
-                this.btn.inputBank = this.add.image(width/2, height/2, 'btn_blue').setDepth(3);
-                this.btn.inputBankText = this.add.text(width/2, height/2+35, 0, FONT_LEFT).setDepth(3);
-                this.btn.up = this.add.image(width/2+100, height/2, 'btn_meat').setDepth(3).setInteractive();
-                this.btn.down = this.add.image(width/2+140, height/2, 'btn_meat').setDepth(3).setInteractive();
-                this.btn.ok = this.add.image(width/2, height/2+80, 'btn_meat').setDepth(3).setInteractive();
+                this.btn.inputBank = this.add.image(width/2, height/2, 'btn_blue').setDepth(7);
+                this.btn.inputBankText = this.add.text(width/2, height/2+35, 0, FONT_LEFT).setDepth(7);
+                this.btn.up = this.add.image(width/2+100, height/2, 'btn_meat').setDepth(7).setInteractive();
+                this.btn.down = this.add.image(width/2+140, height/2, 'btn_meat').setDepth(7).setInteractive();
+                this.btn.ok = this.add.image(width/2, height/2+80, 'btn_meat').setDepth(7).setInteractive();
                 this.modalBank.visible = true;
+                this.gradient.visible = true;
                 this.title.visible = true;
                 this.text.visible = true;
 
@@ -763,16 +778,17 @@ $( document ).ready(function() {
                     deleteBank(this);
                 });
             }else{
-                this.add.text(width/2, height/2+35, 'Pas de money', FONT_LEFT).setDepth(3);
+                this.add.text(width/2, height/2+35, 'Pas de money', FONT_LEFT).setDepth(7);
                 this.socket.emit('addToBank', 0);
             }
         })
 
         this.socket.on('endScreen', (winner) => {
             this.modal.visible = true;
+            this.gradient.visible = true;
             this.title.visible = true;
             this.text.visible = true;
-            var salon = this.add.image(width/2, height/2+80, 'btn_meat').setDepth(3).setInteractive();
+            var salon = this.add.image(width/2, height/2+80, 'btn_meat').setDepth(7).setInteractive();
             this.title.setText('#finDuGame');
             this.text.setText(winner.username + ' remporte la partie! \n Bien joué!');
 
@@ -851,6 +867,7 @@ $( document ).ready(function() {
 
     function update(){
         if (this.bd.move > 0) {
+            this.bd.pawn.setAlpha(1);
             if (this.bd.pawn.y > height/2 && this.bd.pawn.x <= width/2) {
                 this.bd.pawn.x -= WUNIT/ANIMATION_TIMER;
                 this.bd.pawn.y -= HUNIT/ANIMATION_TIMER;
@@ -865,8 +882,19 @@ $( document ).ready(function() {
                 this.bd.pawn.y += HUNIT/ANIMATION_TIMER;
             }
             this.bd.move -= 1/ANIMATION_TIMER;
+
+            setTimeout(replaceBd, 2000, this);
+
+            // setTimeout(replacePawn, 1000, player, this);
+            //
+            // function replacePawn(player, this0) {
+            //
+            //     this0.bg.pawn.x = this0.casesX[(player[1].position)-1];
+            //     this0.bg.pawn.y = this0.casesY[(player[1].position)-1];
+            // }
         }
         if (this.bg.move > 0) {
+            this.bg.pawn.setAlpha(1);
             if (this.bg.pawn.y > height/2 && this.bg.pawn.x <= width/2) {
                 this.bg.pawn.x -= WUNIT/ANIMATION_TIMER;
                 this.bg.pawn.y -= HUNIT/ANIMATION_TIMER;
@@ -881,8 +909,11 @@ $( document ).ready(function() {
                 this.bg.pawn.y += HUNIT/ANIMATION_TIMER;
             }
             this.bg.move -= 1/ANIMATION_TIMER;
+
+            setTimeout(replaceBg, 2000, this);
         }
         if (this.hg.move > 0) {
+            this.hg.pawn.setAlpha(1);
             if (this.hg.pawn.y > height/2 && this.hg.pawn.x <= width/2) {
                 this.hg.pawn.x -= WUNIT/ANIMATION_TIMER;
                 this.hg.pawn.y -= HUNIT/ANIMATION_TIMER;
@@ -897,8 +928,11 @@ $( document ).ready(function() {
                 this.hg.pawn.y += HUNIT/ANIMATION_TIMER;
             }
             this.hg.move -= 1/ANIMATION_TIMER;
+
+            setTimeout(replaceHg, 2000, this);
         }
         if (this.hd.move > 0) {
+            this.hd.pawn.setAlpha(1);
             if (this.hd.pawn.y > height/2 && this.hd.pawn.x <= width/2) {
                 this.hd.pawn.x -= WUNIT/ANIMATION_TIMER;
                 this.hd.pawn.y -= HUNIT/ANIMATION_TIMER;
@@ -913,9 +947,34 @@ $( document ).ready(function() {
                 this.hd.pawn.y += HUNIT/ANIMATION_TIMER;
             }
             this.hd.move -= 1/ANIMATION_TIMER;
+
+            setTimeout(replaceHd, 2000, this);
         }
     }
 
+    function replaceBd(this0){
+        this0.bd.pawn.setAlpha(ALPHA_PAWN);
+        this0.bd.pawn.x = this0.casesX[(this0.p[0].position)-1];
+        this0.bd.pawn.y = this0.casesY[(this0.p[0].position)-1];
+    }
+
+    function replaceBg(this0){
+        this0.bg.pawn.setAlpha(ALPHA_PAWN);
+        this0.bg.pawn.x = this0.casesX[(this0.p[1].position)-1];
+        this0.bg.pawn.y = this0.casesY[(this0.p[1].position)-1];
+    }
+
+    function replaceHg(this0){
+        this0.hg.pawn.setAlpha(ALPHA_PAWN);
+        this0.hg.pawn.x = this0.casesX[(this0.p[2].position)-1];
+        this0.hg.pawn.y = this0.casesY[(this0.p[2].position)-1];
+    }
+
+    function replaceHd(this0){
+        this0.hd.pawn.setAlpha(ALPHA_PAWN);
+        this0.hd.pawn.x = this0.casesX[(this0.p[3].position)-1];
+        this0.hd.pawn.y = this0.casesY[(this0.p[3].position)-1];
+    }
 
     // Efface modal attack (ou chance).
     function deleteModal(thisObj, data) {
@@ -947,5 +1006,9 @@ $( document ).ready(function() {
         thisObj.text.visible = false;
     }
 
-
+    function chanceTimer(this0) {
+        this0.modalChance.visible = true;
+        this0.gradient.visible = true;
+        this0.text.visible = true;
+    }
 });
