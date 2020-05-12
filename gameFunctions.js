@@ -14,7 +14,7 @@ module.exports = {
     gameSettings: (playerList, idGame, io, socket) => {
         var io = io;
 
-        const GAME_CONFIG = {coins: 50, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
+        const GAME_CONFIG = {coins: 5000, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
         const BANKGOALS = 50;
         const BOARD = 20;
         const BOXES = {chance: [5, 10, 15, 20], money: [3, 8, 13, 18], resources: [1, 6, 11, 16], attack: [9, 19], bank: [7, 17], benefit: [2, 12], empty: [4, 14]};
@@ -76,6 +76,7 @@ module.exports = {
 
                         if (cptPlayer === player.length) {
                             var num = Math.floor(Math.random() * Math.floor(player.length));
+                            io.of('/A'+idGame).emit('infos', 4000, player[num].username + ' commence la partie.');
 
                             nextPlayer = num;
                             io.of('/A'+idGame).to(player[num].socketId).emit('play');
@@ -140,8 +141,8 @@ module.exports = {
                     if (player[num].position === BOXES.chance[0] || player[num].position === BOXES.chance[1] || player[num].position === BOXES.chance[2] || player[num].position === BOXES.chance[3]) {
                         console.log('Chance');
 
-                        // var randomChance = Math.floor(Math.random() * Math.floor(5));
-                        var randomChance = 2;
+                        var randomChance = Math.floor(Math.random() * Math.floor(5));
+                        // var randomChance = 4;
                         var responseRandom;
 
                         switch (randomChance) {
@@ -150,7 +151,7 @@ module.exports = {
 
                                 var info = player[num].username + ' donne '+ responseRandom + ' Coins à chaque joueur!';
 
-                                io.of('/A'+idGame).emit('infos', info);
+                                io.of('/A'+idGame).emit('infos', 4000, info);
 
                                 player.forEach(element => {
                                     element.coins += responseRandom;
@@ -175,7 +176,9 @@ module.exports = {
                                     player[data].coins += responseRandom;
                                     player[num].coins -= responseRandom;
 
-                                    io.of('/A'+idGame).emit('chance_giveForOne', player[num], player[data], responseRandom);
+                                    var info = player[num].username + ' a donné ' + responseRandom + ' Coins à ' + player[data].username;
+
+                                    io.of('/A'+idGame).emit('infos', 0, info);
 
                                     endOfTurn();
                                 })
@@ -185,7 +188,7 @@ module.exports = {
 
                                 var info = player[num].username + ' à volé '+ responseRandom + ' Coins à chaque joueur!';
 
-                                io.of('/A'+idGame).emit('infos', info);
+                                io.of('/A'+idGame).emit('infos', 4000, info);
 
                                 player.forEach(element => {
                                     element.coins -= responseRandom;
@@ -209,7 +212,9 @@ module.exports = {
                                     player[data].coins -= responseRandom;
                                     player[num].coins += responseRandom;
 
-                                    io.of('/A'+idGame).emit('chance_getFromOne', player[num], player[data], responseRandom);
+                                    var info = player[num].username + ' a volé ' + responseRandom + ' Coins à ' + player[data].username;
+
+                                    io.of('/A'+idGame).emit('infos', 0, info);
 
                                     endOfTurn();
                                 })
@@ -224,14 +229,20 @@ module.exports = {
                                 io.of('/A'+idGame).to(player[num].socketId).emit('makeLoseOrWin', textModal);
 
                                 socket.on('lose-win', (data) => {
+                                    var info;
                                     if (data === 'lose') {
                                         player.forEach(element => {
                                             element.coins -= responseRandom;
                                         })
                                         player[num].coins += responseRandom;
+
+                                        info = 'Tous le monde perd ' + responseRandom + ' Coins grâce à ' + player[num].username;
                                     }else{
                                         player[num].coins += responseRandom;
+
+                                        info = player[num].username + ' empoche les ' + responseRandom +' Coins';
                                     }
+                                    io.of('/A'+idGame).emit('infos', 0, info);
 
                                     endOfTurn();
                                 })
@@ -244,13 +255,14 @@ module.exports = {
 
                                 socket.on('destroyed', (data) => {
 
-                                    console.log(data);
+                                    var info;
 
                                     if (data !== false) {
                                         var tab = data.split('-');
 
                                         player.forEach(element => {
                                             if (element.id == tab[1]) {
+                                                info = player[num].username + ' détruit la carte ' + tab[0] + ' de ' + element.username + '.';
                                                 switch (tab[0]) {
                                                     case 'bread':
                                                         element.cards.bread = false;
@@ -275,8 +287,11 @@ module.exports = {
                                         });
                                         console.log('Suppr '+tab[0]+' for '+tab[1]);
 
+                                        io.of('/A'+idGame).emit('infos', 0, info);
                                         endOfTurn();
                                     }else{
+                                        info = player[num].username + ' est pacifiste, il n\'a rien détruit.';
+                                        io.of('/A'+idGame).emit('infos', 0, info);
                                         endOfTurn();
                                     }
                                 })
@@ -300,7 +315,7 @@ module.exports = {
                         player[num].coins = player[num].coins + MONEY[randomPosition];
 
                         var info = player[num].username + ' a gagné ' + MONEY[randomPosition] + ' Coins';
-                        io.of('/A'+idGame).emit('infos', info);
+                        io.of('/A'+idGame).emit('infos', 4000, info);
 
                         io.of('/A'+idGame).emit('anim_money', player[num].username, MONEY[randomPosition]);
                         endOfTurn();
@@ -351,12 +366,15 @@ module.exports = {
 
                             socket.on('destroyed', (data) => {
 
+                                var info;
+
                                 if (data !== false) {
                                     var tab = data.split('-');
 
                                     player[num].coins -= price;
                                     player.forEach(element => {
                                         if (element.id == tab[1]) {
+                                            info = player[num].username + ' détruit la carte ' + tab[0] + ' de ' + element.username;
                                             switch (tab[0]) {
                                                 case 'bread':
                                                     element.cards.bread = false;
@@ -381,14 +399,19 @@ module.exports = {
                                     });
                                     console.log('Suppr '+tab[0]+' for '+tab[1]);
 
+                                    io.of('/A'+idGame).emit('infos', 0, info);
                                     endOfTurn();
                                 }else{
+                                    info = player[num].username + ' est pacifiste, il n\'a rien détruit.';
+                                    io.of('/A'+idGame).emit('infos', 0, info);
                                     endOfTurn();
                                 }
                             })
                         }else{
                             io.of('/A'+idGame).to(player[num].socketId).emit('noMoney', 'attack', price);
 
+                            info = 'Tu es à sec!\nIl te faut 40 Coins pour attaquer.';
+                            io.of('/A'+idGame).to(player[num].socketId).emit('infos', 4000, info);
                             endOfTurn();
                         }
 
@@ -406,15 +429,20 @@ module.exports = {
                                     player[num].bank = parseInt(addToBank) + nb;
                                     console.log('Bank: '+ player[num].bank);
                                     player[num].coins = player[num].coins - addToBank;
+
+                                    info = player[num].username + ' a placé ' + addToBank + ' Coins.';
+                                    io.of('/A'+idGame).emit('infos', 0, info);
                                     endOfTurn();
                                 }else {
-                                    io.of('/A'+idGame).to(player[num].socketId).emit('noMoney', 'bank', addToBank);
+                                    info = 'Tu ne peux pas placer plus que ce que tu possèdes!';
+                                    io.of('/A'+idGame).to(player[num].socketId).emit('infos', 0, info);
                                     endOfTurn();
                                 }
                             })
 
                         }else{
-                            io.of('/A'+idGame).to(player[num].socketId).emit('noMoney', 'bank', 0);
+                            info = 'Tu es à sec! Tu ne peux rien placer à la banque.';
+                            io.of('/A'+idGame).to(player[num].socketId).emit('infos', 4000, info);
                             endOfTurn();
                         }
 
@@ -422,7 +450,10 @@ module.exports = {
                     }else if (player[num].position === BOXES.benefit[0] || player[num].position === BOXES.benefit[1]) {
                         console.log('benefit');
 
-                        player[num].coins = Math.floor(player[num].coins + (player[num].coins/100)*BENEFIT);
+                        player[num].bank = Math.floor(player[num].bank + (player[num].bank/100)*BENEFIT);
+
+                        info = 'Tu as reçu ' + Math.floor((player[num].bank/100)*BENEFIT) + ' Coins d\'intérêt.';
+                        io.of('/A'+idGame).to(player[num].socketId).emit('infos', 4000, info);
 
                         endOfTurn();
 

@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var apiRouter = require('./apiRouter').router;
 var gameCtrl = require('./routes/gameCtrl');
+var favicon = require('serve-favicon');
 
 var NB_TO_START = 2;
 
@@ -14,6 +15,8 @@ var server = express();
 
 // distribution des fichiers statics.
 server.use(express.static('public'));
+
+server.use(favicon(path.join(__dirname + '/public/assets/images/favicon.ico')))
 
 // Body Parser config.
 server.use(bodyParser.urlencoded({extended: true}));
