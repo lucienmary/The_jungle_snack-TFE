@@ -14,7 +14,7 @@ module.exports = {
     gameSettings: (playerList, idGame, io, socket) => {
         var io = io;
 
-        const GAME_CONFIG = {coins: 5000, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
+        const GAME_CONFIG = {coins: 0, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
         const BANKGOALS = 50;
         const BOARD = 20;
         const BOXES = {chance: [5, 10, 15, 20], money: [3, 8, 13, 18], resources: [1, 6, 11, 16], attack: [9, 19], bank: [7, 17], benefit: [2, 12], empty: [4, 14]};
@@ -202,9 +202,7 @@ module.exports = {
                                 responseRandom = CHANCE.getFromOne[Math.floor(Math.random() * Math.floor(2))];
 
                                 console.log('getFromOne');
-
                                 var textModal = 'À qui voulez-vous voler ' + responseRandom + ' Coins?';
-
                                 io.of('/A'+idGame).to(player[num].socketId).emit('modal_chance', player, textModal);
 
                                 socket.on('choice_chance', (data) => {
@@ -323,37 +321,74 @@ module.exports = {
                     // Resources.
                     }else if (player[num].position === BOXES.resources[0] || player[num].position === BOXES.resources[1] || player[num].position === BOXES.resources[2] || player[num].position === BOXES.resources[3]) {
                         console.log('Resources');
+                        var text = 'Veux-tu acheter la carte';
+                        var buyRes;
 
-                        switch (player[num].position) {
-                            case RESOURCES.bread:
-                                if (player[num].cards.bread === false && player[num].coins >= RESOURCES_PRICE) {
-                                    player[num].cards.bread = true;
-                                    player[num].coins = player[num].coins - RESOURCES_PRICE;
-                                }
-                            break;
 
-                            case RESOURCES.meat:
-                                if (player[num].cards.meat === false && player[num].coins >= RESOURCES_PRICE) {
-                                    player[num].cards.meat = true;
-                                    player[num].coins = player[num].coins - RESOURCES_PRICE;
-                                }
-                            break;
+                        if (player[num].coins >= RESOURCES_PRICE) {
+                            switch (player[num].position) {
+                                case RESOURCES.bread:
+                                    if (player[num].cards.bread === false) {
+                                        io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' pain?');
+                                        buyRes = 'bread';
+                                    }
+                                break;
 
-                            case RESOURCES.salad:
-                                if (player[num].cards.salad === false && player[num].coins >= RESOURCES_PRICE) {
-                                    player[num].cards.salad = true;
-                                    player[num].coins = player[num].coins - RESOURCES_PRICE;
-                                }
-                            break;
+                                case RESOURCES.meat:
+                                    if (player[num].cards.meat === false) {
+                                        io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' viande?');
+                                        buyRes = 'meat';
+                                    }
+                                break;
 
-                            case RESOURCES.sauce:
-                                if (player[num].cards.sauce === false && player[num].coins >= RESOURCES_PRICE) {
-                                    player[num].cards.sauce = true;
-                                    player[num].coins = player[num].coins - RESOURCES_PRICE;
-                                }
-                            break;
+                                case RESOURCES.salad:
+                                    if (player[num].cards.salad === false) {
+                                        io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' salade?');
+                                        buyRes = 'salad';
+                                    }
+                                break;
+
+                                case RESOURCES.sauce:
+                                    if (player[num].cards.sauce === false ) {
+                                        io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' sauce?');
+                                        buyRes = 'sauce';
+                                    }
+                                break;
+                            }
+                        }else{
+                            info = 'Tu n\'as pas assez de Coins pour acheter cette carte.' ;
+                            io.of('/A'+idGame).to(player[num].socketId).emit('infos', 4000, info);
+                            endOfTurn();
                         }
-                        endOfTurn();
+
+                        socket.on('buyResources', (boo) => {
+                            if (boo === true) {
+                                var newRes;
+                                if (buyRes === 'bread'){
+                                    player[num].cards.bread = true;
+                                    newRes = 'pain';
+                                }
+                                if (buyRes === 'meat'){
+                                    player[num].cards.meat = true;
+                                    newRes = 'viande';
+                                }
+                                if (buyRes === 'salad'){
+                                    player[num].cards.salad = true;
+                                    newRes = 'salade';
+                                }
+                                if (buyRes === 'sauce'){
+                                    player[num].cards.sauce = true;
+                                    newRes = 'sauce';
+                                }
+                                player[num].coins = player[num].coins - RESOURCES_PRICE;
+
+                                info = player[num].username + ' a acheté la catre '+ newRes +'!';
+                                io.of('/A'+idGame).emit('infos', 0, info);
+                                endOfTurn();
+                            }else{
+                                endOfTurn();
+                            }
+                        })
 
                     // Attack.
                     }else if (player[num].position === BOXES.attack[0] || player[num].position === BOXES.attack[1]) {

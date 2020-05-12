@@ -94,6 +94,8 @@ $( document ).ready(function() {
         this.load.image('btn_nothing', '../assets/images/btn_nothing.png');
         this.load.image('arrow_up', '../assets/images/arrow_up.png');
         this.load.image('arrow_down', '../assets/images/arrow_down.png');
+        this.load.image('btn_yes', '../assets/images/btn_yes.png');
+        this.load.image('btn_no', '../assets/images/btn_no.png');
 
         // pawn.
 
@@ -437,7 +439,7 @@ $( document ).ready(function() {
 
         this.title = this.add.text(width/2, height/2-150, 'Chance', FONT_LEFT).setDepth(7).setOrigin(0.5);
         this.text = this.add.text(width/2, height/2-100, 'text', FONT_LEFT).setDepth(7).setOrigin(0.5);
-        this.price = this.add.text(width/2+80, height/2-150, 'Prix: - Coins', FONT_LEFT).setDepth(7).setOrigin(0.5);
+        this.price = this.add.text(width/2, height/2-150, 'Prix: - Coins', FONT_LEFT).setDepth(7).setOrigin(0.5);
 
         this.title.visible = false;
         this.text.visible = false;
@@ -448,9 +450,13 @@ $( document ).ready(function() {
 
         this.btn.take = this.add.image(width/2-120, height/2+50, 'btn_take').setInteractive().setDepth(7);
         this.btn.lose = this.add.image(width/2+120, height/2+50, 'btn_lose').setInteractive().setDepth(7);
-
         this.btn.take.visible = false;
         this.btn.lose.visible = false;
+
+        this.btn.yes = this.add.image(width/2-120, height/2+50, 'btn_yes').setInteractive().setDepth(7);
+        this.btn.no = this.add.image(width/2+120, height/2+50, 'btn_no').setInteractive().setDepth(7);
+        this.btn.yes.visible = false;
+        this.btn.no.visible = false;
 
         this.btn.red = this.add.image(width/2-120, height/2+50, 'btn_red').setInteractive().setDepth(7);
         this.btn.redText = this.add.text(width/2-160, height/2+34, 'Bouton', FONT_LEFT).setDepth(7);
@@ -816,6 +822,36 @@ $( document ).ready(function() {
         this.socket.on('chance_getFromOne', (p, p2, responseRandom) => {
             console.log(p.username +' take in '+ responseRandom + ' from ' +p2.username);
         })
+
+        this.socket.on('resources', (text) => {
+            setTimeout(resourcesTimer, TIME_MODAL, this, text);
+
+            function resourcesTimer(this0, text) {
+                this0.modalChance.visible = true;
+                this0.gradient.visible = true;
+                this0.text.visible = true;
+                this0.btn.yes.visible = true;
+                this0.btn.no.visible = true;
+                this0.text.setText(text);
+            }
+        })
+        this.btn.yes.on('pointerdown', () => {
+            this.socket.emit('buyResources', true);
+            this.modalChance.visible = false;
+            this.gradient.visible = false;
+            this.text.visible = false;
+            this.btn.yes.visible = false;
+            this.btn.no.visible = false;
+        });
+
+        this.btn.no.on('pointerdown', () => {
+            this.socket.emit('buyResources', false);
+            this.modalChance.visible = false;
+            this.gradient.visible = false;
+            this.text.visible = false;
+            this.btn.yes.visible = false;
+            this.btn.no.visible = false;
+        });
 
         this.socket.on('bank', (data) => {
 
