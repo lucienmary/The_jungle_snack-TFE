@@ -23,7 +23,7 @@ var profileLocal;
             window.location.replace("/login");
 
         }else { // Affichage dans la page.
-            $('#player').replaceWith('<div id="player" class="player"><p class="player-pseudo">'+ profile["username"] +'</p><p class="player-score">Partie(s) gagnée(s): '+ profile["score"]+'</p></div>');
+            $('#player').replaceWith(`<div id="player" class="infos-player__el"><p class="pseudo">`+ profile["username"] +`</p><p>Partie gagnée: `+ profile["score"]+`</p></div>`);
             $('#imgPlayer').attr("src", "../assets/images/_"+profile["img"]+".png");
 
             document.cookie = 'myId='+profileLocal['id']+'; path=/'; // cookie pour identifier joueur si quitte sans déco.
@@ -68,12 +68,12 @@ var profileLocal;
 
         // Quand clic pr commencer une partie.
         join.click(() => {
-            if (join.text() == 'Entrer') { // Entrer.
+            if (join.text() == 'Prêt!') { // Entrer.
                 join.text('Sortir');
                 socket.emit('enterPlayerList', {id: profileLocal["id"], username: profileLocal["username"], score: profileLocal["score"], img: profileLocal["img"]});
 
             }else{ // Sortir.
-                join.text('Entrer');
+                join.text('Prêt!');
                 socket.emit('exitPlayerList', {id: profileLocal["id"]});
             }
         })
@@ -93,13 +93,11 @@ var profileLocal;
                 }
 
                 $('#playerList').append(`
-                    <li class="clearfix list-player__el infos-player `+ classMyPosition +`">
+                    <li class="list-player__el `+ classMyPosition +`">
                         <img src="../assets/images/_`+ playerList[i].img +`.png" alt="Photo player">
-
                         <div class="player">
-                            <p class="player-pseudo">`+ playerList[i].username +`</p>
-                            <p>`+ playerList[i].score +`</p>
-                            <p>Flamant<p>
+                            <p>`+ playerList[i].username +`</p>
+                            <p>Partie gagnée: `+ playerList[i].score +`</p>
                         </div>
                     </li>
                 `);

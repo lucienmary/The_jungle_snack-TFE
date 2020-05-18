@@ -1,64 +1,90 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>Salon | The Jungle snack! | Jeu en ligne</title>
-        <link href="https://fonts.googleapis.com/css?family=Baloo+2:400,700|Lato:900&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="../assets/styles/salon-temp.css">
-    </head>
-    <body>
-        <header class="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#202020">
+    <title> Salon de connexion | The Jungle snack! | Jeu en ligne</title>
 
-            <div class="infos-player">
-                <img id="imgPlayer" src="../assets/images/empty-profile.png" alt="Photo player">
-                <div id="player" class="player">
-                    <p>Pseudo</p>
-                    <p>Score</p>
+    <link href="https://fonts.googleapis.com/css?family=Baloo+2:400,700|Lato:900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../assets/styles/app.css">
+</head>
+    <body>
+        <header class="salon">
+            <div class="container">
+                <div class="infos-player">
+                    <img id="imgPlayer" src="../assets/images/_img-00.png" alt="Photo de profil du joueur">
+                    <div id="player" class="infos-player__el">
+                        <p class="pseudo">Pseudo</p>
+                        <p>Partie gagnée: -</p>
+                    </div>
+                </div>
+
+                <h1>The jungle snack</h1>
+                <div class="menu menu--game">
+                    <nav>
+                        <ul>
+                            <li><a href="profil"><img src="../assets/images/link-profil.png" alt=""></a></li>
+                            <li><a href="/"><img src="../assets/images/link-home.png" alt=""></a></li>
+                            <li><a id="disconnect" href="#"><img src="../assets/images/link-disconnect.png" alt=""></a></li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
-
-            <h1>The jungle snack</h1>
-
-            <nav>
-                <ul>
-                    <li><a href="profil">🥺</a></li>
-                    <li><a href="/">🏠</a></li>
-                    <li><a id="disconnect" href="#">🔓</a></li>
-                </ul>
-            </nav>
         </header>
 
-        <section>
+        <section class="clear container">
+            <div class="col col--left col--pawn">
+                <div id="slider">
+                    <a href="#" class="control_next"></a>
+                    <a href="#" class="control_prev"></a>
+                    <ul>
+                        <li>
+                            <img src="../assets/images/pawn_flamingo.png" alt="">
+                        </li>
+                        <li>
+                            <img src="../assets/images/pawn_fox.png" alt="">
+                        </li>
+                        <li>
+                            <img src="../assets/images/pawn_turtle.png" alt="">
+                        </li>
+                    </ul>
+                </div>
 
-            <label for="pawn">Pion:</label>
-            <select id="pawn" name="pawn">
-                <!-- <option value="img-00">Super admin!</option> -->
-                <option value="pion-flamant">Flamant rose</option>
-                <option value="pion-renard">Renard</option>
-                <option value="pion-tortue">Tortue</option>
-            </select>
-
-            <div class="">
-                <ul>
-                    <li><a href="#">Jouer avec des amis (Coming soon)</a></li>
-                    <li><a href="settings">Paramètres</a></li>
+                <ul class="list-btn">
+                    <li class="list-btn__el"><a class="btn-game" href="#">Jouer avec des amis</a></li>
+                    <li class="list-btn__el"><a class="btn-game btn-game--second" href="settings">Paramètres</a></li>
                 </ul>
             </div>
 
-            <div class="clear">
-                <ul id="playerList" class="list-player"></ul>
-                <p class="clear ready"><a id="join" href="#">Entrer</a></p>
-                <p><span id="timerForStart">20</span>s</p>
+            <div class="col col--right">
+                <ul id="playerList" class="list-player">
+                    <!-- <li class="list-player__el">
+                        <img src="../assets/images/_img-00.png" alt="Photo player">
+                        <div class="player">
+                            <p class="">Pseudo</p>
+                            <p>Partie gagnée: -</p>
+                        </div>
+                    </li> -->
+                </ul>
+                <div class="ready">
+                    <a id="join" class="btn-game btn-game--ready btn-game--active" href="#">Prêt!</a>
+                    <p class="p-game"><span id="timerForStart">20</span>s</p>
+                </div>
             </div>
         </section>
+
+        <footer class="fix footer-game">
+            <div class="container">
+                <p>v1.0.0 - Lucien Mary 2020 - <a href="/vie-privee">vie privée</a> - <a href="https://lucienmary.be">lucienmary.be</a></p>
+            </div>
+        </footer>
     </body>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha256-1A78rJEdiWTzco6qdn3igTBv9VupN3Q1ozZNTR4WE/Y=" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-
-    </script>
+    <script src="../assets/script/app.js"></script>
+    <script src="../assets/script/pawn.js"></script>
     <script src="../assets/script/salon.js"></script>
-
 </html>
