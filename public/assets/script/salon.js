@@ -18,6 +18,7 @@ var profileLocal;
             $.removeCookie("myId", {path: '/'});
             $.removeCookie("clientAuth", {path: '/'});
             $.removeCookie("Authorization", {path: '/'});
+            $.removeCookie("Pseudo", {path: '/'});
 
             // window.location.reload();
             window.location.replace("/login");
@@ -27,6 +28,7 @@ var profileLocal;
             $('#imgPlayer').attr("src", "../assets/images/_"+profile["img"]+".png");
 
             document.cookie = 'myId='+profileLocal['id']+'; path=/'; // cookie pour identifier joueur si quitte sans déco.
+            document.cookie = 'Pseudo='+profileLocal['username']+'; path=/'; // cookie pour identifier joueur si quitte sans déco.
 
             ioConnect();
         }

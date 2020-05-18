@@ -235,7 +235,8 @@ module.exports = {
 
         cookies.set('clientAuth', false, { secure: false, httpOnly: false})
         cookies.set('myId', '', { secure: false, httpOnly: false})
-
+        cookies.set('Pseudo', '', { secure: false, httpOnly: false})
+        
         res.json('Disconnected successfully');
     },
 

@@ -16,7 +16,7 @@ $( document ).ready(function() {
             alert('Connecte-toi pour accéder à ton profil!');
             window.location.replace("/login");
         }else { // Affichage dans la page.
-            $('#player').replaceWith('<div id="player" class="player"><p class="player-pseudo">'+ profile["username"] +'</p><p class="player-score">Partie(s) gagnée(s): '+ profile["score"]+'</p></div>');
+            $('#player').replaceWith(`<div id="player" class="infos-player__el"><p class="pseudo">`+ profile["username"] +`</p><p>Partie gagnée: `+ profile["score"]+`</p></div>`);
             $('#imgPlayer').attr("src", "../assets/images/_"+profile["img"]+".png");
             profile = null;
         }
