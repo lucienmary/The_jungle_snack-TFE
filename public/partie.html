@@ -8,30 +8,71 @@
     </head>
     <body>
         <header>
-            <a href="/">Accueil</a>
-            <h1>Partie 🕹🧿💈</h1>
-
-            <div class="infos-player">
-                <img src="../assets/images/empty-profile.png" alt="Photo player">
-                <div class="player">
-                    <p id="player">Pseudo</p>
-                    <p><span>0</span> Coins</p>
-                </div>
-            </div>
-            <button type="button" name="button">Lancer les dés:</button>
+            <h1 class="hidden">The jungle snack</h1>
         </header>
 
-        <section>
-            <p>Joueur 02</p>
-            <p>Joueur 03</p>
-            <p>Joueur 04</p>
-            <img class="" style="width: 100vw; position: absolute; top: 0; left: 0; z-index: -1;" src="../assets/images/img01.png" alt="Future vidéo du jeu The Jungle Snack">
+
+        <!-- <section id="gameView" class="">
+            <div id="modal_bank" class="modal modal--bank hidden">
+                <h2>Banque</h2>
+
+                <label for="quantity">Combien voulez-vous déposer à la banque?</label>
+                <input type="number" id="input_bank" name="quantity" min="0" max="" value="0" step="5">
+                <input id="submit_bank" type="submit" value="Placer">
+            </div>
+
+            <div id="modal_makeLoseOrWin" class="modal modal--makeLoseOrWin hidden">
+                <h2>Chance</h2>
+                <h3 id="title_makeLoseOrWin"></h3>
+
+                <button id="lose" type="button" name="button">Faire perdre</button>
+                <button id="win" type="button" name="button">Empocher</button>
+            </div>
+
+            <div id="modal_chanceDestroy" class="modal hidden">
+                <h2 id="title_chanceDestroy">Chance</h2>
+                <p>Prix: <span id="price_chanceDestroy">0</span> Coins</p>
+                <h3>Choisi une carte à détruire:</h3>
+                <ul id="modal_chanceDestroy_ul"></ul>
+            </div>
+
+            <div id="modal_noMoney" class="modal hidden">
+                <h2 id="title_noMoney">Tu es à sec!</h2>
+                <p id="text_noMoney"></p>
+            </div>
+
+            <div class="clear hidden">
+                <ul id="playerList" class="list-player"></ul>
+
+                <button id="thimble" type="button" name="button" disabled>Lancer le dé</button>
+            </div>
+            <img class="" style="width: 50vw; position: absolute; top: 0; left: 0; z-index: -1;" src="../assets/images/img01.png" alt="Future vidéo du jeu The Jungle Snack">
         </section>
+
+
+        <section id="endView" class="hidden">
+            <div class="">
+                <p id="winner">Nobody</p>
+
+                <a href="/jeu/salon">Retour au salon</a>
+            </div>
+        </section> -->
+
+        <!-- <footer>
+            <p>V 0.1.0</p>
+        </footer> -->
     </body>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha256-1A78rJEdiWTzco6qdn3igTBv9VupN3Q1ozZNTR4WE/Y=" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.23.0/dist/phaser.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.2.3/pixi.min.js" integrity="sha256-xYb19TX+HeKeJXcUeWWEXoTttN4xQoTOTPiO0vBItw0=" crossorigin="anonymous"></script> -->
+
     <script src="../assets/script/game/player_game.js"></script>
     <script src="../assets/script/game/game.js"></script>
+    <script src="../assets/script/game/utils.js"></script>
+    <script src="../assets/script/game/view.js"></script>
 
 </html>

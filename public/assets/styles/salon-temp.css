@@ -1,10 +1,24 @@
+body{
+    background-color: #D6D1A4;
+    margin: 0;
+    overflow: hidden;
+}
+
+nav{
+    float: right;
+}
 .infos-player{
-    background-color: lightgrey;
+    background-color: #B08963;
+    /* border: 10px solid #FFD658; */
     display: inline-block;
 }
 img{
     width: 100px;
     float: left;
+}
+h1{
+    display: inline-block;
+    margin: 0;
 }
 .player{
     display: inline-block;
@@ -22,3 +36,87 @@ img{
     top: 10px;
     right: 10px;
 }
+.list-player{
+    background-color: grey;
+    display: block;
+    float: right;
+    padding: 20px;
+    margin-right: 50px;
+    margin-top: -0px;
+    /* height: 450px; */
+    max-width: 450px;
+}
+.list-player__el{
+    background-color: lightgrey;
+    width: 450px;
+    margin-bottom: 15px;
+}
+.ready{
+    float: right;
+    text-align: center;
+    width: 450px;
+    margin-right: 50px;
+}
+
+.clear{
+    clear: both;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+.itsme{
+    background-color: lightgreen;
+}
+.hidden{
+    display: none;
+}
+
+#thimble{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    padding: 20px;
+}
+.resources{
+    background-color: lightcoral;
+    padding: 15px;
+    margin: 15px;
+    border: 1px solid black;
+}
+.player-blue{
+    color: lightgrey;
+    background-color: blue;
+}
+.player-yellow{
+    color: grey;
+    background-color: yellow;
+}
+.player-red{
+    color: lightgrey;
+    background-color: red;
+}
+.player-green{
+    color: lightgrey;
+    background-color: green;
+}
+
+
+.modal{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    top: 20vh;
+    background-color: white;
+    padding: 20px;
+}
+/* p{
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%);
+    color: lightgrey;
+    z-index: 10;
+} */

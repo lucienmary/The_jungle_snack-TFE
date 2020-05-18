@@ -7,7 +7,6 @@ var path = require('path');
 var asyncLib = require('async');
 var Cookies = require('cookies');
 var cookies;
-var cookiesAuth;
 var flag = false;
 
 var tok;
@@ -25,7 +24,7 @@ module.exports = {
         var username = req.body.username;
         var password = req.body.password;
         var score = 0;
-        var img = '/';
+        var img = req.body.img;
 
         if (email == null || username == null || password == null) {
             return res.status(400).json({ 'error': 'missing parameters' });
@@ -71,7 +70,7 @@ module.exports = {
                     username: username,
                     password: bcryptedPassword,
                     score: 0,
-                    img: "/"
+                    img: img
                 })
                 .then(function(newUser) {
                     done(newUser);
@@ -86,7 +85,7 @@ module.exports = {
                 //     'userId': newUser.id
                 // });
 
-                return res.status(201).redirect('/jeu/salon');
+                return res.status(201).redirect('/login');
 
             } else {
                 return res.status(500).json({ 'error': 'cannot add user' });
@@ -117,7 +116,6 @@ module.exports = {
             },
             function(userFound, done) {
                 if (userFound) {
-                    // console.log(userFound);
                     bcrypt.compare(password, userFound.password, function(errBycrypt, resBycrypt) {
                         done(null, userFound, resBycrypt);
                     });
@@ -135,18 +133,15 @@ module.exports = {
         ], function(userFound) {
             if (userFound) {
                 tok = jwtUtils.generateTokenForUser(userFound)
-                // res.header('Authorization', 'Bearer ' + tok);
 
                 cookies = new Cookies(req, res)
 
-                // Get a cookie
 
                 // Set the cookie to a value
-                cookies.set('Authorization', 'Bearer '+tok, { secure: false })
+                cookies.set('Authorization', 'Bearer '+tok, { secure: false})
 
-                cookiesAuth = cookies.get('Authorization', { secure: false })
+                cookies.set('clientAuth', true, { secure: false, httpOnly: false})
 
-                // console.log('cookie = '+cookiesAuth);
                 flag = true;
 
                 res.redirect('/jeu/salon');
@@ -159,23 +154,17 @@ module.exports = {
 
         cookies = new Cookies(req, res)
 
-        console.log(flag);
         if (flag === true) {
             var userId = jwtUtils.getUserId('Bearer '+tok);
 
             flag = false;
             tok = null;
-            console.log('T 1');
         }else {
             var headerAuth  = cookies.get('Authorization');
-            console.log('Auth: '+ headerAuth);
             var userId      = jwtUtils.getUserId(headerAuth);
-            console.log('T 2');
         }
 
         // Getting auth header
-
-        console.log(userId);
 
         if (userId < 0){
             // res.redirect("/login");
@@ -234,6 +223,56 @@ module.exports = {
                 return res.status(201).json(userFound);
             } else {
                 return res.status(500).json({ 'error': 'cannot update user profile' });
+            }
+        });
+    },
+    disconnect: function(req, res) {
+        cookies = new Cookies(req, res);
+        cookies.set('Authorization', '', { secure: false });
+
+        var flag = false;
+        var tok = null;
+
+        cookies.set('clientAuth', false, { secure: false, httpOnly: false})
+        cookies.set('myId', '', { secure: false, httpOnly: false})
+        cookies.set('Pseudo', '', { secure: false, httpOnly: false})
+        
+        res.json('Disconnected successfully');
+    },
+
+    score: function (winner) {
+
+        asyncLib.waterfall([
+            function(done) {
+                models.User.findOne({
+                    attributes: ['id', 'score'],
+                    where: { id: winner.id }
+                }).then(function (userFound) {
+                    done(null, userFound);
+                })
+                .catch(function(err) {
+                    console.log('(500): unable to verify user');
+                });
+            },
+            function(userFound, done) {
+                if(userFound) {
+                    console.log(userFound);
+                    userFound.update({
+                        score: userFound.score+1
+                    }).then(function() {
+                        done(userFound);
+                    }).catch(function(err) {
+                        console.log('(500): impossible to increase the winner\'s score');
+                    });
+                } else {
+                    console.log('(404): user not found');
+                }
+            },
+        ], function(userFound) {
+            if (userFound) {
+                console.log('(201): Winner score++ 😍');
+            } else {
+                console.log('(500): cannot update user profile');
             }
         });
     }

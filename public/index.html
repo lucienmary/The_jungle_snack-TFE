@@ -2,74 +2,112 @@
 <html lang="fr" dir="ltr">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#202020">
         <title> Accueil | The Jungle snack! | Jeu en ligne</title>
 
         <link href="https://fonts.googleapis.com/css?family=Baloo+2:400,700|Lato:900&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="assets/styles/app.css">
     </head>
     <body>
-        <header>
-            <div class="top-header">
-                <div class="container">
-                    <a class="btn" href="/login">Jouer!</a>
-                </div>
-            </div>
-
+        <header class="header">
             <div class="container">
-                <h1 class="title hidden">The Jungle snack</h1>
+                <div id="menu" class="menu">
+                    <nav class="container">
+                        <ul>
+                            <li>
+                                <a class="active" href="/">Accueil</a>
+                            </li>
+                            <li>
+                                <a href="/regles">Règles</a>
+                            </li>
+                            <li>
+                                <a href="/contact">Contact</a>
+                            </li>
 
-                <!-- TODO: BOuger liane en before/after logo-->
-                <div class="img-liane"></div>
-                <div class="img-liane img-liane--d"></div>
+                            <li id="linkConnection">
+                                <a class="main-link" href="/login">Connexion</a>
+                                <a class="connection-link" href="/register">Inscription</a>
+                            </li>
 
-                <a href="/"><img class="logo" src="assets/images/logo.png" alt="Logo The Jungle Snack"></a>
+                            <li id="connected" class="connected" class="hidden">
+                                <p>LucienMa</p>
+                                <a class="main-link" href="/login">Jouer</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
 
+                <h1><a href="/"><img id="logo" class="" src="assets/images/logo.png" alt="Logo The jungle snack"></a></h1>
 
-                <img class="img-video" src="assets/images/img01.png" alt="Future vidéo du jeu The Jungle Snack">
-
-                <a class="btn btn--big btn--header" href="/login">Jouer!</a>
-                <a href="#">Scroll</a>
+                <div class="burger mobile" id="burger">
+                    <a id="burgerEl" class="burger__el" href="#"></a>
+                </div>
             </div>
         </header>
 
-        <main>
-            <section class="bg-main clearfix">
-                <div class="container">
-                    <div class="volet">
-                        <h2 class="title">C’est quoi « The jungle snack »?</h2>
-                        <p>The jungle snack, c’est un jeu de plateau en ligne! Le but est d’être le premier joueur a ouvrir son burger bar. Pour cela, tu dois récolter des cartes et des pièces. Attention aux mauvais coups de tes adversaires!</p>
-                    </div>
+        <section class="main-section">
+            <video src="assets/videos/screen.webm" autoplay loop poster="assets/images/screen-poster.png">Ton navigateur ne supporte pas la vidéo.</video>
+            <div class="play play--main">
+                <a class="btn-play" href="/login">Jouer</a>
+            </div>
 
-                    <div class="volet volet--right no-margin">
-                        <h2 class="title">Comment jouer?</h2>
-                        <p>The jungle snack est un jeu très simple, convenant aux enfants comme aux adultes. Pour gagner la partie, il te faut avoir les 4 cartes, disponible chacune dans un coin du plateau et posséder 50 pièces. Tu te déplace en lançant les dés. Sur le plateau, il y a aussi des cartes chances et des cartes pièges pour attaquer tes adversaires! Si tu aimes lire, toutes les règles sont disponibles ici.</p>
-                        <a class="btn" href="/regles">Règles</a>
-                    </div>
-                </div>
-            </section>
+            <div class="scroll">
+                <div class="scroll-arrow"></div>
+                <div class="scroll-arrow"></div>
+                <div class="scroll-arrow"></div>
+            </div>
+        </section>
 
-            <section class="">
-                <div class="container volet volet--center">
-                    <h2 class="title">Essaie maintenant!</h2>
-                    <p>Viens faire une partie avec tes amis ou avec d’autres joueurs en ligne!</p>
-                    <a class="btn btn--big" href="/login">Jouer!</a>
-                </div>
-            </section>
-        </main>
-
-        <footer class="clear">
+        <section class="bg-green margin-section clearfix">
             <div class="container">
-                <a href="#"><h2 class="title title--footer">The Jungle snack</h2></a>
-                <!-- <p class="baseline">v 0.1.0 | Lucien Mary - 2020</p> -->
+                <div class="col col--left">
+                    <h2>C’est quoi &#171;&nbsp;The jungle snack&nbsp;&#187;?</h2>
+                    <p>The jungle snack, c’est un jeu de plateau en ligne, adapté pour toute la famille! Le but est d’être le premier joueur a ouvrir son burger bar. Pour cela, tu dois récolter des cartes et des pièces. Attention aux mauvais coups de tes adversaires!</p>
+                </div>
 
-                <nav>
+                <img class="tablet-img marge-img col col--right" src="/assets/images/pawns.png" alt="">
+
+                <div class="bottom col clear margin-p">
+                    <h2>Comment jouer?</h2>
+                    <p>The jungle snack est un jeu très simple, convenant aux enfants comme aux adultes. Pour gagner la partie, il te faut avoir les 4 cartes, disponible chacune dans un coin du plateau et posséder 50 pièces. Tu te déplace en lançant les dés. Sur le plateau, il y a aussi des cartes chances et des cartes pièges pour attaquer tes adversaires! Si tu aimes lire, toutes les règles sont disponibles ici.</p>
+                    <a class="btn-link" href="/regles">Règles</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container margin-section clear">
+            <h2 class="col">Essaie maintenant!</h2>
+            <p class="col">Viens faire une partie avec tes amis ou avec d’autres joueurs en ligne!</p>
+            <div class="play">
+                <a class="btn-play" href="/login">Jouer</a>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <h2 class="h2-logo"><a href="/"><img src="assets/images/logo.png" alt="Logo The jungle snack"></a></h2>
+                <nav class="nav-footer">
                     <ul>
-                        <li><a href="/contact">Contact</a></li>
-                        <li><a href="/vie-privee">Vie privée</a></li>
-                        <li><a href="https://lucienmary.be/">lucienmary.be</a></li>
+                        <li>
+                            <a href="/regles">Règles</a>
+                        </li>
+                        <li>
+                            <a href="/contact">Contact</a>
+                        </li>
+                        <li>
+                            <a href="/vie-privee">Vie privée</a>
+                        </li>
+                        <li>
+                            <a href="https://lucienmary.be">lucienmary.be</a>
+                        </li>
                     </ul>
                 </nav>
+                <p>Lucien Mary - 2020</p>
             </div>
         </footer>
     </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="assets/script/app.js"></script>
+    <script src="assets/script/view-profile.js"></script>
 </html>

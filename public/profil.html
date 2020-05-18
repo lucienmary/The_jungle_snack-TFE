@@ -1,10 +1,100 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>Profil | The Jungle snack! | Jeu en ligne</title>
-    </head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#202020">
+    <title>Profil | The Jungle snack! | Jeu en ligne</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Baloo+2:400,700|Lato:900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../assets/styles/app.css">
+</head>
     <body>
-        <h1>Profil ♠️👩🏻👨🏽♥️</h1>
+        <header class="salon">
+            <div class="container">
+                <div class="infos-player">
+                    <img id="imgPlayer" src="../assets/images/_img-00.png" alt="Photo de profil du joueur">
+                    <div id="player" class="infos-player__el">
+                        <p class="pseudo">Pseudo</p>
+                        <p>Partie gagnée: -</p>
+                    </div>
+                </div>
+
+                <h1>Profil du joueur</h1>
+                <div class="menu menu--game">
+                    <nav>
+                        <ul>
+                            <li><a href="salon"><img src="../assets/images/link-back.png" alt="" title="Retour au salon"></a></li>
+                            <li><a href="profil"><img src="../assets/images/link-profil.png" alt="" title="Profil"></a></li>
+                            <li><a href="/"><img src="../assets/images/link-home.png" alt="" title="Accueil"></a></li>
+                            <li><a id="disconnect" href="#"><img src="../assets/images/link-disconnect.png" alt="" title="Déconnexion"></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <section class="clear container">
+            <div class="col col--left">
+                <h2 class="margin-title">Nouveaux pions</h2>
+
+            </div>
+            <div class="col col--right">
+                <h2 class="margin-title">Modifier le profil</h2>
+
+                <div class="area">
+                    <form action="" method="post">
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" value="" placeholder="john@mail.com">
+
+                        <label for="username">Pseudonyme:</label>
+                        <input type="text" name="username" value="" placeholder="John">
+
+                        <label for="password">Mot de passe:</label>
+                        <input type="password" name="password" value="" placeholder="...">
+
+                        <label for="img">Image de profil:</label>
+                        <div class="pdp">
+                            <label>
+                                <input type="radio" value="img-01" name="pdp" checked>
+                                <img src="../assets/images/_img-00.png">
+                            </label>
+                            <label>
+                                <input type="radio" value="img-02" name="pdp">
+                                <img src="../assets/images/_img-01.png">
+                            </label>
+                            <label>
+                                <input type="radio" value="img-03" name="pdp">
+                                <img src="../assets/images/_img-02.png">
+                            </label>
+                            <label>
+                                <input type="radio" value="img-04" name="pdp">
+                                <img src="../assets/images/_img-03.png">
+                            </label>
+                            <label>
+                                <input type="radio" value="img-05" name="pdp">
+                                <img src="../assets/images/_img-04.png">
+                            </label>
+                        </div>
+
+                        <input id="inputA" class="submit" type="submit" value="Enregistrer les modifications">
+                        <button class="suppr">Supprimer mon compte</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer-game">
+            <div class="container">
+                <p>v1.0.0 - Lucien Mary 2020 - <a href="#">vie privée</a> - <a href="#">lucienmary.be</a></p>
+            </div>
+        </footer>
     </body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha256-1A78rJEdiWTzco6qdn3igTBv9VupN3Q1ozZNTR4WE/Y=" crossorigin="anonymous"></script>
+    <script src="../assets/scripts/app.js"></script>
+    <script src="../assets/scripts/pawn.js"></script>
+    <script src="../assets/script/profil.js"></script>
 </html>

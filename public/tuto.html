@@ -2,80 +2,180 @@
 <html lang="fr" dir="ltr">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#202020">
         <title> Règles | The Jungle snack! | Jeu en ligne</title>
 
         <link href="https://fonts.googleapis.com/css?family=Baloo+2:400,700|Lato:900&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="assets/styles/app.css">
     </head>
     <body>
-        <header class="tiny-header">
-            <div class="top-header">
-                <div class="container">
-                    <a class="btn" href="/login">Jouer!</a>
-                </div>
-            </div>
+        <header class="header">
             <div class="container">
-                <h1 class="title hidden">The Jungle snack</h1>
+                <div id="menu" class="menu">
+                    <nav class="container">
+                        <ul>
+                            <li>
+                                <a href="/">Accueil</a>
+                            </li>
+                            <li>
+                                <a class="active" href="/tuto.html">Règles</a>
+                            </li>
+                            <li>
+                                <a href="/contact">Contact</a>
+                            </li>
+                            <li id="linkConnection">
+                                <a class="main-link" href="/login">Connexion</a>
+                                <a class="connection-link" href="/register">Inscription</a>
+                            </li>
 
-                <!-- TODO: BOuger liane en before/after logo-->
-                <div class="img-liane"></div>
-                <div class="img-liane img-liane--d"></div>
+                            <li id="connected" class="connected" class="hidden">
+                                <p>LucienMa</p>
+                                <a class="main-link" href="/login">Jouer</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
 
-                <a href="/"><img class="logo" src="assets/images/logo.png" alt="Logo The Jungle Snack"></a>
+                <h1><a href="#"><img id="logo" class="" src="assets/images/logo.png" alt="Logo The jungle snack"></a></h1>
+
+                <div class="burger mobile" id="burger">
+                    <a id="burgerEl" class="burger__el" href="#"></a>
+                </div>
             </div>
         </header>
 
-        <main>
-            <section class="bg-main clearfix">
-                <div class="container">
-                    <div class="volet">
-                        <h2 class="title">But du jeu:</h2>
-                        <p>Le but du jeu est d’être le premier joueur à ouvrir son burger bar. Pour cela, tu dois récolter les 4 cartes &#171;ingrédients&#187; et une certaine somme de pièces. Pour récolter les différents ingrédients, tu dois passer sur leur cases et disposer d'assez de pièces pour les acheter.</p>
-                    </div>
+        <section class="container margin-section first-section clearfix">
+            <h2 class="margin-title">Règles du jeu</h2>
 
-                    <div class="volet no-margin">
-                        <h2 class="title">Les cases:</h2>
-                        <ul>
-                            <li><strong>Argent:</strong> Tu reçois une sommes aléatoire d'argent, définie par une carte de la pioche carte argent.</li>
-                            <li><strong>Chance:</strong> Tu dois tirer une carte chance/malchance, une action à réaliser est inscrite sur cette carte.</li>
-                            <li><strong>Attaque:</strong> Tu peux voler, faire perdre une carte (ou autre, selon la carte tirée) à un adversaire de ton choix.</li>
-                        </ul>
-                    </div>
+            <div class="table-of-contents col col--left col--obj">
+                <h3>Table des matières:</h3>
+                <ol class="table-of-contents__main-list">
+                    <li>
+                        <a href="#ancre_rejoindre">Rejoindre une partie</a>
+                        <ol>
+                            <li>
+                                <a href="#ancre_compte">Compte</a>
+                            </li>
+                            <li>
+                                <a href="#ancre_salon">Salon de connexion</a>
+                            </li>
+                        </ol>
+                    </li>
+                    <li>
+                        <a href="#ancre_but">But du jeu</a>
+                    </li>
+                    <li>
+                        <a href="#ancre_actions">Actions</a>
+                        <ol>
+                            <li>
+                                <a href="#ancre_de">Dé</a>
+                            </li>
+                            <li>
+                                <a href="#ancre_cases">Cases</a>
+                            </li>
+                        </ol>
+                    </li>
+                    <li>
+                        <a href="#ancre_fin">Fin de partie</a>
+                    </li>
+                </ol>
+            </div>
+            <img class="col col--right col--img" src="http://placehold.it/800x520" alt="">
+        </section>
 
-                    <div class="volet no-margin">
-                        <h2 class="title">Déplacement:</h2>
-                        <p>Pour te déplacer, rien de plus simple. Quand c'est ton tour, appuie sur &#171;lancer les dés&#187;. La somme des deux dés indiquera le nombre de cases que tu peux parcourir. Certaines cartes &#171;chance&#187; te permettent de te déplacer, suivant une instruction donnée.</p>
-                    </div>
-
-                    <div class="volet no-margin">
-                        <h2 class="title">Fin de la partie:</h2>
-                        <p>La partie se termine lorsqu'un joueur possède les 4 cartes &#171;Ingrédients&#187; et la somme d'argent définie en début de partie. Il peut alors ouvrir son burger bar au centre du plateau!</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="">
-                <div class="container volet volet--center">
-                    <h2 class="title">Essaie maintenant!</h2>
-                    <p>Viens faire une partie avec tes amis ou avec d’autres joueurs en ligne!</p>
-                    <a class="btn btn--big" href="/login">Jouer!</a>
-                </div>
-            </section>
-        </main>
-
-        <footer class="clear">
+        <section class="bg-green margin-section">
             <div class="container">
-                <a href="/"><h2 class="title title--footer">The Jungle snack</h2></a>
-                <!-- <p class="baseline">v 0.1.0 | Lucien Mary - 2020</p> -->
+                <div id="ancre_rejoindre" class="col col--large">
+                    <h2>Rejoindre une partie</h2>
+                    <h3 id="ancre_compte">Comptes</h3>
+                    <p>Pour jouer à The jungle snack, il te faut créer un compte. Rien de plus simple, il te faut juste posséder une adresse mail. Ensuite, tu peux te connecter sur ton compte sécurisé grâce à un mot de passe. Ce compte te permet d'utiliser un pseudo, d'enregistrer tes scores, etc.</p>
+                    <h3 id="ancre_salon">Salon de connexion</h3>
+                    <p>Une fois connecté, tu arrives dans le salon de connexion, cette page te permet de rejoindre une partie, de modifier ton profil ou d'accéder à tes préférences.</p>
+                    <p>Pour rejoindre une partie, il te suffit de cliquer sur &#171;&nbsp;Prêt&nbsp;&#187;. Si 4 joueurs sont prêts ou si il y a, au moins, deux joueurs depuis plus de 30 secondes, la parties démarre.</p>
+                    <img src="http://placehold.it/800x470" alt="">
+                </div>
+                <div id="ancre_but" class="col col--large">
+                    <h2>But du jeu</h2>
+                    <p>Tu incarnes un animal de la jungle qui souhaite ouvrir son burger bar. Pour celà, tu dois acheter les 4 ingrédients nécéssaire à la réalisation d'un délicieux burger et réunir assez d'argent pour construire ton burger bar. Mais attention, tu as plusieurs concurrents dans la jungle!</p>
+                    <p>Pour gagner, il te faut les 4 cartes ingrédients et 50 Coins en banque.</p>
+                </div>
+                <div id="ancre_actions" class="col col--large">
+                    <h2 class="margin-title">Actions</h2>
+                    <h3 id="ancre_de">Dé</h3>
+                    <p>Pour te déplacer sur le plateau, rien de plus simple, quand c'est ton tour de jouer, un bouton &#171;&nbsp;Lancer&nbsp;&#187; apparait à L'écran. Il te suffit de cliquer pour lancer le dé. Ton pion se déplacera sur le plateau. Un picto en forme de dé apparait à côté du joueur en train de jouer.</p>
+                    <img class="img-center" src="http://placehold.it/100x100" alt="">
+                    <h3 id="ancre_cases">Cases</h3>
+                    <p>Il existe 6 cases différentes sur le plateau, reconnaissables par leurs formes et leurs couleurs.</p>
 
-                <nav>
+                    <ul class="text-list clear">
+                        <li class="text-list__el text-list__el--chance">
+                            <h4>Chance</h4>
+                            <p>Tu pioche une carte chance au hasard, celle-ci peut demander une action de ta part.</p>
+                        </li>
+                        <li class="text-list__el text-list__el--money">
+                            <h4>Argent</h4>
+                            <p>Tu reçois une somme d'argent aléatoire.</p>
+                        </li>
+                        <li class="text-list__el text-list__el--resources">
+                            <h4>Ingrédient</h4>
+                            <p>Tu as la possibilité d'acheter l'ingrédient disponible sur cette case.</p>
+                        </li>
+                        <li class="text-list__el text-list__el--attack">
+                            <h4>Attaque</h4>
+                            <p>Tu peux décider d'attaquer un joueur de ton choix, pour détruire une de ses cartes. Les attaques sont payante, le prix te sera indiqué.</p>
+                        </li>
+                        <li class="text-list__el text-list__el--bank">
+                            <h4>Banque</h4>
+                            <p>Tu peux déposer de l'argent à la banque. Cet argent est susceptible de te rapporter des intérêts. Attention, tu ne peux plus l'utiliser sur le plateau!</p>
+                        </li>
+                        <li class="text-list__el text-list__el--benefit">
+                            <h4>Intérêt</h4>
+                            <p>Les intérets te rapporte 10% de la somme se trouvant sur ton compte bancaire.</p>
+                        </li>
+                    </ul>
+                </div>
+                <div id="ancre_fin" class="col col--large">
+                    <h2>Fin de partie</h2>
+                    <p>La partie se termine dés qu'un joueur rempli toutes les conditions de victoire. Il gagnera 1 point de score et vous pourrez redémarrer une nouvelle partie depuis le salon.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="container margin-section">
+            <div class="col col--large">
+                <h2>Essaie maintenant!</h2>
+                <p>Viens faire une partie avec tes amis ou avec d’autres joueurs en ligne!</p>
+                <div class="play">
+                    <a class="btn-play" href="#">Jouer</a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <h2 class="h2-logo"><a href="#"><img src="assets/images/logo.png" alt="Logo The jungle snack"></a></h2>
+                <nav class="nav-footer">
                     <ul>
-                        <li><a href="/contact">Contact</a></li>
-                        <li><a href="/vie-privee">Vie privée</a></li>
-                        <li><a href="https://lucienmary.be/">lucienmary.be</a></li>
+                        <li>
+                            <a href="#">Règles</a>
+                        </li>
+                        <li>
+                            <a href="#">Contact</a>
+                        </li>
+                        <li>
+                            <a href="#">Vie privée</a>
+                        </li>
+                        <li>
+                            <a href="https://lucienmary.be">lucienmary.be</a>
+                        </li>
                     </ul>
                 </nav>
+                <p>Lucien Mary - 2020</p>
             </div>
         </footer>
     </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="assets/script/app.js"></script>
+    <script src="assets/script/view-profile.js"></script>
 </html>

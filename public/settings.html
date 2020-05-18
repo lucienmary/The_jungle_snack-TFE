@@ -1,23 +1,63 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>Paramètres | The Jungle snack! | Jeu en ligne</title>
-        <link href="https://fonts.googleapis.com/css?family=Baloo+2:400,700|Lato:900&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="../assets/styles/app.css">
-    </head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#202020">
+    <title>Paramètres | The Jungle snack! | Jeu en ligne</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Baloo+2:400,700|Lato:900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../assets/styles/app.css">
+</head>
     <body>
-        <header class="">
-            <a href="/">Accueil</a>
-            <h1>⚙️ Paramètres ⚙️</h1>
-            <h2>Coming soon!</h2>
+        <header class="salon">
+            <div class="container">
+                <div class="infos-player">
+                    <img id="imgPlayer" src="assets/images/_img-00.png" alt="Photo de profil du joueur">
+                    <div id="player" class="infos-player__el">
+                        <p class="pseudo">Pseudo</p>
+                        <p>Partie gagnée: -</p>
+                    </div>
+                </div>
+
+                <h1>Paramètres d'interfaces</h1>
+                <div class="menu menu--game">
+                    <nav>
+                        <ul>
+                            <li><a href="salon"><img src="../assets/images/link-back.png" alt="" title="Retour au salon"></a></li>
+                            <li><a href="profil"><img src="../assets/images/link-profil.png" alt="" title="Profil"></a></li>
+                            <li><a href="/"><img src="../assets/images/link-home.png" alt="" title="Accueil"></a></li>
+                            <li><a id="disconnect" href="#"><img src="../assets/images/link-disconnect.png" alt="" title="Déconnexion"></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </header>
 
-        <section>
+        <section class="clear container">
+            <ul>
+                <li>
+                    Musique
+                </li>
+                <li>
+                    Son
+                </li>
+                <li>
+                    Vue
+                </li>
+            </ul>
         </section>
     </body>
+    <footer class="fix footer-game">
+        <div class="container">
+            <p>v1.0.0 - Lucien Mary 2020 - <a href="/vie-privee">vie privée</a> - <a href="https://lucienmary.be">lucienmary.be</a></p>
+        </div>
+    </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="../assets/script/salon.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha256-1A78rJEdiWTzco6qdn3igTBv9VupN3Q1ozZNTR4WE/Y=" crossorigin="anonymous"></script>
+    <script src="../assets/script/app.js"></script>
+    <script src="../assets/script/pawn.js"></script>
+    <script src="../assets/script/profil.js"></script>
 </html>

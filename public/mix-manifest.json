@@ -1,0 +1,15 @@
+{
+    "/scripts/app.js": "/scripts/app.js",
+    "/styles/app.css": "/styles/app.css",
+    "/scripts/app.js.map": "/scripts/app.js.map",
+    "/styles/app.css.map": "/styles/app.css.map",
+    "/contact.html": "/contact.html",
+    "/index.html": "/index.html",
+    "/login.html": "/login.html",
+    "/register.html": "/register.html",
+    "/salon.html": "/salon.html",
+    "/settings.html": "/settings.html",
+    "/tuto.html": "/tuto.html",
+    "/vie-privee.html": "/vie-privee.html",
+    "/profil.html": "/profil.html"
+}
