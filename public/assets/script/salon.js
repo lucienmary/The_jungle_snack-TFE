@@ -24,7 +24,6 @@ var profileLocal;
             window.location.replace("/login");
 
         }else { // Affichage dans la page.
-            console.log(profile);
             $('#player').replaceWith(`<div id="player" class="infos-player__el"><p class="pseudo">`+ profile["username"] +`</p><p>Partie gagnée: `+ profile["score"]+`</p></div>`);
             $('#imgPlayer').attr("src", "../assets/images/_"+profile["img"]+".png");
 
@@ -65,7 +64,7 @@ var profileLocal;
 
     // se connecte qd profil récup. par fetch (/api/users/me/).
     function ioConnect(){
-        var socket = io.connect('http://thejunglesnack.fun', console.info('%cSuccessfully connected with socket 👍', 'color: green'));
+        var socket = io.connect('http://localhost:8080', console.info('%cSuccessfully connected with socket 👍', 'color: green'));
 
         var join = $('#join');
 

@@ -1,26 +1,23 @@
 {
   "development": {
-    "username": "lucadmin",
-    "password": "theJS2020LuMa",
+    "username": "root",
+    "password": "DwM2020hEaJ",
     "database": "database_development_retro",
-    "host": "ml247517-001.dbaas.ovh.net",
-    "port": "35919",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
-    "username": "lucadmin",
-    "password": "theJS2020LuMa",
+    "username": "root",
+    "password": "DwM2020hEaJ",
     "database": "database_test_retro",
-    "host": "ml247517-001.dbaas.ovh.net",
-    "port": "35919",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
-    "username": "lucadmin",
-    "password": "theJS2020LuMa",
+    "username": "root",
+    "password": "DwM2020hEaJ",
     "database": "database_production_retro",
-    "host": "ml247517-001.dbaas.ovh.net",
-    "port": "35919",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   }
 }
