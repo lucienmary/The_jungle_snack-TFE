@@ -187,16 +187,28 @@ module.exports = {
     },
     updateUserProfile: function(req, res) {
         // Getting auth header
-        var headerAuth  = req.headers['authorization'];
-        var userId      = jwtUtils.getUserId(headerAuth);
+        if (flag === true) {
+            var userId = jwtUtils.getUserId('Bearer '+tok);
+
+            flag = false;
+            tok = null;
+        }else {
+            var headerAuth  = cookies.get('Authorization');
+            var userId      = jwtUtils.getUserId(headerAuth);
+        }
 
         // Params
         var username = req.body.username;
+        var img = req.body.img;
+
+        if (username.length >= 13 || username.length <= 4) {
+            return res.status(400).json({ 'error': 'wrong username (must be length 5 - 12)' });
+        }
 
         asyncLib.waterfall([
             function(done) {
                 models.User.findOne({
-                    attributes: ['id', 'username'],
+                    attributes: ['id', 'username', 'img'],
                     where: { id: userId }
                 }).then(function (userFound) {
                     done(null, userFound);
@@ -208,7 +220,8 @@ module.exports = {
             function(userFound, done) {
                 if(userFound) {
                     userFound.update({
-                        username: (username ? username : userFound.username)
+                        username: (username ? username : userFound.username),
+                        img: (img ? img : userFound.img)
                     }).then(function() {
                         done(userFound);
                     }).catch(function(err) {
@@ -220,10 +233,38 @@ module.exports = {
             },
         ], function(userFound) {
             if (userFound) {
-                return res.status(201).json(userFound);
+                return res.status(201).redirect("/jeu/profil");
             } else {
                 return res.status(500).json({ 'error': 'cannot update user profile' });
             }
+        });
+    },
+    deleteUserProfile: function(req, res) {
+        console.log('DELETE PROFILE');
+
+        if (flag === true) {
+            var userId = jwtUtils.getUserId('Bearer '+tok);
+
+            flag = false;
+            tok = null;
+        }else {
+            var headerAuth  = cookies.get('Authorization');
+            var userId      = jwtUtils.getUserId(headerAuth);
+        }
+
+        // Getting auth header
+
+        if (userId < 0){
+            // res.redirect("/login");
+            res.status(400).json({ 'error': 'wrong token, please try to log in again' });
+        }
+
+        models.User.destroy({
+            where: { id: userId }
+        }).then(function(user) {
+            return module.exports.disconnect;
+        }).catch(function(err) {
+            return module.exports.disconnect;
         });
     },
     disconnect: function(req, res) {
@@ -236,7 +277,7 @@ module.exports = {
         cookies.set('clientAuth', false, { secure: false, httpOnly: false})
         cookies.set('myId', '', { secure: false, httpOnly: false})
         cookies.set('Pseudo', '', { secure: false, httpOnly: false})
-        
+
         res.json('Disconnected successfully');
     },
 

@@ -5,6 +5,7 @@ var path = require('path');
 var apiRouter = require('./apiRouter').router;
 var gameCtrl = require('./routes/gameCtrl');
 var favicon = require('serve-favicon');
+const methodOverride = require('method-override');
 
 var NB_TO_START = 2;
 
@@ -15,6 +16,9 @@ var server = express();
 
 // distribution des fichiers statics.
 server.use(express.static('public'));
+
+// Pour utiliser '_method' ds les headers de req. (pour avoir PUT et DELETE)(ex.: pour modif du profil).
+server.use(methodOverride('_method'));
 
 server.use(favicon(path.join(__dirname + '/public/assets/images/favicon.ico')))
 

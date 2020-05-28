@@ -24,6 +24,26 @@ body {
   margin: 0;
 }
 
+.modal{
+    position: absolute;
+    width: 40%;
+    left: 30%;
+    margin-top: 30vh;
+    background-color: #e0dba6;
+    padding: 20px 35px;
+    border-radius: 5px;
+    border: 1px solid #aba56f;
+}
+
+.blackscreen{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
 .clear {
   clear: both;
 }

@@ -43,43 +43,44 @@
                 <h2 class="margin-title">Modifier le profil</h2>
 
                 <div class="area">
-                    <form action="" method="post">
-                        <label for="email">Email:</label>
-                        <input type="email" name="email" value="" placeholder="john@mail.com">
+                    <form action="../api/users/me/?_method=PUT" method="post">
+                        <!-- <label for="email">Email:</label>
+                        <input type="email" name="email" value="" placeholder="john@mail.com"> -->
 
                         <label for="username">Pseudonyme:</label>
                         <input type="text" name="username" value="" placeholder="John">
 
-                        <label for="password">Mot de passe:</label>
-                        <input type="password" name="password" value="" placeholder="...">
+                        <!-- <label for="password">Mot de passe:</label>
+                        <input type="password" name="password" value="" placeholder="..."> -->
 
                         <label for="img">Image de profil:</label>
                         <div class="pdp">
                             <label>
-                                <input type="radio" value="img-01" name="pdp" checked>
+                                <input type="radio" value="img-00" name="img" checked>
                                 <img src="../assets/images/_img-00.png">
                             </label>
                             <label>
-                                <input type="radio" value="img-02" name="pdp">
+                                <input type="radio" value="img-01" name="img">
                                 <img src="../assets/images/_img-01.png">
                             </label>
                             <label>
-                                <input type="radio" value="img-03" name="pdp">
+                                <input type="radio" value="img-02" name="img">
                                 <img src="../assets/images/_img-02.png">
                             </label>
                             <label>
-                                <input type="radio" value="img-04" name="pdp">
+                                <input type="radio" value="img-03" name="img">
                                 <img src="../assets/images/_img-03.png">
                             </label>
                             <label>
-                                <input type="radio" value="img-05" name="pdp">
+                                <input type="radio" value="img-04" name="img">
                                 <img src="../assets/images/_img-04.png">
                             </label>
                         </div>
 
                         <input id="inputA" class="submit" type="submit" value="Enregistrer les modifications">
-                        <button class="suppr">Supprimer mon compte</button>
                     </form>
+
+                    <button class="submit suppr modalDelete">Supprimer mon compte</button>
                 </div>
             </div>
         </section>
@@ -94,7 +95,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha256-1A78rJEdiWTzco6qdn3igTBv9VupN3Q1ozZNTR4WE/Y=" crossorigin="anonymous"></script>
-    <script src="../assets/scripts/app.js"></script>
-    <script src="../assets/scripts/pawn.js"></script>
+    <script src="../assets/script/app.js"></script>
     <script src="../assets/script/profil.js"></script>
+    <script src="../assets/script/modal.js"></script>
 </html>
