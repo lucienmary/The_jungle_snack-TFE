@@ -24,6 +24,7 @@ var profileLocal;
             window.location.replace("/login");
 
         }else { // Affichage dans la page.
+            console.log(profile);
             $('#player').replaceWith(`<div id="player" class="infos-player__el"><p class="pseudo">`+ profile["username"] +`</p><p>Partie gagnée: `+ profile["score"]+`</p></div>`);
             $('#imgPlayer').attr("src", "../assets/images/_"+profile["img"]+".png");
 

@@ -608,6 +608,14 @@ footer p {
     left: 0;
     width: 100vw;
   }
+  @media (min-height: 772px) {
+      .fix-height{
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100vw;
+      }
+  }
 }
 
 @media (min-width: 1200px) {
