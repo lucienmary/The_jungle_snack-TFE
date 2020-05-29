@@ -1,6 +1,7 @@
 $( document ).ready(function() {
 
     modalDelete = $('.modalDelete');
+    modalPsw = $('.modalPsw');
 
     modalDelete.click(() => {
         $('body').prepend(`
@@ -17,6 +18,23 @@ $( document ).ready(function() {
         `);
     })
 
+    modalPsw.click(() => {
+        $('body').prepend(`
+            <div class="blackscreen">
+                <div class="modal">
+                <h2>Modifier le mot de passe</h2>
+                <p>Entre ton nouveau mot de passe.</p>
+
+                <form action="../api/users/new-psw/?_method=PUT" method="post">
+                    <label for="password">Mot de passe:</label>
+                    <input type="password" name="password" value="" placeholder="...">
+
+                    <input class="submit" type="submit" value="Enregistrer les modifications">
+                </form>
+                </div>
+            </div>
+        `);
+    })
 
     // Remove modal.
     $(document).on('click', '.cancelModal', () => {

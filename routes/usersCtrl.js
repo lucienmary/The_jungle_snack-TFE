@@ -239,6 +239,59 @@ module.exports = {
             }
         });
     },
+    updateUserPsw: function(req, res) {
+        // Getting auth header
+        if (flag === true) {
+            var userId = jwtUtils.getUserId('Bearer '+tok);
+
+            flag = false;
+            tok = null;
+        }else {
+            var headerAuth  = cookies.get('Authorization');
+            var userId      = jwtUtils.getUserId(headerAuth);
+        }
+
+        // Params
+        var newPsw = req.body.password;
+
+        if (!PASSWORD_REGEX.test(newPsw)) {
+            return res.status(400).json({ 'error': 'password invalid (must length 4 - 8 and 1 number at)' });
+        }
+
+        asyncLib.waterfall([
+            function(done) {
+                models.User.findOne({
+                    where: { id: userId }
+                }).then(function (userFound) {
+                    done(null, userFound);
+                })
+                .catch(function(err) {
+                    return res.status(500).json({ 'error': 'unable to verify user' });
+                });
+            },
+            function(userFound, done) {
+                if (userFound) {
+                    bcrypt.hash(newPsw, 5, function( err, bcryptedPassword ) {
+                        userFound.update({
+                            password: bcryptedPassword
+                        }).then(function() {
+                            done(userFound);
+                        }).catch(function(err) {
+                            res.status(500).json({ 'error': 'cannot update user' });
+                        });
+                    });
+                } else {
+                    return res.status(409).json({ 'error': 'user already exist' });
+                }
+            },
+        ], function(userFound) {
+            if (userFound) {
+                return res.status(201).redirect("/jeu/profil");
+            } else {
+                return res.status(500).json({ 'error': 'cannot update user profile' });
+            }
+        });
+    },
     deleteUserProfile: function(req, res) {
         console.log('DELETE PROFILE');
 

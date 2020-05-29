@@ -13,6 +13,7 @@ exports.router = (function() {
     apiRouter.route('/users/me/').get(usersCtrl.getUserProfile);
     apiRouter.route('/users/me/').put(usersCtrl.updateUserProfile);
     apiRouter.route('/users/delete/').put(usersCtrl.deleteUserProfile);
+    apiRouter.route('/users/new-psw/').put(usersCtrl.updateUserPsw);
 
     apiRouter.route('/users/disconnect/').get(usersCtrl.disconnect);
     // Jeu routes.
