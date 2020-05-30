@@ -19,6 +19,7 @@ const PASSWORD_REGEX = /^(?=.*\d).{4,8}$/;
 module.exports = {
     register: function(req, res){
 
+        cookies = new Cookies(req, res);
         // Params.
         var email = req.body.email;
         var username = req.body.username;
@@ -27,19 +28,24 @@ module.exports = {
         var img = req.body.img;
 
         if (email == null || username == null || password == null) {
-            return res.status(400).json({ 'error': 'missing parameters' });
+            cookies.set('resErrorMsg', 'emptyInput', { secure: false, httpOnly: false});
+            return res.status(400).redirect(req.get('referer'));
         }
 
         if (username.length >= 13 || username.length <= 4) {
-            return res.status(400).json({ 'error': 'wrong username (must be length 5 - 12)' });
+            cookies.set('resErrorMsg', 'username', { secure: false, httpOnly: false});
+            return res.status(400).redirect(req.get('referer'));
         }
 
         if (!EMAIL_REGEX.test(email)) {
-            return res.status(400).json({ 'error': 'email is not valid' });
+            cookies.set('resErrorMsg', 'email', { secure: false, httpOnly: false});
+            return res.status(400).redirect(req.get('referer'));
         }
 
         if (!PASSWORD_REGEX.test(password)) {
-            return res.status(400).json({ 'error': 'password invalid (must length 4 - 8 and 1 number at)' });
+            // return res.status(400).json({ 'error': 'password invalid (must length 4 - 8 and 1 number at)' });
+            cookies.set('resErrorMsg', 'psw', { secure: false, httpOnly: false});
+            return res.status(400).redirect(req.get('referer'));
         }
 
         asyncLib.waterfall([
@@ -52,7 +58,8 @@ module.exports = {
                     done(null, userFound);
                 })
                 .catch(function(err) {
-                    return res.status(500).json({ 'error': 'unable to verify user' });
+                    cookies.set('resErrorMsg', 'verifyError', { secure: false, httpOnly: false});
+                    return res.status(400).redirect(req.get('referer'));
                 });
             },
             function(userFound, done) {
@@ -61,7 +68,8 @@ module.exports = {
                         done(null, userFound, bcryptedPassword);
                     });
                 } else {
-                    return res.status(409).json({ 'error': 'user already exist' });
+                    cookies.set('resErrorMsg', 'alreadyExist', { secure: false, httpOnly: false});
+                    return res.status(400).redirect(req.get('referer'));
                 }
             },
             function(userFound, bcryptedPassword, done) {
@@ -76,30 +84,31 @@ module.exports = {
                     done(newUser);
                 })
                 .catch(function(err) {
-                    return res.status(500).json({ 'error': 'cannot add user' });
+                    cookies.set('resErrorMsg', 'internalError', { secure: false, httpOnly: false});
+                    return res.status(500).redirect(req.get('referer'));
                 });
             }
         ], function(newUser) {
             if (newUser) {
-                // return res.status(201).json({
-                //     'userId': newUser.id
-                // });
-
                 return res.status(201).redirect('/login');
 
             } else {
-                return res.status(500).json({ 'error': 'cannot add user' });
+                cookies.set('resErrorMsg', 'internalError', { secure: false, httpOnly: false});
+                return res.status(500).redirect(req.get('referer'));
             }
         });
     },
     login: function(req, res){
+
+        cookies = new Cookies(req, res);
 
         // Params.
         var email = req.body.email;
         var password = req.body.password;
 
         if (email == null || password == null) {
-            return res.status(400).json({ 'error': 'missing parameters' });
+            cookies.set('resErrorMsg', 'emptyInput', { secure: false, httpOnly: false});
+            return res.status(400).redirect(req.get('referer'));
         }
 
         asyncLib.waterfall([
@@ -111,7 +120,8 @@ module.exports = {
                     done(null, userFound);
                 })
                 .catch(function(err) {
-                    return res.status(500).json({ 'error': 'unable to verify user' });
+                    cookies.set('resErrorMsg', 'verifyError', { secure: false, httpOnly: false});
+                    return res.status(500).redirect(req.get('referer'));
                 });
             },
             function(userFound, done) {
@@ -120,14 +130,16 @@ module.exports = {
                         done(null, userFound, resBycrypt);
                     });
                 } else {
-                    return res.status(404).json({ 'error': 'user not exist in DB' });
+                    cookies.set('resErrorMsg', 'notExist', { secure: false, httpOnly: false});
+                    return res.status(404).redirect(req.get('referer'));
                 }
             },
             function(userFound, resBycrypt, done) {
                 if(resBycrypt) {
                     done(userFound);
                 } else {
-                    return res.status(403).json({ 'error': 'invalid password' });
+                    cookies.set('resErrorMsg', 'invalidPsw', { secure: false, httpOnly: false});
+                    return res.status(403).redirect(req.get('referer'));
                 }
             }
         ], function(userFound) {
@@ -146,13 +158,14 @@ module.exports = {
 
                 res.redirect('/jeu/salon');
             } else {
-                return res.status(500).json({ 'error': 'cannot log on user' });
+                cookies.set('resErrorMsg', 'connectionError', { secure: false, httpOnly: false});
+                return res.status(500).redirect(req.get('referer'));
             }
         });
     },
     getUserProfile: function(req, res) {
 
-        cookies = new Cookies(req, res)
+        cookies = new Cookies(req, res);
 
         if (flag === true) {
             var userId = jwtUtils.getUserId('Bearer '+tok);
@@ -167,8 +180,8 @@ module.exports = {
         // Getting auth header
 
         if (userId < 0){
-            // res.redirect("/login");
-            res.status(400).json({ 'error': 'wrong token, please try to log in again' });
+            cookies.set('resErrorMsg', 'tokenError', { secure: false, httpOnly: false});
+            return res.status(400).redirect(req.get('referer'));
         }
 
         models.User.findOne({
@@ -176,16 +189,20 @@ module.exports = {
             where: { id: userId }
         }).then(function(user) {
             if (user) {
-                // res.sendFile(path.join(__dirname + '/public/salon.html'));
                 return res.json(user);
             } else {
-                res.status(404).json({ 'error': 'user not found' });
+                cookies.set('resErrorMsg', 'verifyError', { secure: false, httpOnly: false});
+                return res.status(400).redirect(req.get('referer'));
             }
         }).catch(function(err) {
-            res.json({ 'error': 'cannot fetch user' });
+            cookies.set('resErrorMsg', 'verifyError', { secure: false, httpOnly: false});
+            return res.status(400).redirect(req.get('referer'));
         });
     },
     updateUserProfile: function(req, res) {
+
+        cookies = new Cookies(req, res);
+
         // Getting auth header
         if (flag === true) {
             var userId = jwtUtils.getUserId('Bearer '+tok);
@@ -202,7 +219,8 @@ module.exports = {
         var img = req.body.img;
 
         if (username.length >= 13 || username.length <= 4) {
-            return res.status(400).json({ 'error': 'wrong username (must be length 5 - 12)' });
+            cookies.set('resErrorMsg', 'username', { secure: false, httpOnly: false});
+            return res.status(400).redirect(req.get('referer'));
         }
 
         asyncLib.waterfall([
@@ -214,7 +232,8 @@ module.exports = {
                     done(null, userFound);
                 })
                 .catch(function(err) {
-                    return res.status(500).json({ 'error': 'unable to verify user' });
+                    cookies.set('resErrorMsg', 'verifyError', { secure: false, httpOnly: false});
+                    return res.status(500).redirect(req.get('referer'));
                 });
             },
             function(userFound, done) {
@@ -225,21 +244,27 @@ module.exports = {
                     }).then(function() {
                         done(userFound);
                     }).catch(function(err) {
-                        res.status(500).json({ 'error': 'cannot update user' });
+                        cookies.set('resErrorMsg', 'updateError', { secure: false, httpOnly: false});
+                        return res.status(500).redirect(req.get('referer'));
                     });
                 } else {
-                    res.status(404).json({ 'error': 'user not found' });
+                    cookies.set('resErrorMsg', 'userNotFound', { secure: false, httpOnly: false});
+                    return res.status(404).redirect(req.get('referer'));
                 }
             },
         ], function(userFound) {
             if (userFound) {
                 return res.status(201).redirect("/jeu/profil");
             } else {
-                return res.status(500).json({ 'error': 'cannot update user profile' });
+                cookies.set('resErrorMsg', 'updateError', { secure: false, httpOnly: false});
+                return res.status(500).redirect(req.get('referer'));
             }
         });
     },
     updateUserPsw: function(req, res) {
+
+        cookies = new Cookies(req, res);
+
         // Getting auth header
         if (flag === true) {
             var userId = jwtUtils.getUserId('Bearer '+tok);
@@ -255,7 +280,8 @@ module.exports = {
         var newPsw = req.body.password;
 
         if (!PASSWORD_REGEX.test(newPsw)) {
-            return res.status(400).json({ 'error': 'password invalid (must length 4 - 8 and 1 number at)' });
+            cookies.set('resErrorMsg', 'psw', { secure: false, httpOnly: false});
+            return res.status(400).redirect(req.get('referer'));
         }
 
         asyncLib.waterfall([
@@ -266,7 +292,8 @@ module.exports = {
                     done(null, userFound);
                 })
                 .catch(function(err) {
-                    return res.status(500).json({ 'error': 'unable to verify user' });
+                    cookies.set('resErrorMsg', 'verifyError', { secure: false, httpOnly: false});
+                    return res.status(500).redirect(req.get('referer'));
                 });
             },
             function(userFound, done) {
@@ -277,22 +304,28 @@ module.exports = {
                         }).then(function() {
                             done(userFound);
                         }).catch(function(err) {
-                            res.status(500).json({ 'error': 'cannot update user' });
+                            cookies.set('resErrorMsg', 'updateError', { secure: false, httpOnly: false});
+                            return res.status(500).redirect(req.get('referer'));
                         });
                     });
                 } else {
-                    return res.status(409).json({ 'error': 'user already exist' });
+                    cookies.set('resErrorMsg', 'alreadyExist', { secure: false, httpOnly: false});
+                    return res.status(409).redirect(req.get('referer'));
                 }
             },
         ], function(userFound) {
             if (userFound) {
                 return res.status(201).redirect("/jeu/profil");
             } else {
-                return res.status(500).json({ 'error': 'cannot update user profile' });
+                cookies.set('resErrorMsg', 'updateError', { secure: false, httpOnly: false});
+                return res.status(500).redirect(req.get('referer'));
             }
         });
     },
     deleteUserProfile: function(req, res) {
+
+        cookies = new Cookies(req, res);
+
         console.log('DELETE PROFILE');
 
         if (flag === true) {
@@ -309,7 +342,8 @@ module.exports = {
 
         if (userId < 0){
             // res.redirect("/login");
-            res.status(400).json({ 'error': 'wrong token, please try to log in again' });
+            cookies.set('resErrorMsg', 'tokenError', { secure: false, httpOnly: false});
+            return res.status(400).redirect(req.get('referer'));
         }
 
         models.User.destroy({

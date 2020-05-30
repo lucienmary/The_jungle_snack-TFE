@@ -31,6 +31,7 @@ $( document ).ready(function() {
 
                     <input class="submit" type="submit" value="Enregistrer les modifications">
                 </form>
+                <a href="#" class="cancelModal">Annuler</a>
                 </div>
             </div>
         `);

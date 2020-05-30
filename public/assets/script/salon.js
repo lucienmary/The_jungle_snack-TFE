@@ -35,7 +35,13 @@ var profileLocal;
 
     })
     .catch(err => {
-        console.log(err)
+        console.log(err);
+        $('.container:first').prepend(`
+            <div class="alert-msg">
+                <p>Informations de connexion invalides ou expirées, reconnecte-toi stp.</p>
+                <span class="cross-msg"></span>
+            </div>
+        `);
     });
 
 

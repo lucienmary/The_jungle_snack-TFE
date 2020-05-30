@@ -7,7 +7,7 @@ var gameCtrl = require('./routes/gameCtrl');
 var favicon = require('serve-favicon');
 const methodOverride = require('method-override');
 
-var NB_TO_START = 2;
+const NB_TO_START = 2;
 
 var idGame = 0;
 
