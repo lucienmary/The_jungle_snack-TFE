@@ -1,6 +1,7 @@
 $( document ).ready(function() {
 
 var profileLocal;
+var pawn;
 
 // Récupération des données du profil.
 // -----------------------------------
@@ -74,17 +75,30 @@ var profileLocal;
 
         var join = $('#join');
 
-        // Quand clic pr commencer une partie.
         join.click(() => {
+            emitPlayers();
             if (join.text() == 'Prêt!') { // Entrer.
                 join.text('Sortir');
-                socket.emit('enterPlayerList', {id: profileLocal["id"], username: profileLocal["username"], score: profileLocal["score"], img: profileLocal["img"]});
-
             }else{ // Sortir.
                 join.text('Prêt!');
                 socket.emit('exitPlayerList', {id: profileLocal["id"]});
             }
         })
+
+        setInterval(function(){
+            if (pawn != null) {
+                if (window.localStorage.getItem('pawn') !== pawn){
+                    socket.emit('exitPlayerList', {id: profileLocal["id"]});
+                    emitPlayers();
+                }
+            }
+        }, 250);
+
+        // Quand clic pr commencer une partie.
+        function emitPlayers(){
+            pawn = window.localStorage.getItem('pawn');
+            socket.emit('enterPlayerList', {id: profileLocal["id"], username: profileLocal["username"], score: profileLocal["score"], img: profileLocal["img"], pawn: pawn});
+        }
 
         // Afficher les autres joueurs dans la playerlist.
         socket.on('displayPlayers', (data) => {
@@ -106,6 +120,7 @@ var profileLocal;
                         <div class="player">
                             <p>`+ playerList[i].username +`</p>
                             <p>Partie gagnée: `+ playerList[i].score +`</p>
+                            <p>`+ playerList[i].pawn +`</p>
                         </div>
                     </li>
                 `);

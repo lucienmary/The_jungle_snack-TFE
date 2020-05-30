@@ -100,7 +100,7 @@ io.on('connect', (socket) => {
     io.sockets.emit('displayPlayers', {playerList: playerList});
 
     socket.on('enterPlayerList', (data) => {
-        socket.newUser = {id: data.id, username: data.username, score: data.score, img: data.img, socketId: socket.id};
+        socket.newUser = {id: data.id, username: data.username, score: data.score, img: data.img, pawn: data.pawn,socketId: socket.id};
 
 
         if (playerList.find(double => double.id === socket.newUser.id)) {

@@ -1,16 +1,12 @@
-console.log('hh');
 jQuery(document).ready(function () {
+	window.localStorage.setItem('pawn', 'pawnFlamingo'); // Pion par defaut.
 
-  // $('#checkbox').change(function(){
-  //   setInterval(function () {
-  //       moveRight();
-  //   }, 3000);
-  // });
-
-	var slideCount = $('#slider ul li').length;
+	const SLIDE_COUNT = $('#slider ul li').length;
 	var slideWidth = $('#slider ul li').width();
 	var slideHeight = $('#slider ul li').height();
-	var sliderUlWidth = slideCount * slideWidth;
+	var sliderUlWidth = SLIDE_COUNT * slideWidth;
+	var selectedPawn = 1;
+	var timedFun;
 
 	$('#slider').css({ width: slideWidth, height: slideHeight });
 
@@ -25,6 +21,7 @@ jQuery(document).ready(function () {
             $('#slider ul li:last-child').prependTo('#slider ul');
             $('#slider ul').css('left', '');
         });
+		selected('left');
     };
 
     function moveRight() {
@@ -34,13 +31,35 @@ jQuery(document).ready(function () {
             $('#slider ul li:first-child').appendTo('#slider ul');
             $('#slider ul').css('left', '');
         });
+		selected('right');
     };
 
-    $('a.control_prev').click(function () {
+	// N° du pion select.
+	function selected(data) {
+		if (data === 'right') {
+			if (selectedPawn === SLIDE_COUNT) selectedPawn = 1;
+			else selectedPawn++;
+		}else {
+			if (selectedPawn === 1) selectedPawn = SLIDE_COUNT;
+			else selectedPawn--;
+		}
+
+		timedFun = setTimeout(function(){
+			var actual = $('#slider ul li:nth-child(2)').attr('id');
+			// window.localStorage.removeItem('pawn');
+			window.localStorage.setItem('pawn', actual);
+		}, 500);
+	}
+
+    $('a.control_prev').click(function (e) {
+		e.preventDefault();
+		clearTimeout(timedFun);
         moveLeft();
     });
 
-    $('a.control_next').click(function () {
+    $('a.control_next').click(function (e) {
+		e.preventDefault();
+		clearTimeout(timedFun);
         moveRight();
     });
 
