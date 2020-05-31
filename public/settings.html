@@ -13,7 +13,7 @@
         <header class="salon">
             <div class="container">
                 <div class="infos-player">
-                    <img id="imgPlayer" src="assets/images/_img-00.png" alt="Photo de profil du joueur">
+                    <img id="imgPlayer" src="../assets/images/_img-00.png" alt="Photo de profil du joueur">
                     <div id="player" class="infos-player__el">
                         <p class="pseudo">Pseudo</p>
                         <p>Partie gagnée: -</p>
@@ -35,22 +35,28 @@
         </header>
 
         <section class="clear container">
-            <ul>
-                <li>
-                    Musique
-                </li>
-                <li>
-                    Son
-                </li>
-                <li>
-                    Vue
-                </li>
-            </ul>
+            <div class="col">
+                <h2 class="margin-title">Paramètres</h2>
+
+                <div class="area">
+                    <form method="post">
+                        <label for="music">Musique en jeu: <span id="musicValue">50</span>%</label>
+                        <input type="range" id="music" name="music" min="0" max="100" value="50">
+
+                        <label for="effect">Effet sonore en jeu: <span id="effectValue">50</span>%</label>
+                        <input type="range" id="effect" name="effect" min="0" max="100" value="50">
+
+                        <label for="bgImg">Décors d'arrière plan du plateau:</label>
+                        <input type="checkbox" id="bgImg" name="bgImg" checked>
+                    </form>
+
+                    <p>The jungle snack - v0.2.0 - 08 juin 2020</p>
+                </div>
         </section>
     </body>
     <footer class="fix footer-game">
         <div class="container">
-            <p>v1.0.0 - Lucien Mary 2020 - <a href="/vie-privee">vie privée</a> - <a href="https://lucienmary.be">lucienmary.be</a></p>
+            <p>v0.2.0 - Lucien Mary 2020 - <a href="/vie-privee">vie privée</a> - <a href="https://lucienmary.be">lucienmary.be</a></p>
         </div>
     </footer>
 
@@ -60,4 +66,5 @@
     <script src="../assets/script/app.js"></script>
     <script src="../assets/script/pawn.js"></script>
     <script src="../assets/script/profil.js"></script>
+    <script src="../assets/script/settings.js"></script>
 </html>

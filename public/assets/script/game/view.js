@@ -35,6 +35,11 @@ $( document ).ready(function() {
     var game = new Phaser.Game(config);
 
     function preload (){
+
+        //link.
+        this.load.image('link-home', '../assets/images/link-home.png');
+        this.load.image('link-settings', '../assets/images/link-settings.png');
+
         // Boxes.
         this.load.image('resources', '../assets/images/resources.png');
         this.load.image('benefits', '../assets/images/benefits.png');
@@ -128,6 +133,10 @@ $( document ).ready(function() {
     }
 
     function create (){
+
+        // Btn. settings.
+        this.add.image(width-15, height/2-30, 'link-home').setOrigin(1, 0.5).setDepth(5).setScale(0.5);
+        this.add.image(width-15, height/2+30, 'link-settings').setOrigin(1, 0.5).setDepth(5).setScale(0.5);
 
         var music = this.sound.add('music');
         music.setLoop(true);
