@@ -8,6 +8,7 @@ var favicon = require('serve-favicon');
 const methodOverride = require('method-override');
 
 const NB_TO_START = 2;
+const SECOND_TO_START = 20;
 
 var idGame = 0;
 
@@ -99,8 +100,21 @@ var gameFunctions = require('./gameFunctions');
 io.on('connect', (socket) => {
     io.sockets.emit('displayPlayers', {playerList: playerList});
 
+    var pawnChoice = 'pawnFlamingo';
+    socket.on('pawnChoice', (data) => {
+        pawnChoice = data;
+        console.log(pawnChoice);
+
+         if (typeof(socket.newUser)!="undefined") {
+            console.log('Exist');
+            socket.newUser.pawn = pawnChoice;
+            console.log(socket.newUser);
+            io.sockets.emit('displayPlayers', {playerList: playerList});
+        }
+    })
+
     socket.on('enterPlayerList', (data) => {
-        socket.newUser = {id: data.id, username: data.username, score: data.score, img: data.img, pawn: data.pawn,socketId: socket.id};
+        socket.newUser = {id: data.id, username: data.username, score: data.score, img: data.img, socketId: socket.id, pawn: pawnChoice};
 
 
         if (playerList.find(double => double.id === socket.newUser.id)) {
@@ -162,7 +176,6 @@ io.on('connect', (socket) => {
     // TODO: Modif stopTimer(); (Si pas dernier joueur à rejoindre se déco. timer ne se stop pas.)
 
     var secondInterval;
-    const SECOND_TO_START = 3;
 
     function startTimer(boo){
 

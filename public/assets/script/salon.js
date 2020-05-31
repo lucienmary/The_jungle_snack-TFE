@@ -73,32 +73,55 @@ var pawn;
     function ioConnect(){
         var socket = io.connect('http://localhost:8080', console.info('%cSuccessfully connected with socket 👍', 'color: green'));
 
-        var join = $('#join');
+        // var join = $('#join');
+        // join.click(() => {
+        //     emitPlayers();
+        //     if (join.text() == 'Prêt!') { // Entrer.
+        //         join.text('Sortir');
+        //     }else{ // Sortir.
+        //         join.text('Prêt!');
+        //         socket.emit('exitPlayerList', {id: profileLocal["id"]});
+        //     }
+        // })
+        //
+        // setInterval(function(){
+        //     if (pawn != null) {
+        //         if (window.localStorage.getItem('pawn') !== pawn){
+        //             socket.emit('exitPlayerList', {id: profileLocal["id"]});
+        //             emitPlayers();
+        //         }
+        //     }
+        // }, 250);
+        //
+        // // Quand clic pr commencer une partie.
+        // function emitPlayers(){
+        //     pawn = window.localStorage.getItem('pawn');
+        //     socket.emit('enterPlayerList', {id: profileLocal["id"], username: profileLocal["username"], score: profileLocal["score"], img: profileLocal["img"], pawn: pawn});
+        // }
 
-        join.click(() => {
-            emitPlayers();
-            if (join.text() == 'Prêt!') { // Entrer.
-                join.text('Sortir');
-            }else{ // Sortir.
-                join.text('Prêt!');
-                socket.emit('exitPlayerList', {id: profileLocal["id"]});
-            }
-        })
+        var join = $('#join');
+        var pawn = 'pawnFlamingo';
 
         setInterval(function(){
             if (pawn != null) {
                 if (window.localStorage.getItem('pawn') !== pawn){
-                    socket.emit('exitPlayerList', {id: profileLocal["id"]});
-                    emitPlayers();
+                    pawn = window.localStorage.getItem('pawn');
+                    socket.emit('pawnChoice', pawn);
                 }
             }
         }, 250);
 
         // Quand clic pr commencer une partie.
-        function emitPlayers(){
-            pawn = window.localStorage.getItem('pawn');
-            socket.emit('enterPlayerList', {id: profileLocal["id"], username: profileLocal["username"], score: profileLocal["score"], img: profileLocal["img"], pawn: pawn});
-        }
+        join.click(() => {
+            if (join.text() == 'Prêt!') { // Entrer.
+                join.text('Sortir');
+                socket.emit('enterPlayerList', {id: profileLocal["id"], username: profileLocal["username"], score: profileLocal["score"], img: profileLocal["img"]});
+
+            }else{ // Sortir.
+                join.text('Prêt!');
+                socket.emit('exitPlayerList', {id: profileLocal["id"]});
+            }
+        })
 
         // Afficher les autres joueurs dans la playerlist.
         socket.on('displayPlayers', (data) => {
@@ -120,7 +143,7 @@ var pawn;
                         <div class="player">
                             <p>`+ playerList[i].username +`</p>
                             <p>Partie gagnée: `+ playerList[i].score +`</p>
-                            <p>`+ playerList[i].pawn +`</p>
+                            <p id="pawnChoice">`+ playerList[i].pawn +`</p>
                         </div>
                     </li>
                 `);
