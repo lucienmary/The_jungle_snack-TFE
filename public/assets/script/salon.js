@@ -100,7 +100,7 @@ var pawn;
         // }
 
         var join = $('#join');
-        var pawn = 'pawnFlamingo';
+        var pawn = 'flamingo';
 
         setInterval(function(){
             if (pawn != null) {

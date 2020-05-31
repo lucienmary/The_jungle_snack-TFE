@@ -100,7 +100,7 @@ var gameFunctions = require('./gameFunctions');
 io.on('connect', (socket) => {
     io.sockets.emit('displayPlayers', {playerList: playerList});
 
-    var pawnChoice = 'pawnFlamingo';
+    var pawnChoice = 'flamingo';
     socket.on('pawnChoice', (data) => {
         pawnChoice = data;
         console.log(pawnChoice);

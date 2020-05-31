@@ -1,5 +1,5 @@
 jQuery(document).ready(function () {
-	window.localStorage.setItem('pawn', 'pawnFlamingo'); // Pion par defaut.
+	window.localStorage.setItem('pawn', 'flamingo'); // Pion par defaut.
 
 	const SLIDE_COUNT = $('#slider ul li').length;
 	var slideWidth = $('#slider ul li').width();

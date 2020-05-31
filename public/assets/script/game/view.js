@@ -183,7 +183,7 @@ $( document ).ready(function() {
             this.bd.coins = this.add.text(width-265, height-45, playerForStart[0].coins, FONT_MONEY);
             this.bd.bank = this.add.text(width-185, height-45, playerForStart[0].bank, FONT_MONEY);
 
-            this.bd.pawn = this.add.image(this.casesX[(playerForStart[0].position)-1], this.casesY[(playerForStart[0].position)-1], 'flamingo_'+playerForStart[0].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
+            this.bd.pawn = this.add.image(this.casesX[(playerForStart[0].position)-1], this.casesY[(playerForStart[0].position)-1], playerForStart[0].pawn+'_'+playerForStart[0].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
 
             this.bg.bread = this.add.image(43, height-200, 'position_cards').setScale(0.64);
             this.bg.meat = this.add.image(119, height-200, 'position_cards').setScale(0.64);
@@ -196,7 +196,7 @@ $( document ).ready(function() {
             this.bg.bank = this.add.text(215, height-45, playerForStart[1].bank, FONT_MONEY);
             this.bg.coins = this.add.text(135, height-45, playerForStart[1].coins, FONT_MONEY);
 
-            this.bg.pawn = this.add.image(this.casesX[(playerForStart[1].position)-1], this.casesY[(playerForStart[1].position)-1], 'turtle_'+playerForStart[1].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
+            this.bg.pawn = this.add.image(this.casesX[(playerForStart[1].position)-1], this.casesY[(playerForStart[1].position)-1], playerForStart[1].pawn+'_'+playerForStart[1].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
 
             if (playerForStart.length > 2) {
                 this.hg.bread = this.add.image(43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
@@ -210,7 +210,7 @@ $( document ).ready(function() {
                 this.hg.bank = this.add.text(215, 62, playerForStart[2].bank, FONT_MONEY);
                 this.hg.coins = this.add.text(135, 62, playerForStart[2].coins, FONT_MONEY);
 
-                this.hg.pawn = this.add.image(this.casesX[(playerForStart[2].position)-1], this.casesY[(playerForStart[2].position)-1], 'fox_'+playerForStart[2].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
+                this.hg.pawn = this.add.image(this.casesX[(playerForStart[2].position)-1], this.casesY[(playerForStart[2].position)-1], playerForStart[2].pawn+'_'+playerForStart[2].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
             }
 
             if (playerForStart.length > 3) {
@@ -225,7 +225,7 @@ $( document ).ready(function() {
                 this.hd.bank = this.add.text( width-185, 62, playerForStart[3].bank, FONT_MONEY);
                 this.hd.coins = this.add.text(width-265, 62, playerForStart[3].coins, FONT_MONEY);
 
-                this.hd.pawn = this.add.image(this.casesX[(playerForStart[3].position)-1], this.casesY[(playerForStart[3].position)-1], 'fox_'+playerForStart[3].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
+                this.hd.pawn = this.add.image(this.casesX[(playerForStart[3].position)-1], this.casesY[(playerForStart[3].position)-1], playerForStart[3].pawn+'_'+playerForStart[3].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
             }
         })
 
