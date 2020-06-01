@@ -36,6 +36,9 @@ $( document ).ready(function() {
 
     function preload (){
 
+        // Cursor.
+        this.load.image('cursor', '../assets/images/cursor.png');
+
         //link.
         this.load.image('link-home', '../assets/images/link-home.png');
         this.load.image('link-settings', '../assets/images/link-settings.png');
@@ -119,8 +122,10 @@ $( document ).ready(function() {
         this.load.image('turtle_yellow', '../assets/images/pawn/turtle_yellow.png');
         this.load.image('turtle_green', '../assets/images/pawn/turtle_green.png');
 
-        // Musiques et son.
+        // Musiques et sons.
         this.load.audio('music', '../assets/sounds/music.mp3');
+        this.load.audio('dice', '../assets/sounds/dice.mp3');
+        this.load.audio('buy', '../assets/sounds/buy.mp3');
 
         // thimble.
         this.load.video('video06', '../assets/videos/6.webm');
@@ -134,10 +139,19 @@ $( document ).ready(function() {
 
     function create (){
 
-        // Btn. settings.
-        this.add.image(width-15, height/2-30, 'link-home').setOrigin(1, 0.5).setDepth(5).setScale(0.5);
-        this.add.image(width-15, height/2+30, 'link-settings').setOrigin(1, 0.5).setDepth(5).setScale(0.5);
+        // Cursor.
+        this.input.setDefaultCursor('url(../assets/images/cursor.png), pointer');
 
+        // Btn. settings.
+        var linkHome = this.add.image(width-15, height/2-30, 'link-home').setOrigin(1, 0.5).setDepth(5).setScale(0.5).setInteractive();
+        var linkSettings = this.add.image(width-15, height/2+30, 'link-settings').setOrigin(1, 0.5).setDepth(5).setScale(0.5).setInteractive();
+
+        linkHome.on('pointerdown', () => {
+            console.log('Home');
+        });
+        linkSettings.on('pointerdown', () => {
+            console.log('Settings');
+        });
         var music = this.sound.add('music');
         music.setLoop(true);
         music.play();
@@ -802,9 +816,11 @@ $( document ).ready(function() {
         });
 
         // Texte d'infos sur l'écran. Infos.
-        this.socket.on('infos', (time, info) => {
-            setTimeout( infos, time, this, info)
-            function infos(this0, info) {
+        this.socket.on('infos', (time, info, sound) => {
+            setTimeout( infos, time, this, info, sound)
+            function infos(this0, info, sound) {
+
+                if (sound === 'buy') this0.sound.add('buy').play();
 
                 this0.info.setText(info);
                 this0.info.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
@@ -945,16 +961,19 @@ $( document ).ready(function() {
         })
 
         this.socket.on('responseThimble', (responseThimble, player) => {
-            console.log(responseThimble);
-
-            console.log('video');
             this.video[responseThimble-1].play();
             this.video[responseThimble-1].visible = true;
 
             var passVideo = this.video;
+            var diceSound = this.sound.add('dice');
 
+            setTimeout(dice, 1500, diceSound);
             setTimeout(move, 3000, player, this);
             setTimeout(stopVideo, 5000, this);
+
+            function dice(diceS){
+                diceS.play();
+            }
 
             function move(player, this0) {
 
@@ -982,7 +1001,6 @@ $( document ).ready(function() {
 
             function stopVideo(this0) {
                 for (var i = 0; i < 6; i++) {
-                    console.log('cc');
                     this0.video[i].setCurrentTime(0);
                     this0.video[i].stop();
                     this0.video[i].visible = false;

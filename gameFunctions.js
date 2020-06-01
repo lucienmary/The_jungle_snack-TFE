@@ -14,7 +14,7 @@ module.exports = {
     gameSettings: (playerList, idGame, io, socket) => {
         var io = io;
 
-        const GAME_CONFIG = {coins: 0, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
+        const GAME_CONFIG = {coins: 500, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
         const BANKGOALS = 50;
         const BOARD = 20;
         const BOXES = {chance: [5, 10, 15, 20], money: [3, 8, 13, 18], resources: [1, 6, 11, 16], attack: [9, 19], bank: [7, 17], benefit: [2, 12], empty: [4, 14]};
@@ -383,7 +383,7 @@ module.exports = {
                                 player[num].coins = player[num].coins - RESOURCES_PRICE;
 
                                 info = player[num].username + ' a acheté la catre '+ newRes +'!';
-                                io.of('/A'+idGame).emit('infos', 0, info);
+                                io.of('/A'+idGame).emit('infos', 0, info, 'buy');
                                 endOfTurn();
                             }else{
                                 endOfTurn();
