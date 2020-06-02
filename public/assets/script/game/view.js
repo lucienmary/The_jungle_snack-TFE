@@ -1,6 +1,11 @@
 // View.
 
 $( document ).ready(function() {
+
+    // Settings.
+    var settings = JSON.parse(localStorage.getItem('settingsTJS'));
+    console.log('music= '+settings.music +' | effect= '+ settings.effect);
+
     var location = window.location;
     var idGame = location.href.split('id=A');
 
@@ -14,6 +19,7 @@ $( document ).ready(function() {
     const FONT_RIGHT = {fontFamily: 'Arial', fontSize: 28, align: 'right'};
     const FONT_LEFT = {fontFamily: 'Arial', fontSize: 28, align: 'left'};
     const FONT_MONEY = {fontFamily: 'Arial', fontSize: 24, align: 'left'};
+    const FONT_TINY = {fontFamily: 'Arial', fontSize: 22, align: 'left'};
     const FONT_INFOS = {fontFamily: 'Arial Black', fontSize: 43, align: 'center', color: '#FFF3C2', fontWeight: 'bold'};
     const ANIMATION_TIMER = 10;
     const ALPHA_PAWN = 0.7;
@@ -104,6 +110,8 @@ $( document ).ready(function() {
         this.load.image('arrow_down', '../assets/images/arrow_down.png');
         this.load.image('btn_yes', '../assets/images/btn_yes.png');
         this.load.image('btn_no', '../assets/images/btn_no.png');
+        this.load.image('btn_close', '../assets/images/btn_close.png');
+        this.load.image('btn_mute', '../assets/images/btn_mute.png');
 
         // pawn.
 
@@ -141,20 +149,6 @@ $( document ).ready(function() {
 
         // Cursor.
         this.input.setDefaultCursor('url(../assets/images/cursor.png), pointer');
-
-        // Btn. settings.
-        var linkHome = this.add.image(width-15, height/2-30, 'link-home').setOrigin(1, 0.5).setDepth(5).setScale(0.5).setInteractive();
-        var linkSettings = this.add.image(width-15, height/2+30, 'link-settings').setOrigin(1, 0.5).setDepth(5).setScale(0.5).setInteractive();
-
-        linkHome.on('pointerdown', () => {
-            console.log('Home');
-        });
-        linkSettings.on('pointerdown', () => {
-            console.log('Settings');
-        });
-        var music = this.sound.add('music');
-        music.setLoop(true);
-        music.play();
 
         this.info = this.add.text(width/2, height/2-20, '/', FONT_INFOS).setDepth(8).setOrigin(0.5);
         this.info.visible = false;
@@ -323,8 +317,6 @@ $( document ).ready(function() {
 
         this.box01 = this.add.image(this.casesX[0], this.casesY[0], 'resources');
         this.box01.setScale(SCALE);
-
-        console.log(this.box16.y);
         // --------------------
         //Config. infos player.
         // --------------------
@@ -401,6 +393,11 @@ $( document ).ready(function() {
                 }
             }
         });
+
+        // Music.
+        var music = this.sound.add('music', {volume: (settings.music/100)});
+        music.setLoop(true);
+        music.play();
 
 
         // Tour de jeu et dé.
@@ -820,7 +817,7 @@ $( document ).ready(function() {
             setTimeout( infos, time, this, info, sound)
             function infos(this0, info, sound) {
 
-                if (sound === 'buy') this0.sound.add('buy').play();
+                if (sound === 'buy') this0.sound.add('buy', {volume: (settings.effect/100)}).play();
 
                 this0.info.setText(info);
                 this0.info.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
@@ -839,10 +836,6 @@ $( document ).ready(function() {
         this.socket.on('chance_getFromEveryone', (data) => {
             console.log('Get from everyone: '+ data);
         })
-
-        // this.socket.on('chance_giveForOne', (p, p2, responseRandom) => {
-        //     console.log(p.username +' gives '+ responseRandom + ' for ' +p2.username);
-        // })
 
         this.socket.on('chance_getFromOne', (p, p2, responseRandom) => {
             console.log(p.username +' take in '+ responseRandom + ' from ' +p2.username);
@@ -1007,6 +1000,97 @@ $( document ).ready(function() {
                 }
             }
         })
+
+
+        // Btn. settings.
+        var linkHome = this.add.image(width-15, height/2-30, 'link-home').setOrigin(1, 0.5).setDepth(5).setScale(0.5).setInteractive();
+        var linkSettings = this.add.image(width-15, height/2+30, 'link-settings').setOrigin(1, 0.5).setDepth(5).setScale(0.5).setInteractive();
+
+        linkHome.on('pointerdown', () => {
+            window.location.href = '/jeu/salon';
+        });
+        linkSettings.on('pointerdown', () => {
+            this.modal.visible = true;
+            this.gradient.visible = true;
+            this.btn.close = this.add.image(width/2, height/2+150, 'btn_close').setDepth(7).setInteractive();
+
+            this.settingsTitle = this.add.text(width/2, height/2-150, 'Paramètres', FONT_LEFT).setDepth(7).setOrigin(0.5);
+
+            this.musicText = this.add.text(width/2, height/2-100, 'Volume de la musique', FONT_TINY).setDepth(7).setOrigin(0.5);
+            this.musicVol = this.add.text(width/2, height/2-60, settings.music+'%', FONT_TINY).setDepth(7).setOrigin(0.5);
+
+            this.effectText = this.add.text(width/2, height/2, 'Volume des effets sonores', FONT_TINY).setDepth(7).setOrigin(0.5);
+            this.effectVol = this.add.text(width/2, height/2+40, settings.effect+'%', FONT_TINY).setDepth(7).setOrigin(0.5);
+
+            this.musicUp = this.add.image(width/2+55, height/2-60, 'arrow_up').setDepth(7).setScale(0.5).setInteractive();
+            this.musicDown = this.add.image(width/2-55, height/2-60, 'arrow_down').setDepth(7).setScale(0.5).setInteractive();
+            this.musicMute = this.add.image(width/2+110, height/2-60, 'btn_mute').setDepth(7).setScale(0.5).setInteractive();
+
+            this.effectUp = this.add.image(width/2+55, height/2+40, 'arrow_up').setDepth(7).setScale(0.5).setInteractive();
+            this.effectDown = this.add.image(width/2-55, height/2+40, 'arrow_down').setDepth(7).setScale(0.5).setInteractive();
+            this.effectMute = this.add.image(width/2+110, height/2+40, 'btn_mute').setDepth(7).setScale(0.5).setInteractive();
+
+            this.musicDown.on('pointerdown', () => {
+                if (settings.music > 0) {
+                    settings.music = parseInt(settings.music)-10;
+                    window.localStorage.setItem('settingsTJS', JSON.stringify({music: settings.music, effect: settings.effect, bgImg: true}));
+                    this.musicVol.setText(settings.music+'%');
+                    music.setVolume(settings.music/100);
+                }
+            })
+            this.musicUp.on('pointerdown', () => {
+                if (settings.music < 100) {
+                    settings.music = parseInt(settings.music)+10;
+                    window.localStorage.setItem('settingsTJS', JSON.stringify({music: settings.music, effect: settings.effect, bgImg: true}));
+                    this.musicVol.setText(settings.music+'%');
+                    music.setVolume(settings.music/100);
+                }
+            })
+            this.effectUp.on('pointerdown', () => {
+                if (settings.effect < 100) {
+                    settings.effect = parseInt(settings.effect)+10;
+                    window.localStorage.setItem('settingsTJS', JSON.stringify({music: settings.music, effect: settings.effect, bgImg: true}));
+                    this.effectVol.setText(settings.effect+'%');
+                }
+            })
+            this.effectDown.on('pointerdown', () => {
+                if (settings.effect > 0) {
+                    settings.effect = parseInt(settings.effect)-10;
+                    window.localStorage.setItem('settingsTJS', JSON.stringify({music: settings.music, effect: settings.effect, bgImg: true}));
+                    this.effectVol.setText(settings.effect+'%');
+                }
+            })
+            this.musicMute.on('pointerdown', () => {
+                settings.music = 0;
+                window.localStorage.setItem('settingsTJS', JSON.stringify({music: settings.music, effect: settings.effect, bgImg: true}));
+                this.musicVol.setText(settings.music+'%');
+                music.setVolume(0);
+            })
+            this.effectMute.on('pointerdown', () => {
+                settings.effect = 0;
+                window.localStorage.setItem('settingsTJS', JSON.stringify({music: settings.music, effect: settings.effect, bgImg: true}));
+                this.effectVol.setText(settings.effect+'%');
+            })
+
+            this.btn.close.on('pointerdown', () => {
+                this.modal.visible = false;
+                this.gradient.visible = false;
+                this.btn.close.destroy();
+                this.settingsTitle.destroy();
+                this.musicText.destroy();
+                this.musicVol.destroy();
+                this.effectText.destroy();
+                this.effectVol.destroy();
+
+                this.musicUp.destroy();
+                this.musicDown.destroy();
+                this.effectUp.destroy();
+                this.effectDown.destroy();
+                this.musicMute.destroy();
+                this.effectMute.destroy();
+            });
+        });
+
     } // Fin Create.
 
 

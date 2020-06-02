@@ -41,14 +41,16 @@
                 <div class="area">
                     <form method="post">
                         <label for="music">Musique en jeu: <span id="musicValue">50</span>%</label>
-                        <input type="range" id="music" name="music" min="0" max="100" value="50">
+                        <input type="range" step="10" id="music" name="music" min="0" max="100" value="50">
 
                         <label for="effect">Effet sonore en jeu: <span id="effectValue">50</span>%</label>
-                        <input type="range" id="effect" name="effect" min="0" max="100" value="50">
+                        <input type="range" step="10" id="effect" name="effect" min="0" max="100" value="50">
 
                         <label for="bgImg">Décors d'arrière plan du plateau:</label>
                         <input type="checkbox" id="bgImg" name="bgImg" checked>
                     </form>
+
+                    <a href="/jeu/salon">Retour au salon</a>
 
                     <p>The jungle snack - v0.2.0 - 08 juin 2020</p>
                 </div>
