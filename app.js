@@ -103,12 +103,9 @@ io.on('connect', (socket) => {
     var pawnChoice = 'flamingo';
     socket.on('pawnChoice', (data) => {
         pawnChoice = data;
-        console.log(pawnChoice);
 
          if (typeof(socket.newUser)!="undefined") {
-            console.log('Exist');
             socket.newUser.pawn = pawnChoice;
-            console.log(socket.newUser);
             io.sockets.emit('displayPlayers', {playerList: playerList});
         }
     })
@@ -203,7 +200,6 @@ io.on('connect', (socket) => {
     function startTJS(){
         gameFunctions.gameSettings(playerList, idGame, io, socket);
         for (var i = 0; i < playerList.length; i++) {
-            // console.log(playerList[i].socketId);
             io.to(playerList[i].socketId).emit('start', '/jeu/partie?id=A'+idGame);
 
         }

@@ -73,32 +73,6 @@ var pawn;
     function ioConnect(){
         var socket = io.connect('http://localhost:8080', console.info('%cSuccessfully connected with socket 👍', 'color: green'));
 
-        // var join = $('#join');
-        // join.click(() => {
-        //     emitPlayers();
-        //     if (join.text() == 'Prêt!') { // Entrer.
-        //         join.text('Sortir');
-        //     }else{ // Sortir.
-        //         join.text('Prêt!');
-        //         socket.emit('exitPlayerList', {id: profileLocal["id"]});
-        //     }
-        // })
-        //
-        // setInterval(function(){
-        //     if (pawn != null) {
-        //         if (window.localStorage.getItem('pawn') !== pawn){
-        //             socket.emit('exitPlayerList', {id: profileLocal["id"]});
-        //             emitPlayers();
-        //         }
-        //     }
-        // }, 250);
-        //
-        // // Quand clic pr commencer une partie.
-        // function emitPlayers(){
-        //     pawn = window.localStorage.getItem('pawn');
-        //     socket.emit('enterPlayerList', {id: profileLocal["id"], username: profileLocal["username"], score: profileLocal["score"], img: profileLocal["img"], pawn: pawn});
-        // }
-
         var join = $('#join');
         var pawn = 'flamingo';
 
@@ -109,7 +83,7 @@ var pawn;
                     socket.emit('pawnChoice', pawn);
                 }
             }
-        }, 250);
+        }, 125);
 
         // Quand clic pr commencer une partie.
         join.click(() => {

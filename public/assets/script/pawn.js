@@ -46,7 +46,6 @@ jQuery(document).ready(function () {
 
 		timedFun = setTimeout(function(){
 			var actual = $('#slider ul li:nth-child(2)').attr('id');
-			// window.localStorage.removeItem('pawn');
 			window.localStorage.setItem('pawn', actual);
 		}, 500);
 	}

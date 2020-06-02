@@ -20,8 +20,6 @@ $( document ).ready(function() {
     effectValue = effectInput.val();
     bgImgValue = bgImgInput.prop( "checked" );
 
-    console.log(bgImgValue);
-
     $('#musicValue').text(musicValue);
     $('#effectValue').text(effectValue);
 
