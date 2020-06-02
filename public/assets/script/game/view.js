@@ -324,13 +324,11 @@ $( document ).ready(function() {
         this.socket.on('player', (player) => {
 
             this.p = player;
-            // this.gradient.visible = false;
 
             if (this.bd.bank) { // If this.bd.bank existe, la vue à été initialisée (dans view, plus haut).
 
-                this.bd.pawn.setAlpha(0.7);
-                this.bg.pawn.setAlpha(0.7);
-
+                this.bd.pawn.setAlpha(ALPHA_PAWN);
+                this.bg.pawn.setAlpha(ALPHA_PAWN);
                 this.bd.bank.setText(player[0].bank);
                 this.bd.coins.setText(player[0].coins);
                 if (player[0].cards.meat === true) this.bd.meat.setTexture('card_meat');
@@ -354,7 +352,7 @@ $( document ).ready(function() {
                     else this.bg.sauce.setTexture('position_cards');
 
                 if (player.length > 2) {
-                    this.hg.pawn.setAlpha(0.7);
+                    this.hg.pawn.setAlpha(ALPHA_PAWN);
                     this.hg.bank.setText(player[2].bank);
                     this.hg.coins.setText(player[2].coins);
                     if (player[2].cards.meat === true) this.hg.meat.setTexture('card_meat');
@@ -368,7 +366,7 @@ $( document ).ready(function() {
                 }
 
                 if (player.length > 3) {
-                    this.hd.pawn.setAlpha(0.7);
+                    this.hd.pawn.setAlpha(ALPHA_PAWN);
                     this.hd.bank.setText(player[3].bank);
                     this.hd.coins.setText(player[3].coins);
                     if (player[3].cards.meat === true) this.hd.meat.setTexture('card_meat');
@@ -405,13 +403,6 @@ $( document ).ready(function() {
         this.thimbleButton.visible = false;
 
         this.socket.on('play', (num) => {
-
-            if (this.bd.bank) {
-                if (num === 0) this.bd.pawn.setAlpha(1);
-                if (num === 1) this.bg.pawn.setAlpha(1);
-                if (num === 2) this.hg.pawn.setAlpha(1);
-                if (num === 3) this.hd.pawn.setAlpha(1);
-            }
             this.socket.emit('goTurn');
         })
 
@@ -957,6 +948,11 @@ $( document ).ready(function() {
             this.video[responseThimble-1].play();
             this.video[responseThimble-1].visible = true;
 
+            if (player.color === 'blue') this.bd.pawn.setAlpha(1);
+            if (player.color === 'red') this.bg.pawn.setAlpha(1);
+            if (player.color === 'yellow') this.hg.pawn.setAlpha(1);
+            if (player.color === 'green') this.hd.pawn.setAlpha(1);
+
             var passVideo = this.video;
             var diceSound = this.sound.add('dice');
 
@@ -1010,25 +1006,26 @@ $( document ).ready(function() {
             window.location.href = '/jeu/salon';
         });
         linkSettings.on('pointerdown', () => {
+            linkSettings.removeInteractive();
             this.modal.visible = true;
             this.gradient.visible = true;
-            this.btn.close = this.add.image(width/2, height/2+150, 'btn_close').setDepth(7).setInteractive();
+            this.btn.close = this.add.image(width/2, height/2+150, 'btn_close').setDepth(107).setInteractive();
 
-            this.settingsTitle = this.add.text(width/2, height/2-150, 'Paramètres', FONT_LEFT).setDepth(7).setOrigin(0.5);
+            this.settingsTitle = this.add.text(width/2, height/2-150, 'Paramètres', FONT_LEFT).setDepth(107).setOrigin(0.5);
 
-            this.musicText = this.add.text(width/2, height/2-100, 'Volume de la musique', FONT_TINY).setDepth(7).setOrigin(0.5);
-            this.musicVol = this.add.text(width/2, height/2-60, settings.music+'%', FONT_TINY).setDepth(7).setOrigin(0.5);
+            this.musicText = this.add.text(width/2, height/2-100, 'Volume de la musique', FONT_TINY).setDepth(107).setOrigin(0.5);
+            this.musicVol = this.add.text(width/2, height/2-60, settings.music+'%', FONT_TINY).setDepth(107).setOrigin(0.5);
 
-            this.effectText = this.add.text(width/2, height/2, 'Volume des effets sonores', FONT_TINY).setDepth(7).setOrigin(0.5);
-            this.effectVol = this.add.text(width/2, height/2+40, settings.effect+'%', FONT_TINY).setDepth(7).setOrigin(0.5);
+            this.effectText = this.add.text(width/2, height/2, 'Volume des effets sonores', FONT_TINY).setDepth(107).setOrigin(0.5);
+            this.effectVol = this.add.text(width/2, height/2+40, settings.effect+'%', FONT_TINY).setDepth(107).setOrigin(0.5);
 
-            this.musicUp = this.add.image(width/2+55, height/2-60, 'arrow_up').setDepth(7).setScale(0.5).setInteractive();
-            this.musicDown = this.add.image(width/2-55, height/2-60, 'arrow_down').setDepth(7).setScale(0.5).setInteractive();
-            this.musicMute = this.add.image(width/2+110, height/2-60, 'btn_mute').setDepth(7).setScale(0.5).setInteractive();
+            this.musicUp = this.add.image(width/2+55, height/2-60, 'arrow_up').setDepth(107).setScale(0.5).setInteractive();
+            this.musicDown = this.add.image(width/2-55, height/2-60, 'arrow_down').setDepth(107).setScale(0.5).setInteractive();
+            this.musicMute = this.add.image(width/2+110, height/2-60, 'btn_mute').setDepth(107).setScale(0.5).setInteractive();
 
-            this.effectUp = this.add.image(width/2+55, height/2+40, 'arrow_up').setDepth(7).setScale(0.5).setInteractive();
-            this.effectDown = this.add.image(width/2-55, height/2+40, 'arrow_down').setDepth(7).setScale(0.5).setInteractive();
-            this.effectMute = this.add.image(width/2+110, height/2+40, 'btn_mute').setDepth(7).setScale(0.5).setInteractive();
+            this.effectUp = this.add.image(width/2+55, height/2+40, 'arrow_up').setDepth(107).setScale(0.5).setInteractive();
+            this.effectDown = this.add.image(width/2-55, height/2+40, 'arrow_down').setDepth(107).setScale(0.5).setInteractive();
+            this.effectMute = this.add.image(width/2+110, height/2+40, 'btn_mute').setDepth(107).setScale(0.5).setInteractive();
 
             this.musicDown.on('pointerdown', () => {
                 if (settings.music > 0) {
@@ -1088,6 +1085,7 @@ $( document ).ready(function() {
                 this.effectDown.destroy();
                 this.musicMute.destroy();
                 this.effectMute.destroy();
+                linkSettings.setInteractive();
             });
         });
 
