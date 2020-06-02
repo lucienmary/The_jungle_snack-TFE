@@ -25,6 +25,8 @@ $( document ).ready(function() {
     const ALPHA_PAWN = 0.7;
     const TIME_THIMBLE = 4000;
     const TIME_MODAL = 4000;
+    const PLAYER_TIMEOUT = 25000;
+    var playerLeaving;
 
     var config = {
             type: Phaser.AUTO,
@@ -146,6 +148,10 @@ $( document ).ready(function() {
     }
 
     function create (){
+
+        // Déconnexion auto.
+        var decoAlert = this.add.text(width/2, 50, 'Attention, si tu ne joue pas dans les 5 secondes, tu seras exclu.', FONT_LEFT).setDepth(7).setOrigin(0.5);
+        decoAlert.visible = false;
 
         // Cursor.
         this.input.setDefaultCursor('url(../assets/images/cursor.png), pointer');
@@ -412,9 +418,24 @@ $( document ).ready(function() {
             setTimeout(function(){ // Pour éviter adversaire déco.
                 thimbleView.visible = true;
             }, TIME_THIMBLE);
+
+            playerLeavingAlert = setTimeout(leaveAlert, PLAYER_TIMEOUT-5000);
+            playerLeaving = setTimeout(leave, PLAYER_TIMEOUT, this);
         })
 
+        function leaveAlert() {
+            decoAlert.visible = true;
+        }
+
+        function leave(this0) {
+            this0.socket.emit('leave');
+            window.location.href = '/jeu/salon';
+        }
+
         this.thimbleButton.on('pointerdown', () => {
+            decoAlert.visible = false;
+            clearTimeout(playerLeavingAlert);
+            clearTimeout(playerLeaving);
             this.socket.emit('thimble', true);
             this.thimbleButton.visible = false;
         });
@@ -429,7 +450,18 @@ $( document ).ready(function() {
             this.socket.open()
         })
 
+        this.socket.on('missingPlayer', () => {
+            this.modal.visible = true;
+            this.text.visible = true;
+            this.title.visible = true;
+            this.title.setText('Fin de la partie.');
+            this.text.setText('Un adversaire a disparu.\nTu vas être redirigé dans le salon.\nTu n\'as pas perdu de Coins.').setPosition(width/2, height/2);
+            var backToLobby = this.add.image(width/2, height/2+100, 'btn_close').setDepth(107).setInteractive();
 
+            backToLobby.on('pointerdown', () => {
+                window.location.href = '/jeu/salon';
+            });
+        })
 
         // ----------
         //   Modal.

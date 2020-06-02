@@ -113,6 +113,9 @@ module.exports = {
             socket.on('goTurn', () => {
                 play(nextPlayer);
             })
+            socket.on('leave', () => {
+                io.of('/A'+idGame).emit('missingPlayer');
+            })
 
             function play(num) {
                 var endOfTurn;
