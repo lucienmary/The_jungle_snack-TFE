@@ -25,8 +25,6 @@ $( document ).ready(function() {
     const ALPHA_PAWN = 0.7;
     const TIME_THIMBLE = 4000;
     const TIME_MODAL = 4000;
-    const PLAYER_TIMEOUT = 25000;
-    var playerLeaving;
 
     var config = {
             type: Phaser.AUTO,
@@ -149,10 +147,6 @@ $( document ).ready(function() {
 
     function create (){
 
-        // Déconnexion auto.
-        var decoAlert = this.add.text(width/2, 50, 'Attention, si tu ne joue pas dans les 5 secondes, tu seras exclu.', FONT_LEFT).setDepth(7).setOrigin(0.5);
-        decoAlert.visible = false;
-
         // Cursor.
         this.input.setDefaultCursor('url(../assets/images/cursor.png), pointer');
 
@@ -160,6 +154,8 @@ $( document ).ready(function() {
         this.info.visible = false;
         this.gradient = this.add.image(width/2, height/2, 'gradient').setOrigin(0.5, 0.5).setDepth(5);
         this.gradient.visible = false;
+        this.alertDeco = this.add.text(width/2, 100, 'Attention, si tu ne joues pas, tu seras exclu.', FONT_LEFT).setDepth(107).setOrigin(0.5);
+        this.alertDeco.visible = false;
 
         this.video = [];
 
@@ -412,31 +408,24 @@ $( document ).ready(function() {
             this.socket.emit('goTurn');
         })
 
-        this.socket.on('yourTurn', (pop) => {
+        this.socket.on('yourTurn', (timerAlert) => {
             var thimbleView = this.thimbleButton;
 
             setTimeout(function(){ // Pour éviter adversaire déco.
                 thimbleView.visible = true;
             }, TIME_THIMBLE);
 
-            playerLeavingAlert = setTimeout(leaveAlert, PLAYER_TIMEOUT-5000);
-            playerLeaving = setTimeout(leave, PLAYER_TIMEOUT, this);
+            this.alertDecoMsg = setTimeout(alertDeco, timerAlert-10000, this);
+
+            function alertDeco(this0) {
+                this0.alertDeco.visible = true;
+            }
         })
 
-        function leaveAlert() {
-            decoAlert.visible = true;
-        }
-
-        function leave(this0) {
-            this0.socket.emit('leave');
-            window.location.href = '/jeu/salon';
-        }
-
         this.thimbleButton.on('pointerdown', () => {
-            decoAlert.visible = false;
-            clearTimeout(playerLeavingAlert);
-            clearTimeout(playerLeaving);
+            clearTimeout(this.alertDecoMsg);
             this.socket.emit('thimble', true);
+            this.alertDeco.visible = false;
             this.thimbleButton.visible = false;
         });
 
@@ -450,12 +439,18 @@ $( document ).ready(function() {
             this.socket.open()
         })
 
+
+        // Si joueur ne répond pas.
+        this.socket.on('playerOut', () => {
+            window.location.href = '/jeu/salon';
+        })
+
         this.socket.on('missingPlayer', () => {
             this.modal.visible = true;
             this.text.visible = true;
             this.title.visible = true;
             this.title.setText('Fin de la partie.');
-            this.text.setText('Un adversaire a disparu.\nTu vas être redirigé dans le salon.\nTu n\'as pas perdu de Coins.').setPosition(width/2, height/2);
+            this.text.setText('Un adversaire semble avoir disparu.\nTu vas être redirigé dans le salon.\nTu n\'as pas perdu de Coins.').setPosition(width/2, height/2-20);
             var backToLobby = this.add.image(width/2, height/2+100, 'btn_close').setDepth(107).setInteractive();
 
             backToLobby.on('pointerdown', () => {

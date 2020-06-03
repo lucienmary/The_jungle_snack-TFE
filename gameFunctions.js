@@ -23,6 +23,8 @@ module.exports = {
         const MONEY = [50, 25, 15, 0, 100, 75, 50];
         const BENEFIT = 10; // En pourcent.
         const CHANCE = { giveForEveryone: [5, 15, 25], giveForOne: [30, 40, 50], getFromEveryone: [5, 15, 25], getFromOne: [30, 40, 50], makeLoseOrWin: [60, 40, 30]};
+        const PLAYER_TIMEOUT = 45000;
+        var turnTimeout;
 
         var player = [];
         var nextPlayer;
@@ -111,18 +113,22 @@ module.exports = {
             }
 
             socket.on('goTurn', () => {
+                clearTimeout(turnTimeout);
                 play(nextPlayer);
-            })
-            socket.on('leave', () => {
-                io.of('/A'+idGame).emit('missingPlayer');
             })
 
             function play(num) {
+
+                turnTimeout = setTimeout(function(){
+                    io.of('/A'+idGame).to(player[num].socketId).emit('playerOut');
+                    io.of('/A'+idGame).emit('missingPlayer');
+                }, PLAYER_TIMEOUT);
+
                 var endOfTurn;
                 // console.log(player.length);
                 console.log(player[num].id +' | '+num);
 
-                io.of('/A'+idGame).to(player[num].socketId).emit('yourTurn', true);
+                io.of('/A'+idGame).to(player[num].socketId).emit('yourTurn', PLAYER_TIMEOUT);
 
                 socket.on('thimble', (ok) => {
                     console.log('Dé lancé: '+ ok);
