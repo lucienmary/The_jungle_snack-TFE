@@ -12,11 +12,84 @@ $( document ).ready(function() {
     var width = window.innerWidth;
     var height = window.innerHeight;
 
-    const SCALE = 0.6;
-    const SCALE_TEXT = 0.7;
+
+    // Responsive.
+    var respInterface, respText, respImg, marginBlock, marginImg, marginCoins, marginCard, scaleCard, respBoxes, paddingCard, respModal, marginModal, respYes, respEmpty, respVideo, marginBank;
+
+    if ($(window).width() > 1200) {
+        console.log('> 1200');
+        respBoxes = 0.6;
+        respInterface = 0.7;
+        respText = 1;
+        marginBlock = 200;
+        marginImg = 60;
+        respImg = 1;
+        respModal = 1
+        marginCoins = 185;
+        marginCard = 150;
+        marginModal = 100;
+        scaleCard = 0.64;
+        paddingCard = 76;
+        respYes = 50;
+        respEmpty = 0.42;
+        respVideo = 0.8;
+        marginBank = 0;
+    }else if ($(window).width() > 800) {
+        console.log('800 - 1200');
+        respBoxes = 0.5;
+        respInterface = 0.5;
+        respText = 0.8;
+        marginBlock = 140;
+        marginImg = 40;
+        respImg = 0.6;
+        respModal = 0.85;
+        marginCoins = 132;
+        marginCard = 110;
+        marginModal = 50;
+        scaleCard = 0.45;
+        paddingCard = 53.43;
+        respYes = 100;
+        respEmpty = 0.25;
+        respVideo = 0.6;
+        marginBank = 20;
+    }else if ($(window).width() <= 800) {
+        console.log('≤ 800');
+        respBoxes = 0.28;
+        respInterface = 0.5;
+        respText = 0.65;
+        marginBlock = 140;
+        marginImg = 40;
+        marginModal = 0;
+        respImg = 0.6;
+        respModal = 0.70;
+        marginCoins = 132;
+        marginCard = 110;
+        scaleCard = 0.3;
+        paddingCard = 35.61;
+        respYes = 100;
+        respEmpty = 0.25;
+        respVideo = 0.4;
+        marginBank = 40;
+    }
+
+    const SCALE = respBoxes;
+    const SCALE_INTERFACE = respInterface;
+    const SCALE_TEXT = respText;
+    const SCALE_IMG = respImg;
+    const MARGIN_BLOCK = marginBlock;
+    const MARGIN_IMG = marginImg;
+    const MARGIN_COINS = marginCoins;
+    const MARGIN_CARD = marginCard;
+    const MARGIN_MODAL = marginModal;
+    const SCALE_CARD = scaleCard;
+    const PADDING_CARD = paddingCard;
+    const SCALE_MODAL = respModal;
+    const MARGIN_YES = respYes;
+    const SCALE_EMPTY = respEmpty;
+    const SCALE_VIDEO = respVideo;
+
     const WUNIT = 142*SCALE;
     const HUNIT = 80*SCALE;
-    const FONT_RIGHT = {fontFamily: 'Arial', fontSize: 28, align: 'right'};
     const FONT_LEFT = {fontFamily: 'Arial', fontSize: 28, align: 'left'};
     const FONT_MONEY = {fontFamily: 'Arial', fontSize: 24, align: 'left'};
     const FONT_TINY = {fontFamily: 'Arial', fontSize: 22, align: 'left'};
@@ -27,10 +100,13 @@ $( document ).ready(function() {
     const TIME_MODAL = 4000;
 
     var config = {
+            mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
             type: Phaser.AUTO,
+            autoCenter: Phaser.Scale.CENTER_BOTH,
             width: width,
             height: height,
             backgroundColor:0xC5BF89,
+            // antialias: false,
             scene: {
                 preload: preload,
                 create: create,
@@ -44,6 +120,7 @@ $( document ).ready(function() {
 
         // Cursor.
         this.load.image('cursor', '../assets/images/cursor.png');
+        this.load.image('player_turn', '../assets/images/turn.png');
 
         //link.
         this.load.image('link-home', '../assets/images/link-home.png');
@@ -150,7 +227,7 @@ $( document ).ready(function() {
         // Cursor.
         this.input.setDefaultCursor('url(../assets/images/cursor.png), pointer');
 
-        this.info = this.add.text(width/2, height/2-20, '/', FONT_INFOS).setDepth(8).setOrigin(0.5);
+        this.info = this.add.text(width/2, height/2-20, '/', FONT_INFOS).setDepth(8).setOrigin(0.5).setScale(SCALE_TEXT);
         this.info.visible = false;
         this.gradient = this.add.image(width/2, height/2, 'gradient').setOrigin(0.5, 0.5).setDepth(5);
         this.gradient.visible = false;
@@ -159,12 +236,12 @@ $( document ).ready(function() {
 
         this.video = [];
 
-        this.video[5] = this.add.video(width/2, height/2, 'video06').setDepth(4).setOrigin(0.5, 1).setScale(0.8);
-        this.video[4] = this.add.video(width/2, height/2, 'video05').setDepth(4).setOrigin(0.5, 1).setScale(0.8);
-        this.video[3] = this.add.video(width/2, height/2, 'video04').setDepth(4).setOrigin(0.5, 1).setScale(0.8);
-        this.video[2] = this.add.video(width/2, height/2, 'video03').setDepth(4).setOrigin(0.5, 1).setScale(0.8);
-        this.video[1] = this.add.video(width/2, height/2, 'video02').setDepth(4).setOrigin(0.5, 1).setScale(0.8);
-        this.video[0] = this.add.video(width/2, height/2, 'video01').setDepth(4).setOrigin(0.5, 1).setScale(0.8);
+        this.video[5] = this.add.video(width/2, height/2, 'video06').setDepth(4).setOrigin(0.5, 1).setScale(SCALE_VIDEO);
+        this.video[4] = this.add.video(width/2, height/2, 'video05').setDepth(4).setOrigin(0.5, 1).setScale(SCALE_VIDEO);
+        this.video[3] = this.add.video(width/2, height/2, 'video04').setDepth(4).setOrigin(0.5, 1).setScale(SCALE_VIDEO);
+        this.video[2] = this.add.video(width/2, height/2, 'video03').setDepth(4).setOrigin(0.5, 1).setScale(SCALE_VIDEO);
+        this.video[1] = this.add.video(width/2, height/2, 'video02').setDepth(4).setOrigin(0.5, 1).setScale(SCALE_VIDEO);
+        this.video[0] = this.add.video(width/2, height/2, 'video01').setDepth(4).setOrigin(0.5, 1).setScale(SCALE_VIDEO);
 
         this.bd = [];
         this.bg = [];
@@ -191,58 +268,67 @@ $( document ).ready(function() {
 
         // Affichage des joueurs + infos joueurs.
         this.socket.on('view', (playerForStart) => {
-            this.bd.bread = this.add.image(width-43, height-200, 'position_cards').setScale(0.64);
-            this.bd.meat = this.add.image(width-119, height-200, 'position_cards').setScale(0.64);
-            this.bd.salad = this.add.image(width-195, height-200, 'position_cards').setScale(0.64);
-            this.bd.sauce = this.add.image(width-271, height-200, 'position_cards').setScale(0.64);
-            this.add.image(width-(500/2)*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre_blue').setScale(SCALE_TEXT);
-            this.add.image(width-200, height-32, 'block').setScale(SCALE_TEXT);
-            this.bd.username = this.add.text(width-270, height-100, playerForStart[0].username, FONT_RIGHT);
-            this.bd.img = this.add.image(width-60, height-55, playerForStart[0].img);
-            this.bd.coins = this.add.text(width-265, height-45, playerForStart[0].coins, FONT_MONEY);
-            this.bd.bank = this.add.text(width-185, height-45, playerForStart[0].bank, FONT_MONEY);
+
+            this.bd.turn = this.add.image(width-365, height-35, 'player_turn').setScale(SCALE_INTERFACE);
+            this.bd.turn.visible = false;
+            this.bd.bread = this.add.image(width-(10), height-MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setOrigin(1, 1);
+            this.bd.meat = this.add.image(width-(10+PADDING_CARD), height-MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setOrigin(1, 1);
+            this.bd.salad = this.add.image(width-(10+PADDING_CARD*2), height-MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setOrigin(1, 1);
+            this.bd.sauce = this.add.image(width-(10+PADDING_CARD*3), height-MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setOrigin(1, 1);
+            this.add.image(width, height, 'cadre_blue').setScale(SCALE_INTERFACE).setOrigin(1, 1);
+            this.add.image(width-MARGIN_BLOCK, height-34, 'block').setScale(SCALE_INTERFACE);
+            this.bd.username = this.add.text(width-MARGIN_IMG*2.1, height-MARGIN_IMG*1.285, playerForStart[0].username, FONT_LEFT).setOrigin(1, 1).setScale(SCALE_TEXT);
+            this.bd.img = this.add.image(width-MARGIN_IMG, height-MARGIN_IMG, playerForStart[0].img).setScale(SCALE_IMG);
+            this.bd.coins = this.add.text(width-MARGIN_COINS-MARGIN_COINS/2.3125, height-45, playerForStart[0].coins, FONT_MONEY).setScale(SCALE_TEXT);
+            this.bd.bank = this.add.text(width-MARGIN_COINS, height-45, playerForStart[0].bank, FONT_MONEY).setScale(SCALE_TEXT);
 
             this.bd.pawn = this.add.image(this.casesX[(playerForStart[0].position)-1], this.casesY[(playerForStart[0].position)-1], playerForStart[0].pawn+'_'+playerForStart[0].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
 
-            this.bg.bread = this.add.image(43, height-200, 'position_cards').setScale(0.64);
-            this.bg.meat = this.add.image(119, height-200, 'position_cards').setScale(0.64);
-            this.bg.salad = this.add.image(195, height-200, 'position_cards').setScale(0.64);
-            this.bg.sauce = this.add.image(271, height-200, 'position_cards').setScale(0.64);
-            this.add.image(500/2*SCALE_TEXT, height-(222/2)*SCALE_TEXT, 'cadre_red').setScale(SCALE_TEXT);
-            this.add.image(200, height-32, 'block').setScale(SCALE_TEXT);
-            this.bg.username = this.add.text(140, height-100, playerForStart[1].username, FONT_LEFT);
-            this.bg.img = this.add.image(60, height-55, playerForStart[1].img);
-            this.bg.bank = this.add.text(215, height-45, playerForStart[1].bank, FONT_MONEY);
-            this.bg.coins = this.add.text(135, height-45, playerForStart[1].coins, FONT_MONEY);
+            this.bg.turn = this.add.image(365, height-35, 'player_turn').setScale(0.75);
+            this.bg.turn.visible = false;
+            this.bg.bread = this.add.image(10, height-MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setOrigin(0, 1);
+            this.bg.meat = this.add.image(10+PADDING_CARD, height-MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setOrigin(0, 1);
+            this.bg.salad = this.add.image(10+PADDING_CARD*2, height-MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setOrigin(0, 1);
+            this.bg.sauce = this.add.image(10+PADDING_CARD*3, height-MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setOrigin(0, 1);
+            this.add.image(0, height, 'cadre_red').setScale(SCALE_INTERFACE).setOrigin(0, 1);
+            this.add.image(MARGIN_BLOCK, height-34, 'block').setScale(SCALE_INTERFACE);
+            this.bg.username = this.add.text(MARGIN_IMG*2.1, height-MARGIN_IMG*1.285, playerForStart[1].username, FONT_LEFT).setOrigin(0, 1).setScale(SCALE_TEXT);
+            this.bg.img = this.add.image(MARGIN_IMG, height-MARGIN_IMG, playerForStart[1].img).setScale(SCALE_IMG);
+            this.bg.bank = this.add.text((MARGIN_COINS*1.13), height-45, playerForStart[1].bank, FONT_MONEY).setScale(SCALE_TEXT);
+            this.bg.coins = this.add.text((MARGIN_COINS*1.13)-MARGIN_COINS/2.3125, height-45, playerForStart[1].coins, FONT_MONEY).setScale(SCALE_TEXT);
 
             this.bg.pawn = this.add.image(this.casesX[(playerForStart[1].position)-1], this.casesY[(playerForStart[1].position)-1], playerForStart[1].pawn+'_'+playerForStart[1].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
 
             if (playerForStart.length > 2) {
-                this.hg.bread = this.add.image(43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                this.hg.meat = this.add.image(119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                this.hg.salad = this.add.image(195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                this.hg.sauce = this.add.image(271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                this.add.image(500/2*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre_yellow').setScale(SCALE_TEXT);
-                this.add.image(200, 75, 'block').setScale(SCALE_TEXT);
-                this.hg.username = this.add.text(140, 10, playerForStart[2].username, FONT_LEFT);
-                this.hg.img = this.add.image(60, 55, playerForStart[2].img);
-                this.hg.bank = this.add.text(215, 62, playerForStart[2].bank, FONT_MONEY);
-                this.hg.coins = this.add.text(135, 62, playerForStart[2].coins, FONT_MONEY);
+                this.hg.turn = this.add.image(365, 35, 'player_turn').setScale(0.75);
+                this.hg.turn.visible = false;
+                this.hg.bread = this.add.image(10, MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setRotation(3.14).setOrigin(1, 1);
+                this.hg.meat = this.add.image(10+PADDING_CARD, MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setRotation(3.14).setOrigin(1, 1);
+                this.hg.salad = this.add.image(10+PADDING_CARD*2, MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setRotation(3.14).setOrigin(1, 1);
+                this.hg.sauce = this.add.image(10+PADDING_CARD*3, MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setRotation(3.14).setOrigin(1, 1);
+                this.add.image(0, 0, 'cadre_yellow').setScale(SCALE_INTERFACE).setOrigin(0, 0);
+                this.add.image(MARGIN_BLOCK, MARGIN_IMG*1.285, 'block').setScale(SCALE_INTERFACE);
+                this.hg.username = this.add.text(MARGIN_IMG*2.1, 10, playerForStart[2].username, FONT_LEFT).setOrigin(0, 0).setScale(SCALE_TEXT);
+                this.hg.img = this.add.image(MARGIN_IMG, MARGIN_IMG, playerForStart[2].img).setScale(SCALE_IMG);
+                this.hg.coins = this.add.text((MARGIN_COINS*1.13)-MARGIN_COINS/2.3125, MARGIN_IMG, playerForStart[2].coins, FONT_MONEY).setScale(SCALE_TEXT);
+                this.hg.bank = this.add.text((MARGIN_COINS*1.13), MARGIN_IMG, playerForStart[2].bank, FONT_MONEY).setScale(SCALE_TEXT);
 
                 this.hg.pawn = this.add.image(this.casesX[(playerForStart[2].position)-1], this.casesY[(playerForStart[2].position)-1], playerForStart[2].pawn+'_'+playerForStart[2].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
             }
 
             if (playerForStart.length > 3) {
-                this.hd.bread = this.add.image(width-43, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                this.hd.meat = this.add.image(width-119, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                this.hd.salad = this.add.image(width-195, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                this.hd.sauce = this.add.image(width-271, 200, 'position_cards').setScale(0.64).setRotation(3.14);
-                this.add.image(width-(500/2)*SCALE_TEXT, 222/2*SCALE_TEXT, 'cadre_green').setScale(SCALE_TEXT);
-                this.add.image(width-200, 75, 'block').setScale(SCALE_TEXT);
-                this.hd.username = this.add.text(width-260, 10, playerForStart[3].username, FONT_RIGHT);
-                this.hd.img = this.add.image(width-60, 55, playerForStart[3].img);
-                this.hd.bank = this.add.text( width-185, 62, playerForStart[3].bank, FONT_MONEY);
-                this.hd.coins = this.add.text(width-265, 62, playerForStart[3].coins, FONT_MONEY);
+                this.hd.turn = this.add.image(width-365, 35, 'player_turn').setScale(0.75);
+                this.hd.turn.visible = false;
+                this.hd.bread = this.add.image(width-(10), MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setRotation(3.14).setOrigin(0, 1);
+                this.hd.meat = this.add.image(width-(10+PADDING_CARD), MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setRotation(3.14).setOrigin(0, 1);
+                this.hd.salad = this.add.image(width-(10+PADDING_CARD*2), MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setRotation(3.14).setOrigin(0, 1);
+                this.hd.sauce = this.add.image(width-(10+PADDING_CARD*3), MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setRotation(3.14).setOrigin(0, 1);
+                this.add.image(width, 0, 'cadre_green').setScale(SCALE_INTERFACE).setOrigin(1, 0);
+                this.add.image(width-MARGIN_BLOCK, MARGIN_IMG*1.285, 'block').setScale(SCALE_INTERFACE);
+                this.hd.username = this.add.text(width-MARGIN_IMG*2.1, 10, playerForStart[3].username, FONT_LEFT).setOrigin(1, 0).setScale(SCALE_TEXT);
+                this.hd.img = this.add.image(width-MARGIN_IMG, MARGIN_IMG, playerForStart[3].img).setScale(SCALE_IMG);
+                this.hd.coins = this.add.text( width-MARGIN_COINS-MARGIN_COINS/2.3125, MARGIN_IMG, playerForStart[3].coins, FONT_MONEY).setScale(SCALE_TEXT);
+                this.hd.bank = this.add.text(width-MARGIN_COINS, MARGIN_IMG, playerForStart[3].bank, FONT_MONEY).setScale(SCALE_TEXT);
 
                 this.hd.pawn = this.add.image(this.casesX[(playerForStart[3].position)-1], this.casesY[(playerForStart[3].position)-1], playerForStart[3].pawn+'_'+playerForStart[3].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
             }
@@ -448,8 +534,6 @@ $( document ).ready(function() {
         this.socket.on('missingPlayer', () => {
             this.modal.visible = true;
             this.text.visible = true;
-            this.title.visible = true;
-            this.title.setText('Fin de la partie.');
             this.text.setText('Un adversaire semble avoir disparu.\nTu vas être redirigé dans le salon.\nTu n\'as pas perdu de Coins.').setPosition(width/2, height/2-20);
             var backToLobby = this.add.image(width/2, height/2+100, 'btn_close').setDepth(107).setInteractive();
 
@@ -463,21 +547,21 @@ $( document ).ready(function() {
         // ----------
         // Chance.
 
-        this.modal = this.add.image(width/2, height/2, 'modal').setDepth(6);
+        this.modal = this.add.image(width/2, height/2, 'modal').setDepth(6).setScale(SCALE_MODAL).setOrigin(0.5);
         this.modal.visible = false;
 
-        this.modalChance = this.add.image(width/2, height/2-100, 'modal_chance').setDepth(6);
+        this.modalChance = this.add.image(width/2, height/2-MARGIN_MODAL, 'modal_chance').setDepth(6).setScale(SCALE_MODAL).setOrigin(0.5);
         this.modalChance.visible = false;
 
-        this.modalAttack = this.add.image(width/2, height/2-100, 'modal_attack').setDepth(6);
+        this.modalAttack = this.add.image(width/2, height/2-MARGIN_MODAL, 'modal_attack').setDepth(6).setScale(SCALE_MODAL).setOrigin(0.5);
         this.modalAttack.visible = false;
 
-        this.modalBank = this.add.image(width/2, height/2-100, 'modal_bank').setDepth(6);
+        this.modalBank = this.add.image(width/2, height/2-MARGIN_MODAL, 'modal_bank').setDepth(6).setScale(SCALE_MODAL).setOrigin(0.5);
         this.modalBank.visible = false;
 
-        this.title = this.add.text(width/2, height/2-150, 'Chance', FONT_LEFT).setDepth(7).setOrigin(0.5);
-        this.text = this.add.text(width/2, height/2-100, 'text', FONT_LEFT).setDepth(7).setOrigin(0.5);
-        this.price = this.add.text(width/2, height/2-150, 'Prix: - Coins', FONT_LEFT).setDepth(7).setOrigin(0.5);
+        this.title = this.add.text(width/2, height/2-50-MARGIN_MODAL, 'Chance', FONT_LEFT).setDepth(7).setScale(SCALE_MODAL).setOrigin(0.5);
+        this.text = this.add.text(width/2, height/2-MARGIN_MODAL, 'text', FONT_LEFT).setDepth(7).setScale(SCALE_MODAL).setOrigin(0.5);
+        this.price = this.add.text(width/2, height/2-50-MARGIN_MODAL, 'Prix: - Coins', FONT_LEFT).setDepth(7).setScale(SCALE_MODAL).setOrigin(0.5);
 
         this.title.visible = false;
         this.text.visible = false;
@@ -486,27 +570,27 @@ $( document ).ready(function() {
         this.area = [];
         this.btn = [];
 
-        this.btn.take = this.add.image(width/2-120, height/2+50, 'btn_take').setInteractive().setDepth(7);
-        this.btn.lose = this.add.image(width/2+120, height/2+50, 'btn_lose').setInteractive().setDepth(7);
+        this.btn.take = this.add.image(width/2-120, height/2+MARGIN_YES, 'btn_take').setInteractive().setDepth(7).setScale(SCALE_IMG);
+        this.btn.lose = this.add.image(width/2+120, height/2+MARGIN_YES, 'btn_lose').setInteractive().setDepth(7).setScale(SCALE_IMG);
         this.btn.take.visible = false;
         this.btn.lose.visible = false;
 
-        this.btn.yes = this.add.image(width/2-120, height/2+50, 'btn_yes').setInteractive().setDepth(7);
-        this.btn.no = this.add.image(width/2+120, height/2+50, 'btn_no').setInteractive().setDepth(7);
+        this.btn.yes = this.add.image(width/2-120, height/2+MARGIN_YES, 'btn_yes').setInteractive().setDepth(7).setScale(SCALE_IMG);
+        this.btn.no = this.add.image(width/2+120, height/2+MARGIN_YES, 'btn_no').setInteractive().setDepth(7).setScale(SCALE_IMG);
         this.btn.yes.visible = false;
         this.btn.no.visible = false;
 
-        this.btn.red = this.add.image(width/2-120, height/2+50, 'btn_red').setInteractive().setDepth(7);
-        this.btn.redText = this.add.text(width/2-160, height/2+34, 'Bouton', FONT_LEFT).setDepth(7);
+        this.btn.red = this.add.image(width/2-120, height/2+MARGIN_YES, 'btn_red').setInteractive().setDepth(7).setScale(SCALE_IMG);
+        this.btn.redText = this.add.text(width/2-160, height/2+MARGIN_YES-10, 'Bouton', FONT_LEFT).setDepth(7).setScale(SCALE_IMG);
 
-        this.btn.green = this.add.image(width/2-120, height/2+120, 'btn_green').setInteractive().setDepth(7);
-        this.btn.greenText = this.add.text(width/2-160, height/2+104, 'Bouton', FONT_LEFT).setDepth(7);
+        this.btn.green = this.add.image(width/2-120, height/2+20+MARGIN_YES*1.2, 'btn_green').setInteractive().setDepth(7).setScale(SCALE_IMG);
+        this.btn.greenText = this.add.text(width/2-160, height/2+10+MARGIN_YES*1.2, 'Bouton', FONT_LEFT).setDepth(7).setScale(SCALE_IMG);
 
-        this.btn.blue = this.add.image(width/2+120, height/2+50, 'btn_blue').setInteractive().setDepth(7);
-        this.btn.blueText = this.add.text(width/2+80, height/2+34, 'Bouton', FONT_LEFT).setDepth(7);
+        this.btn.blue = this.add.image(width/2+120, height/2+MARGIN_YES, 'btn_blue').setInteractive().setDepth(7).setScale(SCALE_IMG);
+        this.btn.blueText = this.add.text(width/2+80, height/2+MARGIN_YES-10, 'Bouton', FONT_LEFT).setDepth(7).setScale(SCALE_IMG);
 
-        this.btn.yellow = this.add.image(width/2+120, height/2+120, 'btn_yellow').setInteractive().setDepth(7);
-        this.btn.yellowText = this.add.text(width/2+80, height/2+104, 'Bouton', FONT_LEFT).setDepth(7);
+        this.btn.yellow = this.add.image(width/2+120, height/2+20+MARGIN_YES*1.2, 'btn_yellow').setInteractive().setDepth(7).setScale(SCALE_IMG);
+        this.btn.yellowText = this.add.text(width/2+80, height/2+10+MARGIN_YES*1.2, 'Bouton', FONT_LEFT).setDepth(7).setScale(SCALE_IMG);
 
         this.btn.red.visible = false;
         this.btn.redText.visible = false;
@@ -659,7 +743,7 @@ $( document ).ready(function() {
             function makeLoseOrWinTimer(this0, text) {
                 this0.modalChance.visible = true;
                 this0.gradient.visible = true;
-                this0.title.visible = true;
+                // this0.title.visible = true;
                 this0.text.visible = true;
                 this0.btn.take.visible = true;
                 this0.btn.lose.visible = true;
@@ -700,9 +784,9 @@ $( document ).ready(function() {
                 this0.gradient.visible = true;
                 this0.text.visible = true;
                 this0.price.visible = true;
-                this0.btn.cancel = this0.add.image(width/2, height/2+100, 'btn_nothing').setDepth(7).setInteractive();
-                this0.price.setText('Prix: '+price+' Coins');
-                this0.text.setText('Quelle carte voulez-vous détruire?');
+                this0.btn.cancel = this0.add.image(width/2, height/2+100+marginBank, 'btn_nothing').setDepth(7).setInteractive().setScale(SCALE_IMG);
+                this0.price.setText('Prix: '+price+' Coins').setScale(SCALE_IMG);
+                this0.text.setText('Quelle carte voulez-vous détruire?').setScale(SCALE_IMG);
 
                 this0.btn.meat = [];
                 this0.btn.bread = [];
@@ -718,16 +802,16 @@ $( document ).ready(function() {
 
                 data.forEach((element, i) => { // Pour chaque joueur, ajout des 4 btn. + son nom.
 
-                    this0.area[element.color] = this0.add.image((width/2-330)+space, height/2, 'area_'+element.color).setDepth(6.5);
-                    this0.area.text[element.color] = this0.add.text((width/2-413)+space+90, height/2-40, element.username, FONT_LEFT).setDepth(7).setOrigin(0.5);
-                    if (element.cards.meat === true) this0.btn.meat[element.color] = this0.add.image((width/2-410)+space+5, height/2+17, 'card_meat').setDepth(7).setInteractive().setScale(0.42);
-                        else this0.btn.meat[element.color] = this0.add.image((width/2-410)+space+5, height/2+17, 'empty_card').setDepth(7).setScale(0.42);
-                    if (element.cards.bread === true) this0.btn.bread[element.color] = this0.add.image((width/2-410)+space+53, height/2+17, 'card_bread').setDepth(7).setInteractive().setScale(0.42);
-                        else this0.btn.bread[element.color] = this0.add.image((width/2-410)+space+53, height/2+17, 'empty_card').setDepth(7).setScale(0.42);
-                    if (element.cards.salad === true) this0.btn.salad[element.color] = this0.add.image((width/2-410)+space+101, height/2+17, 'card_salad').setDepth(7).setInteractive().setScale(0.42);
-                        else this0.btn.salad[element.color] = this0.add.image((width/2-410)+space+101, height/2+17, 'empty_card').setDepth(7).setScale(0.42);
-                    if (element.cards.sauce === true) this0.btn.sauce[element.color] = this0.add.image((width/2-410)+space+149, height/2+17, 'card_sauce').setDepth(7).setInteractive().setScale(0.42);
-                        else this0.btn.sauce[element.color] = this0.add.image((width/2-410)+space+149, height/2+17, 'empty_card').setDepth(7).setScale(0.42);
+                    this0.area[element.color] = this0.add.image((width/2-330)+space+(1*(SCALE_IMG)), height/2+marginBank*1.5, 'area_'+element.color).setDepth(6.5).setScale(SCALE_IMG);
+                    this0.area.text[element.color] = this0.add.text((width/2-413)+space+(90*(SCALE_IMG)), height/2-15+marginBank*1.5, element.username, FONT_LEFT).setDepth(7).setOrigin(0.5).setScale(SCALE_IMG);
+                    if (element.cards.meat === true) this0.btn.meat[element.color] = this0.add.image((width/2-410)+space+(5*(SCALE_IMG)), height/2+17+marginBank*1.5, 'card_meat').setDepth(7).setInteractive().setScale(SCALE_EMPTY);
+                        else this0.btn.meat[element.color] = this0.add.image((width/2-410)+space+(5*(SCALE_IMG)), height/2+17+marginBank*1.5, 'empty_card').setDepth(7).setScale(SCALE_EMPTY);
+                    if (element.cards.bread === true) this0.btn.bread[element.color] = this0.add.image((width/2-410)+space+(53*(SCALE_IMG)), height/2+17+marginBank*1.5, 'card_bread').setDepth(7).setInteractive().setScale(SCALE_EMPTY);
+                        else this0.btn.bread[element.color] = this0.add.image((width/2-410)+space+(53*(SCALE_IMG)), height/2+17+marginBank*1.5, 'empty_card').setDepth(7).setScale(SCALE_EMPTY);
+                    if (element.cards.salad === true) this0.btn.salad[element.color] = this0.add.image((width/2-410)+space+(101*(SCALE_IMG)), height/2+17+marginBank*1.5, 'card_salad').setDepth(7).setInteractive().setScale(SCALE_EMPTY);
+                        else this0.btn.salad[element.color] = this0.add.image((width/2-410)+space+(101*(SCALE_IMG)), height/2+17+marginBank*1.5, 'empty_card').setDepth(7).setScale(SCALE_EMPTY);
+                    if (element.cards.sauce === true) this0.btn.sauce[element.color] = this0.add.image((width/2-410)+space+(149*(SCALE_IMG)), height/2+17+marginBank*1.5, 'card_sauce').setDepth(7).setInteractive().setScale(SCALE_EMPTY);
+                        else this0.btn.sauce[element.color] = this0.add.image((width/2-410)+space+(149*(SCALE_IMG)), height/2+17+marginBank*1.5, 'empty_card').setDepth(7).setScale(SCALE_EMPTY);
 
                     space += 210;
                 })
@@ -897,11 +981,11 @@ $( document ).ready(function() {
                 if (data.coins >= 5) {
                     var bankNum = 0;
                     this0.text.setText('Combien voulez-vous placer \nà la banque?');
-                    this0.btn.inputBank = this0.add.image(width/2, height/2, 'input_bank').setDepth(7);
-                    this0.btn.inputBankText = this0.add.text(width/2, height/2, 0, FONT_LEFT).setDepth(7).setOrigin(0.5);
-                    this0.btn.up = this0.add.image(width/2+120, height/2, 'arrow_up').setDepth(7).setInteractive().setScale(0.8);
-                    this0.btn.down = this0.add.image(width/2+185, height/2, 'arrow_down').setDepth(7).setInteractive().setScale(0.8);
-                    this0.btn.ok = this0.add.image(width/2, height/2+80, 'btn_ok').setDepth(7).setInteractive();
+                    this0.btn.inputBank = this0.add.image(width/2, height/2+marginBank, 'input_bank').setDepth(7).setScale(SCALE_IMG);
+                    this0.btn.inputBankText = this0.add.text(width/2, height/2+marginBank, 0, FONT_LEFT).setDepth(7).setOrigin(0.5).setScale(SCALE_IMG);
+                    this0.btn.up = this0.add.image(width/2+120, height/2+marginBank, 'arrow_up').setDepth(7).setInteractive().setScale(SCALE_VIDEO);
+                    this0.btn.down = this0.add.image(width/2+185, height/2+marginBank, 'arrow_down').setDepth(7).setInteractive().setScale(SCALE_VIDEO);
+                    this0.btn.ok = this0.add.image(width/2, height/2+80+marginBank*1.5, 'btn_ok').setDepth(7).setInteractive().setScale(SCALE_VIDEO);
                     this0.modalBank.visible = true;
                     this0.gradient.visible = true;
                     this0.text.visible = true;
@@ -975,10 +1059,28 @@ $( document ).ready(function() {
             this.video[responseThimble-1].play();
             this.video[responseThimble-1].visible = true;
 
-            if (player.color === 'blue') this.bd.pawn.setAlpha(1);
-            if (player.color === 'red') this.bg.pawn.setAlpha(1);
-            if (player.color === 'yellow') this.hg.pawn.setAlpha(1);
-            if (player.color === 'green') this.hd.pawn.setAlpha(1);
+            this.bd.turn.visible = false;
+            this.bg.turn.visible = false;
+
+            if (typeof this.hg.turn != 'undefined') this.hg.turn.visible = false;
+            if (typeof this.hd.turn != 'undefined') this.hd.turn.visible = false;
+
+            if (player.color === 'blue'){
+                this.bd.pawn.setAlpha(1);
+                this.bd.turn.visible = true;
+            }
+            if (player.color === 'red'){
+                this.bg.pawn.setAlpha(1);
+                this.bg.turn.visible = true;
+            }
+            if (player.color === 'yellow'){
+                this.hg.pawn.setAlpha(1);
+                this.hg.turn.visible = true;
+            }
+            if (player.color === 'green'){
+                this.hd.pawn.setAlpha(1);
+                this.hd.turn.visible = true;
+            }
 
             var passVideo = this.video;
             var diceSound = this.sound.add('dice');
@@ -1026,8 +1128,8 @@ $( document ).ready(function() {
 
 
         // Btn. settings.
-        var linkHome = this.add.image(width-15, height/2-30, 'link-home').setOrigin(1, 0.5).setDepth(5).setScale(0.5).setInteractive();
-        var linkSettings = this.add.image(width-15, height/2+30, 'link-settings').setOrigin(1, 0.5).setDepth(5).setScale(0.5).setInteractive();
+        var linkHome = this.add.image(width-15, height/2-(30*SCALE_MODAL), 'link-home').setOrigin(1, 0.5).setDepth(5).setScale(SCALE_MODAL/2).setInteractive();
+        var linkSettings = this.add.image(width-15, height/2+(30*SCALE_MODAL), 'link-settings').setOrigin(1, 0.5).setDepth(5).setScale(SCALE_MODAL/2).setInteractive();
 
         linkHome.on('pointerdown', () => {
             window.location.href = '/jeu/salon';

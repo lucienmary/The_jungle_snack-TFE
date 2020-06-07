@@ -23,7 +23,7 @@ module.exports = {
         const MONEY = [50, 25, 15, 0, 100, 75, 50];
         const BENEFIT = 10; // En pourcent.
         const CHANCE = { giveForEveryone: [5, 15, 25], giveForOne: [30, 40, 50], getFromEveryone: [5, 15, 25], getFromOne: [30, 40, 50], makeLoseOrWin: [60, 40, 30]};
-        const PLAYER_TIMEOUT = 45000;
+        const PLAYER_TIMEOUT = 1000*60; // Temps d'inactivité max.
         var turnTimeout;
 
         var player = [];
