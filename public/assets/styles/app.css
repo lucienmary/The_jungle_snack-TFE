@@ -198,7 +198,7 @@ body {
   }
 }
 
-a img {
+.img-logo a img {
     padding-top: 10px;
     margin: 0;
     z-index: 2;
@@ -259,13 +259,17 @@ h4 {
   color: #202020;
 }
 
+.link-deco{
+    color: #664003;
+}
+
 @media (min-width: 768px) {
-  h1 a img {
+  .img-logo a img {
     width: 24%;
     margin-left: 38%;
   }
 
-  h1 a .tiny-logo {
+  .img-logo a .tiny-logo {
     width: 20%;
   }
 
@@ -275,33 +279,33 @@ h4 {
 }
 
 @media (min-width: 992px) {
-  h1 {
+  .img-logo {
     display: inline-block;
     width: 20%;
     float: left;
   }
 
-  h1 a img {
+  .img-logo a img {
     width: 100%;
     margin-left: 0;
   }
 
-  h1 a .tiny-logo {
+  .img-logo a .tiny-logo {
     width: 80%;
   }
 }
 
 @media (min-width: 1200px) {
-  h1 {
+  .img-logo {
     width: 250px;
   }
 
-  h1 a img {
+  .img-logo a img {
     width: 100%;
     margin-left: 0;
   }
 
-  h1 a .tiny-logo {
+  .img-logo a .tiny-logo {
     width: 60%;
   }
 
