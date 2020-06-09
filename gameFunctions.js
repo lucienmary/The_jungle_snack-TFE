@@ -40,7 +40,7 @@ module.exports = {
             element.color = GAME_CONFIG.color[j];
             element.bank = GAME_CONFIG.bank;
             element.position = GAME_CONFIG.position[j];
-            element.cards = {bread: true, meat: true, salad: true, sauce: true};
+            element.cards = {bread: false, meat: false, salad: false, sauce: false};
             element.chance = '';
             element.win = false;
             j++;
@@ -331,6 +331,7 @@ module.exports = {
                     }else if (player[num].position === BOXES.resources[0] || player[num].position === BOXES.resources[1] || player[num].position === BOXES.resources[2] || player[num].position === BOXES.resources[3]) {
                         console.log('Resources');
                         var text = 'Veux-tu acheter la carte';
+                        var priceCard = 'pour '+ RESOURCES_PRICE +' Coins?'
                         var buyRes;
 
 
@@ -338,7 +339,7 @@ module.exports = {
                             switch (player[num].position) {
                                 case RESOURCES.bread:
                                     if (player[num].cards.bread === false) {
-                                        io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' pain?');
+                                        io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' pain '+priceCard);
                                         buyRes = 'bread';
                                     }else{
                                         var info = 'Tu possèdes déjà cette carte! \ud83d\ude03';
@@ -349,7 +350,7 @@ module.exports = {
 
                                 case RESOURCES.meat:
                                     if (player[num].cards.meat === false) {
-                                        io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' viande?');
+                                        io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' viande '+priceCard);
                                         buyRes = 'meat';
                                     }else{
                                         var info = 'Tu possèdes déjà cette carte! \ud83d\ude03';
@@ -360,7 +361,7 @@ module.exports = {
 
                                 case RESOURCES.salad:
                                     if (player[num].cards.salad === false) {
-                                        io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' salade?');
+                                        io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' salade '+priceCard);
                                         buyRes = 'salad';
                                     }else{
                                         var info = 'Tu possèdes déjà cette carte! \ud83d\ude03';
@@ -371,7 +372,7 @@ module.exports = {
 
                                 case RESOURCES.sauce:
                                     if (player[num].cards.sauce === false ) {
-                                        io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' sauce?');
+                                        io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' sauce '+priceCard);
                                         buyRes = 'sauce';
                                     }else{
                                         var info = 'Tu possèdes déjà cette carte! \ud83d\ude03';

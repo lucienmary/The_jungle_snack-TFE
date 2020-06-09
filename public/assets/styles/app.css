@@ -1457,7 +1457,7 @@ header .infos-player__el .pseudo {
 }
 
 .pawn-slider{
-    width: 40%;
+    /* width: 40%; */
     float: left;
 }
 
@@ -1474,6 +1474,7 @@ header .infos-player__el .pseudo {
   border-radius: 5px;
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.4);
   border: 5px solid #c7874d;
+  width: 100%;
 }
 
 #slider ul {
@@ -1481,7 +1482,6 @@ header .infos-player__el .pseudo {
   margin: 0;
   padding: 0;
   height: 46vh;
-  width: 100%;
   list-style: none;
 }
 
@@ -1491,7 +1491,6 @@ header .infos-player__el .pseudo {
   float: left;
   margin: 0;
   padding: 0;
-  width: 100%;
   height: 46vh;
   background: #93B26E;
   text-align: center;
@@ -1499,7 +1498,7 @@ header .infos-player__el .pseudo {
 }
 
 #slider ul li img {
-  width: 10.2%;
+  width: 40%;
   margin-top: 20px;
 }
 
@@ -1618,15 +1617,15 @@ a.control_next {
 
     #slider{
         margin-top: 110px;
+        min-width: 100%;
     }
 
     #slider ul li{
-        height: 56vh;
+        min-width: 100%;
+        margin-left: -50%;
     }
-
-    #slider ul li img {
-      width: 22vh;
-      margin-top: 20px;
+    #slider ul li img{
+        max-width: 12%;
     }
 
     .list-btn__el{
@@ -1652,6 +1651,7 @@ a.control_next {
 
     .connection-list{
         margin-top: 10px;
+        width: 40%;
     }
 
     .list-player__el img{

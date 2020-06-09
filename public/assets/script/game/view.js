@@ -269,7 +269,7 @@ $( document ).ready(function() {
         // Affichage des joueurs + infos joueurs.
         this.socket.on('view', (playerForStart) => {
 
-            this.bd.turn = this.add.image(width-365, height-35, 'player_turn').setScale(SCALE_INTERFACE);
+            this.bd.turn = this.add.image(width-375*SCALE_MODAL, height-35*SCALE_MODAL, 'player_turn').setScale(SCALE_INTERFACE);
             this.bd.turn.visible = false;
             this.bd.bread = this.add.image(width-(10), height-MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setOrigin(1, 1);
             this.bd.meat = this.add.image(width-(10+PADDING_CARD), height-MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setOrigin(1, 1);
@@ -284,7 +284,7 @@ $( document ).ready(function() {
 
             this.bd.pawn = this.add.image(this.casesX[(playerForStart[0].position)-1], this.casesY[(playerForStart[0].position)-1], playerForStart[0].pawn+'_'+playerForStart[0].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
 
-            this.bg.turn = this.add.image(365, height-35, 'player_turn').setScale(0.75);
+            this.bg.turn = this.add.image(375*SCALE_MODAL, height-35*SCALE_MODAL, 'player_turn').setScale(SCALE_INTERFACE);
             this.bg.turn.visible = false;
             this.bg.bread = this.add.image(10, height-MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setOrigin(0, 1);
             this.bg.meat = this.add.image(10+PADDING_CARD, height-MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setOrigin(0, 1);
@@ -300,7 +300,7 @@ $( document ).ready(function() {
             this.bg.pawn = this.add.image(this.casesX[(playerForStart[1].position)-1], this.casesY[(playerForStart[1].position)-1], playerForStart[1].pawn+'_'+playerForStart[1].color).setScale(SCALE/1.5).setOrigin(0.5, 1).setAlpha(ALPHA_PAWN);
 
             if (playerForStart.length > 2) {
-                this.hg.turn = this.add.image(365, 35, 'player_turn').setScale(0.75);
+                this.hg.turn = this.add.image(375*SCALE_MODAL, 35*SCALE_MODAL, 'player_turn').setScale(SCALE_INTERFACE);
                 this.hg.turn.visible = false;
                 this.hg.bread = this.add.image(10, MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setRotation(3.14).setOrigin(1, 1);
                 this.hg.meat = this.add.image(10+PADDING_CARD, MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setRotation(3.14).setOrigin(1, 1);
@@ -317,7 +317,7 @@ $( document ).ready(function() {
             }
 
             if (playerForStart.length > 3) {
-                this.hd.turn = this.add.image(width-365, 35, 'player_turn').setScale(0.75);
+                this.hd.turn = this.add.image(width-375*SCALE_MODAL, 35*SCALE_MODAL, 'player_turn').setScale(SCALE_INTERFACE);
                 this.hd.turn.visible = false;
                 this.hd.bread = this.add.image(width-(10), MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setRotation(3.14).setOrigin(0, 1);
                 this.hd.meat = this.add.image(width-(10+PADDING_CARD), MARGIN_CARD, 'position_cards').setScale(SCALE_CARD).setRotation(3.14).setOrigin(0, 1);
@@ -802,16 +802,16 @@ $( document ).ready(function() {
 
                 data.forEach((element, i) => { // Pour chaque joueur, ajout des 4 btn. + son nom.
 
-                    this0.area[element.color] = this0.add.image((width/2-330)+space+(1*(SCALE_IMG)), height/2+marginBank*1.5, 'area_'+element.color).setDepth(6.5).setScale(SCALE_IMG);
-                    this0.area.text[element.color] = this0.add.text((width/2-413)+space+(90*(SCALE_IMG)), height/2-15+marginBank*1.5, element.username, FONT_LEFT).setDepth(7).setOrigin(0.5).setScale(SCALE_IMG);
-                    if (element.cards.meat === true) this0.btn.meat[element.color] = this0.add.image((width/2-410)+space+(5*(SCALE_IMG)), height/2+17+marginBank*1.5, 'card_meat').setDepth(7).setInteractive().setScale(SCALE_EMPTY);
-                        else this0.btn.meat[element.color] = this0.add.image((width/2-410)+space+(5*(SCALE_IMG)), height/2+17+marginBank*1.5, 'empty_card').setDepth(7).setScale(SCALE_EMPTY);
-                    if (element.cards.bread === true) this0.btn.bread[element.color] = this0.add.image((width/2-410)+space+(53*(SCALE_IMG)), height/2+17+marginBank*1.5, 'card_bread').setDepth(7).setInteractive().setScale(SCALE_EMPTY);
-                        else this0.btn.bread[element.color] = this0.add.image((width/2-410)+space+(53*(SCALE_IMG)), height/2+17+marginBank*1.5, 'empty_card').setDepth(7).setScale(SCALE_EMPTY);
-                    if (element.cards.salad === true) this0.btn.salad[element.color] = this0.add.image((width/2-410)+space+(101*(SCALE_IMG)), height/2+17+marginBank*1.5, 'card_salad').setDepth(7).setInteractive().setScale(SCALE_EMPTY);
-                        else this0.btn.salad[element.color] = this0.add.image((width/2-410)+space+(101*(SCALE_IMG)), height/2+17+marginBank*1.5, 'empty_card').setDepth(7).setScale(SCALE_EMPTY);
-                    if (element.cards.sauce === true) this0.btn.sauce[element.color] = this0.add.image((width/2-410)+space+(149*(SCALE_IMG)), height/2+17+marginBank*1.5, 'card_sauce').setDepth(7).setInteractive().setScale(SCALE_EMPTY);
-                        else this0.btn.sauce[element.color] = this0.add.image((width/2-410)+space+(149*(SCALE_IMG)), height/2+17+marginBank*1.5, 'empty_card').setDepth(7).setScale(SCALE_EMPTY);
+                    this0.area[element.color] = this0.add.image((width/2-360)+space, height/2+marginBank*1.5, 'area_'+element.color).setDepth(6.5).setScale(SCALE_IMG);
+                    this0.area.text[element.color] = this0.add.text((width/2-413)+space+(90*(SCALE_IMG)), height/2-(30*SCALE_IMG)+marginBank*1.5, element.username, FONT_LEFT).setDepth(7).setOrigin(0.5).setScale(SCALE_IMG);
+                    if (element.cards.meat === true) this0.btn.meat[element.color] = this0.add.image((width/2-440)+space+(5*(SCALE_IMG)), height/2+17+marginBank*1.5, 'card_meat').setDepth(7).setInteractive().setScale(SCALE_EMPTY);
+                        else this0.btn.meat[element.color] = this0.add.image((width/2-440)+space+(5*(SCALE_IMG)), height/2+17+marginBank*1.5, 'empty_card').setDepth(7).setScale(SCALE_EMPTY);
+                    if (element.cards.bread === true) this0.btn.bread[element.color] = this0.add.image((width/2-440)+space+(53*(SCALE_IMG)), height/2+17+marginBank*1.5, 'card_bread').setDepth(7).setInteractive().setScale(SCALE_EMPTY);
+                        else this0.btn.bread[element.color] = this0.add.image((width/2-440)+space+(53*(SCALE_IMG)), height/2+17+marginBank*1.5, 'empty_card').setDepth(7).setScale(SCALE_EMPTY);
+                    if (element.cards.salad === true) this0.btn.salad[element.color] = this0.add.image((width/2-440)+space+(101*(SCALE_IMG)), height/2+17+marginBank*1.5, 'card_salad').setDepth(7).setInteractive().setScale(SCALE_EMPTY);
+                        else this0.btn.salad[element.color] = this0.add.image((width/2-440)+space+(101*(SCALE_IMG)), height/2+17+marginBank*1.5, 'empty_card').setDepth(7).setScale(SCALE_EMPTY);
+                    if (element.cards.sauce === true) this0.btn.sauce[element.color] = this0.add.image((width/2-440)+space+(149*(SCALE_IMG)), height/2+17+marginBank*1.5, 'card_sauce').setDepth(7).setInteractive().setScale(SCALE_EMPTY);
+                        else this0.btn.sauce[element.color] = this0.add.image((width/2-440)+space+(149*(SCALE_IMG)), height/2+17+marginBank*1.5, 'empty_card').setDepth(7).setScale(SCALE_EMPTY);
 
                     space += 210;
                 })
