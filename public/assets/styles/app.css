@@ -80,6 +80,13 @@ body {
     transform: rotate(-45deg);
 }
 
+#playerList .info-pawn{
+    position: absolute;
+    right: 5%;
+    top: 0;
+    width: 25px;
+}
+
 .blackscreen{
     position: absolute;
     top: 0;
@@ -88,6 +95,10 @@ body {
     height: 100%;
     z-index: 200;
     background-color: rgba(0,0,0,0.5);
+}
+
+.bottom-section{
+    margin-bottom: 75px;
 }
 
 .clear {
@@ -149,6 +160,9 @@ body {
   .margin-p {
     padding-top: 75px;
   }
+  #playerList .info-pawn{
+      width: 35px;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -180,24 +194,21 @@ body {
   }
 
   .col--pawn {
-    width: 35%;
+    width: 15%;
   }
 }
 
-h1 {
-  padding-top: 10px;
-  margin: 0;
-  z-index: 2;
-  font-size: 0;
+a img {
+    padding-top: 10px;
+    margin: 0;
+    z-index: 2;
+    font-size: 0;
+    width: 40vw;
+    margin-left: 25vw;
+    transition: all 0.3s;
 }
 
-h1 a img {
-  width: 40vw;
-  margin-left: 25vw;
-  transition: all 0.3s;
-}
-
-h1 a .tiny-logo {
+a .tiny-logo {
   width: 28vw;
   margin-left: 0vw;
   transition: all 0.5s;
@@ -413,20 +424,21 @@ h4 {
   list-style: none;
   text-align: center;
   padding: inherit;
+  margin-bottom: 0;
 }
 
 .list-btn__el {
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 }
 
 .btn-game {
   background-color: #93B26E;
-  padding: 8px 40px;
+  padding: 0px 20px;
   border-radius: 10px;
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   color: #fff;
   text-decoration: none;
-  border: 5px solid #ffc001;
+  border: 2px solid #ffc001;
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.4);
   transition: 0.2s all;
 }
@@ -442,13 +454,13 @@ h4 {
 .btn-game--ready {
   text-transform: uppercase;
   font-weight: bold;
-  font-size: 2.2rem;
-  padding: 4px 100px;
+  font-size: 1.25rem;
+  padding: 0px 70px;
 }
 
 .btn-game--second {
-  padding: 2px 40px;
-  border: 4px solid #b0d980;
+  padding: 0px 20px;
+  border: 2px solid #b0d980;
 }
 
 .btn-game--second:hover {
@@ -457,24 +469,26 @@ h4 {
 
 .p-game {
   background-color: #93B26E;
-  padding: 4px 18px;
+  width: 56px;
   margin-left: 12px;
   border-radius: 10px;
-  font-size: 1.8rem;
+  font-size: 1rem;
   display: inline-block;
   color: #fff;
   text-decoration: none;
-  border: 5px solid #ffc001;
+  text-align: center;
+  border: 2px solid #ffc001;
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.4);
 }
 
 .p-game span {
-  font-size: 2.2rem;
+  font-size: 1.25rem;
 }
 
 .ready {
   float: right;
   margin: auto;
+  margin-top: 5px;
 }
 
 .play {
@@ -566,6 +580,9 @@ footer {
   position: fixed;
   z-index: 10;
 }
+.header--game{
+    height: 80px;
+}
 
 @media (min-width: 768px) {
   .header {
@@ -626,15 +643,20 @@ footer p {
 .footer-game {
   background-color: transparent;
   padding: 0;
+  position: fixed;
+  bottom: 0;
+  right: 5%;
+  z-index: -1;
 }
 
 .footer-game p {
-  margin-top: 50px;
+  margin-top: 0px;
   width: inherit;
   display: inline;
   float: right;
   text-align: right;
   color: #aba56f;
+  font-size: 0.7rem;
 }
 
 .footer-game p a {
@@ -885,10 +907,14 @@ img {
 }
 
 .menu ul li:last-child {
-  background-color: red;
   border-radius: 20px;
   margin-top: 30px;
   background-color: rgba(80, 80, 80, 0.6);
+}
+
+.menu ul .no-style:last-child {
+  border-radius: inherit;
+  background-color: inherit;
 }
 
 .menu ul li:last-child:before {
@@ -1026,6 +1052,10 @@ img {
     margin-top: 5px;
     margin-left: 15px;
     padding: 0;
+  }
+  .menu ul .no-style:last-child {
+    margin: inherit;
+    padding: 20px;
   }
 
   .menu--game nav ul li:last-child a {
@@ -1396,26 +1426,19 @@ img {
 }
 
 header .infos-player {
-  background-image: url("/assets/images/profil.png");
-  background-size: cover;
-  width: 25%;
-  height: 125px;
+  width: 50%;
   display: flex;
   float: left;
-  margin-top: 10px;
+  position: absolute;
+  margin-top: 5px;
 }
 
 header .infos-player img {
-  width: 25%;
+  width: 18%;
   float: left;
-  margin-left: 36px;
-  margin-top: 28px;
+  margin-top: 5px;
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.4);
   border-radius: 5px;
-}
-
-header .infos-player__el {
-  margin-top: 28px;
 }
 
 header .infos-player__el p {
@@ -1433,10 +1456,21 @@ header .infos-player__el .pseudo {
   font-size: 1.6rem;
 }
 
+.pawn-slider{
+    width: 40%;
+    float: left;
+}
+
+.title-salon{
+    font-size: 1.5rem;
+    text-align: center;
+}
+
 #slider {
   position: relative;
   overflow: hidden;
-  margin: 50px 0 50px 0;
+  margin: 0;
+  margin-top: 96px;
   border-radius: 5px;
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.4);
   border: 5px solid #c7874d;
@@ -1446,7 +1480,7 @@ header .infos-player__el .pseudo {
   position: relative;
   margin: 0;
   padding: 0;
-  height: 200px;
+  height: 46vh;
   width: 100%;
   list-style: none;
 }
@@ -1457,16 +1491,21 @@ header .infos-player__el .pseudo {
   float: left;
   margin: 0;
   padding: 0;
-  width: 402.5px;
-  height: 400px;
+  width: 100%;
+  height: 46vh;
   background: #93B26E;
   text-align: center;
   line-height: 300px;
 }
 
 #slider ul li img {
-  width: 40%;
+  width: 10.2%;
   margin-top: 20px;
+}
+
+.connection-list{
+    width: 50%;
+    float: right;
 }
 
 a.control_prev,
@@ -1519,13 +1558,13 @@ a.control_next {
 
 .list-player {
   background-color: #96683c;
-  border: 5px solid #c7874d;
+  border: 4px solid #c7874d;
   box-sizing: border-box;
   width: 100%;
-  height: 530px;
+  height: 56vh;
   box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.4);
   border-radius: 5px;
-  margin-top: 50px;
+  margin-top: 96px;
   margin-bottom: 0;
   padding: 0;
   list-style: none;
@@ -1534,38 +1573,112 @@ a.control_next {
 .list-player__el {
   background-color: #93B26E;
   width: 90%;
+  height: 10vh;
   margin-left: 5%;
   border-radius: 5px;
-  margin-top: 16px;
+  margin-top: 8px;
   display: inline-block;
-  border: 4px solid #b0d980;
+  border: 2px solid #b0d980;
   box-sizing: border-box;
-  box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.4);
+  position: relative;
 }
 
 .list-player__el img {
-  width: 80px;
-  box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.4);
+  width: 10%;
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.4);
   border-radius: 5px;
-  margin: 10px;
+  margin: 5px 0px 0px 10px;
   margin-bottom: 0;
 }
 
 .list-player__el .player {
-  float: right;
-  width: 70%;
+    position: absolute;
+    top: 0px;
+    left: 24%;
 }
 
 .list-player__el .player p {
   margin: 0;
   color: #fff;
+  font-size: 0.8rem;
+  line-height: 1.2;
 }
 
 .list-player__el .player p:first-child {
-  margin-top: 10px;
   font-weight: bold;
-  font-size: 1.8rem;
+  font-size: 1.1rem;
 }
 
+@media (min-width: 992px) {
+
+    header .infos-player img {
+        width: 60px;
+    }
+
+    #slider{
+        margin-top: 110px;
+    }
+
+    #slider ul li{
+        height: 56vh;
+    }
+
+    #slider ul li img {
+      width: 22vh;
+      margin-top: 20px;
+    }
+
+    .list-btn__el{
+        margin-bottom: 25px;
+    }
+
+    .btn-game{
+        font-size: 2rem;
+        border-width: 3px;
+    }
+
+    .ready{
+        margin-top: 20px;
+    }
+
+    .p-game {
+      border: 3px solid #ffc001;
+    }
+
+    .p-game span {
+      font-size: 2rem;
+    }
+
+    .connection-list{
+        margin-top: 10px;
+    }
+
+    .list-player__el img{
+        width: 60px;
+    }
+
+    .list-player__el .player {
+        position: absolute;
+        top: 2px;
+        left: 24%;
+    }
+
+    .list-player__el .player p {
+      margin: 0;
+      color: #fff;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .list-player__el .player p:first-child {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .footer-game p {
+      font-size: 1rem;
+    }
+}
 
 /*# sourceMappingURL=app.css.map*/

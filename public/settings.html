@@ -10,8 +10,9 @@
     <link rel="stylesheet" type="text/css" href="../assets/styles/app.css">
 </head>
     <body>
-        <header class="salon">
+        <header class="header header--game">
             <div class="container">
+
                 <div class="infos-player">
                     <img id="imgPlayer" src="../assets/images/_img-00.png" alt="Photo de profil du joueur">
                     <div id="player" class="infos-player__el">
@@ -20,16 +21,27 @@
                     </div>
                 </div>
 
-                <h1>Paramètres d'interfaces</h1>
-                <div class="menu menu--game">
-                    <nav>
+                <div id="menu" class="menu menu--salon">
+                    <nav class="container">
                         <ul>
-                            <li><a href="salon"><img src="../assets/images/link-back.png" alt="" title="Retour au salon"></a></li>
-                            <li><a href="profil"><img src="../assets/images/link-profil.png" alt="" title="Profil"></a></li>
-                            <li><a href="/"><img src="../assets/images/link-home.png" alt="" title="Accueil"></a></li>
-                            <li><a id="disconnect" href="#"><img src="../assets/images/link-disconnect.png" alt="" title="Déconnexion"></a></li>
+                            <li>
+                                <a href="/">Accueil</a>
+                            </li>
+                            <li>
+                                <a href="/jeu/profil">Profil</a>
+                            </li>
+                            <li class="no-style">
+                                <a id="disconnect" href="#">Déconnexion</a>
+                            </li>
                         </ul>
                     </nav>
+                </div>
+
+                <h1 class="hidden">Paramètres de jeu</h1>
+                <!-- <a href="/"><img id="logo" class="" src="../assets/images/logo.png" alt="Logo The jungle snack"></a> -->
+
+                <div class="burger mobile" id="burger">
+                    <a id="burgerEl" class="burger__el" href="#"></a>
                 </div>
             </div>
         </header>
@@ -45,14 +57,11 @@
 
                         <label for="effect">Effet sonore en jeu: <span id="effectValue">50</span>%</label>
                         <input type="range" step="10" id="effect" name="effect" min="0" max="100" value="50">
-
-                        <label for="bgImg">Décors d'arrière plan du plateau:</label>
-                        <input type="checkbox" id="bgImg" name="bgImg" checked>
                     </form>
 
-                    <a href="/jeu/salon">Retour au salon</a>
+                    <a href="/jeu/salon" class="btn-link">Retour au salon</a>
 
-                    <p>The jungle snack - v0.2.0 - 08 juin 2020</p>
+                    <p class="clear margin-p">The jungle snack - v0.2.0 - juin 2020</p>
                 </div>
         </section>
     </body>

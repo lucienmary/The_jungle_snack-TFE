@@ -117,8 +117,8 @@ var pawn;
                         <div class="player">
                             <p>`+ playerList[i].username +`</p>
                             <p>Partie gagnée: `+ playerList[i].score +`</p>
-                            <p id="pawnChoice">`+ playerList[i].pawn +`</p>
                         </div>
+                        <img class="info-pawn" src="../assets/images/info-`+ playerList[i].pawn +`.png" alt="Pion choisi par le joueur">
                     </li>
                 `);
             }
@@ -168,6 +168,11 @@ var pawn;
             console.info('🏁 START! 🏁');
             window.location.href = destination;
         })
+
+        // Settings.
+        if (localStorage.getItem("settingsTJS") === null) {
+            localStorage.setItem('settingsTJS', '{"music":"50","effect":"50"}')
+        }
 
     } // Fin ioConnect();
 }); // Fin doc.

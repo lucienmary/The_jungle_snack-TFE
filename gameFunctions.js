@@ -40,7 +40,7 @@ module.exports = {
             element.color = GAME_CONFIG.color[j];
             element.bank = GAME_CONFIG.bank;
             element.position = GAME_CONFIG.position[j];
-            element.cards = {bread: false, meat: false, salad: false, sauce: false};
+            element.cards = {bread: true, meat: true, salad: true, sauce: true};
             element.chance = '';
             element.win = false;
             j++;
@@ -340,6 +340,10 @@ module.exports = {
                                     if (player[num].cards.bread === false) {
                                         io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' pain?');
                                         buyRes = 'bread';
+                                    }else{
+                                        var info = 'Tu possèdes déjà cette carte! \ud83d\ude03';
+                                        io.of('/A'+idGame).to(player[num].socketId).emit('infos', 4000, info);
+                                        endOfTurn();
                                     }
                                 break;
 
@@ -347,6 +351,10 @@ module.exports = {
                                     if (player[num].cards.meat === false) {
                                         io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' viande?');
                                         buyRes = 'meat';
+                                    }else{
+                                        var info = 'Tu possèdes déjà cette carte! \ud83d\ude03';
+                                        io.of('/A'+idGame).to(player[num].socketId).emit('infos', 4000, info);
+                                        endOfTurn();
                                     }
                                 break;
 
@@ -354,6 +362,10 @@ module.exports = {
                                     if (player[num].cards.salad === false) {
                                         io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' salade?');
                                         buyRes = 'salad';
+                                    }else{
+                                        var info = 'Tu possèdes déjà cette carte! \ud83d\ude03';
+                                        io.of('/A'+idGame).to(player[num].socketId).emit('infos', 4000, info);
+                                        endOfTurn();
                                     }
                                 break;
 
@@ -361,8 +373,14 @@ module.exports = {
                                     if (player[num].cards.sauce === false ) {
                                         io.of('/A'+idGame).to(player[num].socketId).emit('resources', text+' sauce?');
                                         buyRes = 'sauce';
+                                    }else{
+                                        var info = 'Tu possèdes déjà cette carte! \ud83d\ude03';
+                                        io.of('/A'+idGame).to(player[num].socketId).emit('infos', 4000, info);
+                                        endOfTurn();
                                     }
                                 break;
+                                default:
+                                    endOfTurn();
                             }
                         }else{
                             info = 'Tu n\'as pas assez de Coins pour acheter cette carte.' ;
