@@ -1,3 +1,6 @@
+
+// Choix du pion.
+
 jQuery(document).ready(function () {
 	window.localStorage.setItem('pawn', 'flamingo'); // Pion par defaut.
 
