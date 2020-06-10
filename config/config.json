@@ -1,20 +1,20 @@
 {
   "development": {
-    "username": "lucienmajltjs",
+    "username": "admin",
     "password": "DBtjs2020",
     "database": "database_development_retro",
     "host": "ml247517-001.dbaas.ovh.net",
     "dialect": "mysql"
   },
   "test": {
-    "username": "lucienmajltjs",
+    "username": "admin",
     "password": "DBtjs2020",
     "database": "database_test_retro",
     "host": "ml247517-001.dbaas.ovh.net",
     "dialect": "mysql"
   },
   "production": {
-    "username": "lucienmajltjs",
+    "username": "admin",
     "password": "DBtjs2020",
     "database": "database_production_retro",
     "host": "ml247517-001.dbaas.ovh.net",
