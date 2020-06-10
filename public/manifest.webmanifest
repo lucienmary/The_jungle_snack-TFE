@@ -1,0 +1,22 @@
+{
+  "short_name": "The Jungle snack",
+  "name": "The Jungle snack",
+  "description": "The Jungle snack est un jeu de plateau en ligne",
+  "icons": [
+    {
+      "src": "assets/images/icon-96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "assets/images/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#202020",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#202020"
+}
