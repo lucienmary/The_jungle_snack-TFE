@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "root",
-    "password": "DwM2020hEaJ",
+    "username": "admin",
+    "password": "DBtjs2020",
     "database": "database_development_retro",
-    "host": "127.0.0.1",
+    "host": "ml247517-001.dbaas.ovh.net",
     "dialect": "mysql"
   },
   "test": {
-    "username": "root",
-    "password": "DwM2020hEaJ",
+    "username": "admin",
+    "password": "DBtjs2020",
     "database": "database_test_retro",
-    "host": "127.0.0.1",
+    "host": "ml247517-001.dbaas.ovh.net",
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": "DwM2020hEaJ",
+    "username": "admin",
+    "password": "DBtjs2020",
     "database": "database_production_retro",
-    "host": "127.0.0.1",
+    "host": "ml247517-001.dbaas.ovh.net",
     "dialect": "mysql"
   }
 }
