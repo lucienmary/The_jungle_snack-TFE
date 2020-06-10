@@ -36,6 +36,7 @@ $( document ).ready(function() {
             </div>
         `);
     })
+    
 
     // Remove modal.
     $(document).on('click', '.cancelModal', () => {
