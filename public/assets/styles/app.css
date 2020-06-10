@@ -97,6 +97,15 @@ body {
     background-color: rgba(0,0,0,0.5);
 }
 
+.blackscreen input {
+  width: 100%;
+  padding: 7px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #aba56f;
+}
+
 .bottom-section{
     margin-bottom: 75px;
 }
@@ -1466,7 +1475,7 @@ img {
   margin-top: 25px;
 }
 
-.area .suppr {
+.area .submit--suppr {
   width: 100%;
   padding: 7px;
   margin-bottom: 20px;
@@ -1477,6 +1486,18 @@ img {
   padding: 10px 0px;
   box-sizing: inherit;
   margin-top: 0px;
+}
+
+.area .submit--classic {
+  width: 100%;
+  padding: 7px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 10px 0px;
+  box-sizing: inherit;
+  margin-top: 0px;
+  border: 1px solid #aba56f;
 }
 
 .go-register {

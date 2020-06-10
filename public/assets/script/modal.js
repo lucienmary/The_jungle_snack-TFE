@@ -26,12 +26,12 @@ $( document ).ready(function() {
                 <p>Entre ton nouveau mot de passe.</p>
 
                 <form action="../api/users/new-psw/?_method=PUT" method="post">
-                    <label for="password">Mot de passe:</label>
+                    <label for="password">Mot de passe:</label><br>
                     <input type="password" name="password" value="" placeholder="...">
 
-                    <input class="submit" type="submit" value="Enregistrer les modifications">
+                    <input class="submit submit--classic" type="submit" value="Enregistrer les modifications">
                 </form>
-                <a href="#" class="cancelModal">Annuler</a>
+                <button class="submit submit--suppr cancelModal">Annuler</button>
                 </div>
             </div>
         `);
