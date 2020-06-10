@@ -37,7 +37,6 @@ $( document ).ready(function() {
         `);
     })
     
-
     // Remove modal.
     $(document).on('click', '.cancelModal', () => {
         $('.blackscreen').remove();
