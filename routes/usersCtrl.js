@@ -1,6 +1,6 @@
 // Imports.
 
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var jwtUtils = require('../utils/jwt.utils');
 var models = require('../models');
 var path = require('path');
