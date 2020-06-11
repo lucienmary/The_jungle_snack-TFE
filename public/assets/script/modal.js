@@ -43,10 +43,13 @@ $( document ).ready(function() {
     })
 
     $(document).on('click', '#deleteAccount', () => {
+
+        $.removeCookie('clientAuth', { path: '/' });
+        $.removeCookie('Pseudo', { path: '/' });
+        $.removeCookie('myId', { path: '/' });
+        $.removeCookie('Authorization', { path: '/' });
+
         setTimeout(function(){
-            $.cookie('clientAuth', false, { secure: false, httpOnly: false})
-            $.cookie('myId', '', { secure: false, httpOnly: false})
-            $.cookie('Pseudo', '', { secure: false, httpOnly: false})
             window.location.replace("http://thejunglesnack.fun");
         }, 3000);
     })
