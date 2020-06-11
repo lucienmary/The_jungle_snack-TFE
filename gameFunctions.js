@@ -78,7 +78,7 @@ module.exports = {
 
                         if (cptPlayer === player.length) {
                             var num = Math.floor(Math.random() * Math.floor(player.length));
-                            io.of('/A'+idGame).emit('infos', 1000, player[num].username + ' commence la partie.');
+                            io.of('/A'+idGame).emit('infos', 4000, player[num].username + ' commence la partie.');
 
                             nextPlayer = num;
                             io.of('/A'+idGame).to(player[num].socketId).emit('play');

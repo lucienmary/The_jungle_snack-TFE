@@ -127,10 +127,7 @@ $( document ).ready(function() {
         this.load.image('link-settings', '../assets/images/link-settings.png');
 
         // Boxes.
-        this.load.image('resources_meat', '../assets/images/resources_meat.png');
-        this.load.image('resources_salad', '../assets/images/resources_salad.png');
-        this.load.image('resources_bread', '../assets/images/resources_bread.png');
-        this.load.image('resources_sauce', '../assets/images/resources_sauce.png');
+        this.load.image('resources', '../assets/images/resources.png');
         this.load.image('benefits', '../assets/images/benefits.png');
         this.load.image('coins', '../assets/images/coins.png');
         this.load.image('empty', '../assets/images/empty.png');
@@ -342,7 +339,7 @@ $( document ).ready(function() {
         // ---------
 
         // Haut.
-        this.box11 = this.add.image(this.casesX[10], this.casesY[10], 'resources_salad');
+        this.box11 = this.add.image(this.casesX[10], this.casesY[10], 'resources');
         this.box11.setScale(SCALE);
 
         this.box12 = this.add.image(this.casesX[11], this.casesY[11], 'benefits');
@@ -357,7 +354,7 @@ $( document ).ready(function() {
         this.box15 = this.add.image(this.casesX[14], this.casesY[14], 'chance');
         this.box15.setScale(SCALE);
 
-        this.box16 = this.add.image(this.casesX[15], this.casesY[15], 'resources_sauce');
+        this.box16 = this.add.image(this.casesX[15], this.casesY[15], 'resources');
         this.box16.setScale(SCALE);
 
         this.box10 = this.add.image(this.casesX[9], this.casesY[9], 'chance');
@@ -372,7 +369,7 @@ $( document ).ready(function() {
         this.box07 = this.add.image(this.casesX[6], this.casesY[6], 'bank');
         this.box07.setScale(SCALE);
 
-        this.box06 = this.add.image(this.casesX[5], this.casesY[5], 'resources_meat');
+        this.box06 = this.add.image(this.casesX[5], this.casesY[5], 'resources');
         this.box06.setScale(SCALE);
 
 
@@ -406,7 +403,7 @@ $( document ).ready(function() {
         this.box02 = this.add.image(this.casesX[1], this.casesY[1], 'benefits');
         this.box02.setScale(SCALE);
 
-        this.box01 = this.add.image(this.casesX[0], this.casesY[0], 'resources_bread');
+        this.box01 = this.add.image(this.casesX[0], this.casesY[0], 'resources');
         this.box01.setScale(SCALE);
         // --------------------
         //Config. infos player.
