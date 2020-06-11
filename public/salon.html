@@ -28,6 +28,9 @@
                                 <a href="/">Accueil</a>
                             </li>
                             <li>
+                                <a class="active" href="/jeu/salon">Salon</a>
+                            </li>
+                            <li>
                                 <a href="/jeu/profil">Profil</a>
                             </li>
                             <li class="no-style">
@@ -46,44 +49,45 @@
             </div>
         </header>
 
-        <section class="clear container">
+        <section class="clear liane-g liane-d">
+            <div class=" container">
+                <div class="pawn-slider col col--left">
+                    <div id="slider">
+                        <a href="#" class="control_next"></a>
+                        <a href="#" class="control_prev"></a>
+                        <ul>
+                            <li id="flamingo">
+                                <img src="../assets/images/pawn_flamingo.png" alt="">
+                            </li>
+                            <li id="fox">
+                                <img src="../assets/images/pawn_fox.png" alt="">
+                            </li>
+                            <li id="turtle">
+                                <img src="../assets/images/pawn_turtle.png" alt="">
+                            </li>
+                        </ul>
+                    </div>
 
-            <div class="pawn-slider col col--left">
-                <div id="slider">
-                    <a href="#" class="control_next"></a>
-                    <a href="#" class="control_prev"></a>
-                    <ul>
-                        <li id="flamingo">
-                            <img src="../assets/images/pawn_flamingo.png" alt="">
-                        </li>
-                        <li id="fox">
-                            <img src="../assets/images/pawn_fox.png" alt="">
-                        </li>
-                        <li id="turtle">
-                            <img src="../assets/images/pawn_turtle.png" alt="">
-                        </li>
+                    <ul class="list-btn">
+                        <li class="list-btn__el"><a class="btn-game" href="#">Jouer avec des amis</a></li>
+                        <li class="list-btn__el"><a class="btn-game btn-game--second" href="settings">Paramètres</a></li>
                     </ul>
                 </div>
 
-                <ul class="list-btn">
-                    <li class="list-btn__el"><a class="btn-game" href="#">Jouer avec des amis</a></li>
-                    <li class="list-btn__el"><a class="btn-game btn-game--second" href="settings">Paramètres</a></li>
-                </ul>
-            </div>
-
-            <div class="col col--right connection-list">
-                <ul id="playerList" class="list-player">
-                    <!-- <li class="list-player__el">
-                        <img src="../assets/images/_img-00.png" alt="Photo player">
-                        <div class="player">
-                            <p class="">Pseudo</p>
-                            <p>Partie gagnée: -</p>
-                        </div>
-                    </li> -->
-                </ul>
-                <div class="ready">
-                    <a id="join" class="btn-game btn-game--ready btn-game--active" href="#">Prêt!</a>
-                    <p class="p-game"><span id="timerForStart">20</span>s</p>
+                <div class="col col--right connection-list">
+                    <ul id="playerList" class="list-player">
+                        <!-- <li class="list-player__el">
+                            <img src="../assets/images/_img-00.png" alt="Photo player">
+                            <div class="player">
+                                <p class="">Pseudo</p>
+                                <p>Partie gagnée: -</p>
+                            </div>
+                        </li> -->
+                    </ul>
+                    <div class="ready">
+                        <a id="join" class="btn-game btn-game--ready btn-game--active" href="#">Prêt!</a>
+                        <p class="p-game"><span id="timerForStart">20</span>s</p>
+                    </div>
                 </div>
             </div>
         </section>

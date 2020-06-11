@@ -12,7 +12,7 @@ $( document ).ready(function() {
                     <form action="../api/users/delete/?_method=PUT" method="post">
                         <input class="submit suppr" type="submit" value="Supprimer mon compte">
                     </form>
-                    <a href="#" class="cancelModal">Annuler</a>
+                    <button class="submit submit--classic cancelModal">Annuler</button>
                 </div>
             </div>
         `);
@@ -31,7 +31,7 @@ $( document ).ready(function() {
 
                     <input class="submit submit--classic" type="submit" value="Enregistrer les modifications">
                 </form>
-                <button class="submit submit--suppr cancelModal">Annuler</button>
+                <button class="submit submit--classic cancelModal">Annuler</button>
                 </div>
             </div>
         `);

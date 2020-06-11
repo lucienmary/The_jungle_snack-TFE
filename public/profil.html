@@ -28,6 +28,9 @@
                                 <a href="/">Accueil</a>
                             </li>
                             <li>
+                                <a href="/jeu/salon">Salon</a>
+                            </li>
+                            <li>
                                 <a class="active" href="/jeu/profil">Profil</a>
                             </li>
                             <li class="no-style">
@@ -46,52 +49,54 @@
             </div>
         </header>
 
-        <section class="clear container bottom-section">
-            <div class="col">
-                <h2 class="margin-title">Modifier le profil</h2>
+        <section class="clear liane-g liane-d">
+            <div class="container bottom-section">
+                <div class="col">
+                    <h2 class="margin-title">Modifier le profil</h2>
 
-                <div class="area">
-                    <form action="../api/users/me/?_method=PUT" method="post">
-                        <!-- <label for="email">Email:</label>
-                        <input type="email" name="email" value="" placeholder="john@mail.com"> -->
+                    <div class="area">
+                        <form action="../api/users/me/?_method=PUT" method="post">
+                            <!-- <label for="email">Email:</label>
+                            <input type="email" name="email" value="" placeholder="john@mail.com"> -->
 
-                        <label for="username">Pseudonyme:</label>
-                        <input type="text" name="username" value="" placeholder="John">
+                            <label for="username">Pseudonyme:</label>
+                            <input type="text" name="username" value="" placeholder="John">
 
-                        <!-- <label for="password">Mot de passe:</label>
-                        <input type="password" name="password" value="" placeholder="..."> -->
+                            <!-- <label for="password">Mot de passe:</label>
+                            <input type="password" name="password" value="" placeholder="..."> -->
 
-                        <label for="img">Image de profil:</label>
-                        <div class="pdp">
-                            <label>
-                                <input type="radio" value="img-00" name="img" checked>
-                                <img src="../assets/images/_img-00.png">
-                            </label>
-                            <label>
-                                <input type="radio" value="img-01" name="img">
-                                <img src="../assets/images/_img-01.png">
-                            </label>
-                            <label>
-                                <input type="radio" value="img-02" name="img">
-                                <img src="../assets/images/_img-02.png">
-                            </label>
-                            <label>
-                                <input type="radio" value="img-03" name="img">
-                                <img src="../assets/images/_img-03.png">
-                            </label>
-                            <label>
-                                <input type="radio" value="img-04" name="img">
-                                <img src="../assets/images/_img-04.png">
-                            </label>
-                        </div>
+                            <label for="img">Image de profil:</label>
+                            <div class="pdp">
+                                <label>
+                                    <input type="radio" value="img-00" name="img" checked>
+                                    <img src="../assets/images/_img-00.png">
+                                </label>
+                                <label>
+                                    <input type="radio" value="img-01" name="img">
+                                    <img src="../assets/images/_img-01.png">
+                                </label>
+                                <label>
+                                    <input type="radio" value="img-02" name="img">
+                                    <img src="../assets/images/_img-02.png">
+                                </label>
+                                <label>
+                                    <input type="radio" value="img-03" name="img">
+                                    <img src="../assets/images/_img-03.png">
+                                </label>
+                                <label>
+                                    <input type="radio" value="img-04" name="img">
+                                    <img src="../assets/images/_img-04.png">
+                                </label>
+                            </div>
 
-                        <input id="inputA" class="submit" type="submit" value="Enregistrer les modifications">
-                    </form>
-                </div>
+                            <input id="inputA" class="submit" type="submit" value="Enregistrer les modifications">
+                        </form>
+                    </div>
 
-                <div class="area">
-                    <button class="submit submit--classic modalPsw">Modifier le mot de passe</button>
-                    <button class="submit submit--suppr modalDelete">Supprimer mon compte</button>
+                    <div class="area">
+                        <button class="submit submit--classic modalPsw">Modifier le mot de passe</button>
+                        <button class="submit submit--suppr modalDelete">Supprimer mon compte</button>
+                    </div>
                 </div>
             </div>
         </section>
