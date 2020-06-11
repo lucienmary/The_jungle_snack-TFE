@@ -349,7 +349,7 @@ module.exports = {
         models.User.destroy({
             where: { id: userId }
         }).then(function(user) {
-            return module.exports.disconnect;
+            return res.status(400).redirect(req.get('referer'));
         }).catch(function(err) {
             return module.exports.disconnect;
         });
