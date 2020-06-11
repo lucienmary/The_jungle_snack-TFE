@@ -14,13 +14,13 @@ module.exports = {
     gameSettings: (playerList, idGame, io, socket) => {
         var io = io;
 
-        const GAME_CONFIG = {coins: 500, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
+        const GAME_CONFIG = {coins: 50, bank: 0, color:['blue', 'red', 'yellow', 'green'], position: [1, 6, 11, 16]};
         const BANKGOALS = 50;
         const BOARD = 20;
         const BOXES = {chance: [5, 10, 15, 20], money: [3, 8, 13, 18], resources: [1, 6, 11, 16], attack: [9, 19], bank: [7, 17], benefit: [2, 12], empty: [4, 14]};
         const RESOURCES = {bread: 1, meat: 6, salad: 11, sauce: 16};
         const RESOURCES_PRICE = 50;
-        const MONEY = [50, 25, 15, 0, 100, 75, 50];
+        const MONEY = [50, 30, 15, 10, 80, 60, 50];
         const BENEFIT = 10; // En pourcent.
         const CHANCE = { giveForEveryone: [5, 15, 25], giveForOne: [30, 40, 50], getFromEveryone: [5, 15, 25], getFromOne: [30, 40, 50], makeLoseOrWin: [60, 40, 30]};
         const PLAYER_TIMEOUT = 1000*60; // Temps d'inactivité max.
@@ -78,7 +78,7 @@ module.exports = {
 
                         if (cptPlayer === player.length) {
                             var num = Math.floor(Math.random() * Math.floor(player.length));
-                            io.of('/A'+idGame).emit('infos', 4000, player[num].username + ' commence la partie.');
+                            io.of('/A'+idGame).emit('infos', 2000, player[num].username + ' commence la partie.');
 
                             nextPlayer = num;
                             io.of('/A'+idGame).to(player[num].socketId).emit('play');
