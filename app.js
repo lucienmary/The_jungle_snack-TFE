@@ -8,7 +8,7 @@ var favicon = require('serve-favicon');
 const methodOverride = require('method-override');
 
 const NB_TO_START = 2;
-const SECOND_TO_START = 20;
+const SECOND_TO_START = 5;
 
 var idGame = 0;
 
