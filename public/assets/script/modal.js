@@ -44,7 +44,7 @@ $( document ).ready(function() {
 
     $(document).on('click', '#deleteAccount', () => {
         setTimeout(function(){
-            window.location.replace("http://www.w3schools.com");
+            window.location.replace("http://thejunglesnack.fun");
         }, 3000);
     })
 
