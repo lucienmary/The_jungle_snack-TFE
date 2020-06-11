@@ -10,7 +10,7 @@ $( document ).ready(function() {
                     <h2>Veux-tu supprimer ce compte?</h2>
                     <p>Attention, cette action sera irréversible. Ton score et tes bonus seront perdu!</p>
                     <form action="../api/users/delete/?_method=PUT" method="post">
-                        <input class="submit suppr" type="submit" value="Supprimer mon compte">
+                        <input id="deleteAccount" class="submit suppr" type="submit" value="Supprimer mon compte">
                     </form>
                     <button class="submit submit--classic cancelModal">Annuler</button>
                 </div>
@@ -40,6 +40,12 @@ $( document ).ready(function() {
     // Remove modal.
     $(document).on('click', '.cancelModal', () => {
         $('.blackscreen').remove();
+    })
+
+    $(document).on('click', '#deleteAccount', () => {
+        setTimeout(function(){
+            window.location.replace("http://www.w3schools.com");
+        }, 3000);
     })
 
 }); // fin JQUERY.
