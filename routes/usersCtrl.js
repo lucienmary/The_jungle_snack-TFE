@@ -346,15 +346,18 @@ module.exports = {
             return res.status(400).redirect(req.get('referer'));
         }
 
-        cookies.set('clientAuth', false, { secure: false, httpOnly: false})
-        cookies.set('myId', '', { secure: false, httpOnly: false})
-        cookies.set('Pseudo', '', { secure: false, httpOnly: false})
         models.User.destroy({
             where: { id: userId }
         }).then(function(user) {
+            cookies.set('clientAuth', false, { secure: false, httpOnly: false})
+            cookies.set('myId', '', { secure: false, httpOnly: false})
+            cookies.set('Pseudo', '', { secure: false, httpOnly: false})
             return res.status(400).redirect(req.get('referer'));
         }).catch(function(err) {
-            return module.exports.disconnect;
+            cookies.set('clientAuth', false, { secure: false, httpOnly: false})
+            cookies.set('myId', '', { secure: false, httpOnly: false})
+            cookies.set('Pseudo', '', { secure: false, httpOnly: false})
+            return res.status(400).redirect(req.get('referer'));
         });
     },
     disconnect: function(req, res) {
