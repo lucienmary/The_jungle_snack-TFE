@@ -44,6 +44,9 @@ $( document ).ready(function() {
 
     $(document).on('click', '#deleteAccount', () => {
         setTimeout(function(){
+            $.cookie('clientAuth', false, { secure: false, httpOnly: false})
+            $.cookie('myId', '', { secure: false, httpOnly: false})
+            $.cookie('Pseudo', '', { secure: false, httpOnly: false})
             window.location.replace("http://thejunglesnack.fun");
         }, 3000);
     })
