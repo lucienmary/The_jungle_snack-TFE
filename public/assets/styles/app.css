@@ -229,6 +229,11 @@ body {
   }
 }
 
+h3:target, div:target {
+    padding-top: 100px;
+    margin-top: -100px;
+}
+
 .img-logo a img {
     padding-top: 10px;
     margin: 0;
@@ -237,6 +242,13 @@ body {
     width: 40vw;
     margin-left: 25vw;
     transition: width 0.3s, margin-left 0.3s;
+}
+
+@media (min-width: 576px) {
+  .img-logo a img {
+      width: 20vw;
+      margin-left: 35vw;
+  }
 }
 
 a .tiny-logo {
@@ -329,6 +341,11 @@ h4 {
 
   .img-logo a .tiny-logo {
     width: 80%;
+  }
+
+  div:target, h3:target {
+      padding-top: 150px;
+      margin-top: -150px;
   }
 }
 
@@ -718,6 +735,24 @@ footer p {
   }
 }
 
+@media (min-height: 730px) {
+    .fix {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+    }
+}
+
+@media (min-height: 950px) {
+    .fix-950 {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+    }
+}
+
 @media (min-width: 992px) {
   footer p {
     color: #808080;
@@ -727,13 +762,6 @@ footer p {
   .h2-logo a img {
     margin-top: 10px;
     width: 10vw;
-  }
-
-  .fix {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
   }
 }
 
