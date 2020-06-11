@@ -224,6 +224,9 @@ $( document ).ready(function() {
 
     function create (){
 
+        var r1 = this.add.rectangle(150, height-150, 360, 300, 0xC5BF89).setDepth(4);
+        var r1 = this.add.rectangle(width-150, height-150, 360, 300, 0xC5BF89).setDepth(4);
+
         // Cursor.
         this.input.setDefaultCursor('url(../assets/images/cursor.png), pointer');
 
