@@ -1032,8 +1032,8 @@ $( document ).ready(function() {
                 this0.gradient.visible = true;
                 this0.title.visible = true;
                 this0.text.visible = true;
-                var salon = this0.add.image(width/2, height/2+80, 'btn_meat').setDepth(7).setInteractive();
-                this0.title.setText('#finDuGame');
+                var salon = this0.add.image(width/2, height/2+80, 'btn_ok').setDepth(7).setInteractive();
+                this0.title.setText('Bravo!');
                 this0.text.setText(winner.username + ' remporte la partie! \n Bien joué!');
 
                 salon.on('pointerdown', () => {
