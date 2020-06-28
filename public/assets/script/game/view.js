@@ -1023,7 +1023,9 @@ $( document ).ready(function() {
 
         this.socket.on('endScreen', (winner) => {
 
-            setTimeout(bankTimer, TIME_MODAL, this, winner);
+            console.log(winner + ' a gagné!');
+
+            setTimeout(endTimer, TIME_MODAL, this, winner);
 
             function endTimer(this0, winner) {
                 this0.modal.visible = true;

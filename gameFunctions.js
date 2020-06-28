@@ -195,7 +195,7 @@ module.exports = {
                             case 2:
                                 responseRandom = CHANCE.getFromEveryone[Math.floor(Math.random() * Math.floor(2))];
 
-                                var info = player[num].username + ' à volé '+ responseRandom + ' Coins à chaque joueur!';
+                                var info = player[num].username + ' a volé '+ responseRandom + ' Coins à chaque joueur!';
 
                                 io.of('/A'+idGame).emit('infos', 4000, info);
 
