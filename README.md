@@ -1,7 +1,7 @@
 # The_jungle_snack-TFE
 Travail de fin d'étude (thejunglesnack.fun)
 
-The jungle snack it's a multiplayer game. 
+The jungle snack is a multiplayer game. 
 
 ## Rules:
 - Buy all 4 cards
